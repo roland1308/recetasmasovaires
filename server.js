@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
+const path = require('path');
 
 const bodyParser = require("body-parser");
 
@@ -23,14 +24,12 @@ app.use(
 
 app.use('/recipes', require('./routes/recipes'))
 
-if (process.env.NODE_ENV === 'production') {
-    // Exprees will serve up production assets
-    app.use(express.static('client/build'));
-
-    // Express serve up index.html file if it doesn't recognize route
-    const path = require('path');
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+// Serve static assets if we are in production
+if (process.env.NODE_ENV === "production") {
+    // Set static folder
+    app.use(express.static("./client/build"));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "./client/build/index.html"));
     });
 }
 
