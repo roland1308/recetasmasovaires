@@ -11,7 +11,7 @@ const RecipeCard = (props) => {
         <Card>
             <CardBody>
                 <CardTitle>{props.recipe.name}</CardTitle>
-                <CardSubtitle>{props.recipe.chef}</CardSubtitle>
+                <CardSubtitle>{"Un "}{props.recipe.type}{" de: "}{props.recipe.chef}</CardSubtitle>
             </CardBody>
             <UncontrolledCarousel items={props.recipe.pictures} />
             <CardBody>

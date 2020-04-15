@@ -28,11 +28,12 @@ export default class AddRecipe extends Component {
             case "picture":
                 let formPicture = new FormData();
                 formPicture.append("picture", event.target.files[0]);
-                axios.post("/recipes/addphoto", formPicture);
-                this.setState({
-                    picture: "/uploads/resized/" + event.target.files[0].name,
-                    // momAvatar: URL.createObjectURL(event.target.files[0])
-                });
+                axios.post("/recipes/addphoto", formPicture)
+                    .then(response => {
+                        this.setState({
+                            picture: response.data
+                        });
+                    });
                 break;
             default:
                 this.setState({ [event.target.name]: event.target.value });
@@ -142,7 +143,7 @@ export default class AddRecipe extends Component {
                                 )
                             })}
                     </div>
-                    <Button onClick={() => this.sendData(this.state)}>¡Envía!</Button>
+                    <Button onSubmit={() => this.sendData(this.state)}>¡Envía!</Button>
                 </Form>
             </Jumbotron>
         );

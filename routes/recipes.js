@@ -3,10 +3,11 @@ const router = express.Router()
 
 const recipeModel = require('../model/recipeModel')
 
+const cloudinary = require('cloudinary')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
-const multer = require("multer");
+const multer = require("multer")
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./uploads/");
@@ -30,10 +31,7 @@ router.get('/all',
             .catch(err => console.log(err));
     });
 
-module.exports = router
-
 /*add new recipe*/
-
 router.post('/add', (req, res) => {
     const { name, chef, type, ingredients, preparation, pictures } = req.body
     const newRecipe = new recipeModel({
@@ -58,13 +56,14 @@ router.post('/add', (req, res) => {
 
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), async (req, res) => {
-    const { filename: image } = req.file
-    await sharp(req.file.path)
-        .resize(500)
-        .jpeg({ quality: 50 })
-        .toFile(
-            path.resolve(req.file.destination, 'resized', image)
-        )
-    fs.unlinkSync(req.file.path)
-    return res.send('SUCCESS!')
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path, (result) => {
+        }, { public_id: req.file.originalname })
+        fs.unlinkSync(req.file.path)
+        res.send(result.secure_url)
+    } catch (error) {
+        res.send(error)
+    }
 });
+
+module.exports = router
