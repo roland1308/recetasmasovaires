@@ -32,7 +32,7 @@ export default class AddRecipe extends Component {
                     method: 'post',
                     url: '/recipes/addphoto',
                     data: formPicture,
-                    headers: { 'Content-Type': 'multipart/form-data' }
+                    headers: { 'Content-Type': 'null' }
                 }
                     // "/recipes/addphoto", formPicture
                 )
