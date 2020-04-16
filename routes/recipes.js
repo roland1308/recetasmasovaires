@@ -4,14 +4,7 @@ const router = express.Router()
 const recipeModel = require('../model/recipeModel')
 
 const cloudinary = require('cloudinary')
-cloudinary.config({
-    cloud_name: "hiulcyz4k", //ENTER YOUR CLOUDINARY NAME
-    api_key: process.env.CLOUDINARY_API_KEY, // THIS IS COMING FROM CLOUDINARY WHICH WE SAVED FROM EARLIER
-    api_secret: process.env.CLOUDINARY_API_SECRET // ALSO COMING FROM CLOUDINARY WHICH WE SAVED EARLIER
-})
 
-const sharp = require('sharp')
-const path = require('path')
 const fs = require('fs')
 const multer = require("multer")
 const storage = multer.diskStorage({
@@ -19,6 +12,9 @@ const storage = multer.diskStorage({
         cb(null, "./uploads/");
     },
     filename: function (req, file, cb) {
+        const now = new Date().toISOString();
+        //windows needs to replace ":" for "-" to save the picture correctly
+        const date = now.replace(/:/g, "-");
         cb(null, file.originalname);
     }
 });
