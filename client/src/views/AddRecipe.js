@@ -28,7 +28,14 @@ export default class AddRecipe extends Component {
             case "picture":
                 let formPicture = new FormData();
                 formPicture.append("picture", event.target.files[0]);
-                axios.post("/recipes/addphoto", formPicture)
+                axios({
+                    method: 'post',
+                    url: '/recipes/addphoto',
+                    data: formPicture,
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+                    // "/recipes/addphoto", formPicture
+                )
                     .then(response => {
                         this.setState({
                             picture: response.data
