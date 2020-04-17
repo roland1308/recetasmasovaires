@@ -3,7 +3,7 @@ const router = express.Router()
 
 const recipeModel = require('../model/recipeModel')
 
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -61,12 +61,18 @@ router.post('/add', (req, res) => {
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), async (req, res) => {
     try {
-        await cloudinary.uploader.upload(req.file.path, (result) => {
-            fs.unlinkSync(req.file.path)
-            res.send(result.secure_url)
-        }, { public_id: req.file.originalname })
-    } catch (error) {
-        res.send(error)
+        cloudinary.uploader.upload(req.file.path, { public_id: req.file.originalname })
+            .then(result => {
+                fs.unlinkSync(req.file.path)
+                return res.send(result.secure_url)
+            })
+        // .exec((err) => {
+        //     if (err) { return res.send(err); }
+        // })
+    }
+    catch (error) {
+        return res.send("errore")
+        console.log(error);
     }
 });
 
