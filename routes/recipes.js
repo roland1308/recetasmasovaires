@@ -18,8 +18,6 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const now = new Date().toISOString();
-        //windows needs to replace ":" for "-" to save the picture correctly
-        const date = now.replace(/:/g, "-");
         cb(null, file.originalname);
     }
 });
