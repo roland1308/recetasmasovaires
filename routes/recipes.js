@@ -14,7 +14,7 @@ const fs = require('fs')
 const multer = require("multer")
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./uploads/");
+        cb(null, "./client/public/assets/");
     },
     filename: function (req, file, cb) {
         const now = new Date().toISOString();
@@ -72,7 +72,6 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
     }
     catch (error) {
         return res.send("errore")
-        console.log(error);
     }
 });
 
