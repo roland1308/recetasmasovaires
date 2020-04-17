@@ -28,17 +28,7 @@ export default class AddRecipe extends Component {
             case "picture":
                 let formPicture = new FormData();
                 formPicture.append("picture", event.target.files[0]);
-                axios({
-                    method: 'post',
-                    url: '/recipes/addphoto',
-                    data: formPicture,
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-                    // "/recipes/addphoto", formPicture
-                )
+                axios.post("/recipes/addphoto", formPicture)
                     .then(response => {
                         this.setState({
                             picture: response.data
@@ -153,7 +143,7 @@ export default class AddRecipe extends Component {
                                 )
                             })}
                     </div>
-                    <Button onSubmit={() => this.sendData(this.state)}>¡Envía!</Button>
+                    <Button onClick={() => this.sendData(this.state)}>¡Envía!</Button>
                 </Form>
             </Jumbotron>
         );
