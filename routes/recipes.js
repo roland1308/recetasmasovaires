@@ -66,9 +66,7 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
                 fs.unlinkSync(req.file.path)
                 return res.send(result.secure_url)
             })
-        // .exec((err) => {
-        //     if (err) { return res.send(err); }
-        // })
+
     }
     catch (error) {
         return res.send("errore")
