@@ -20,54 +20,81 @@ export default class AddRecipe extends Component {
             nrOfPictures: 0,
             picture: "",
             pictures: [],
+            isFormInvalid: true
         }
     };
 
     changeField = event => {
+        event.preventDefault()
         switch (event.target.name) {
             case "picture":
                 let formPicture = new FormData();
                 formPicture.append("picture", event.target.files[0]);
                 axios.post("/recipes/addphoto", formPicture)
-                    .then(response => {
-                        this.setState({
-                            picture: response.data
-                        });
-                    });
+                    .then(
+                        (response, error) => {
+                            if (!response.data.error) {
+                                this.setState({
+                                    picture: response.data
+                                });
+                            } else {
+                                alert(response.data.error)
+                                this.setState({
+                                    picture: ""
+                                });
+                                document.getElementById('picture').value = ''
+                            }
+                        }
+                    );
                 break;
             default:
-                this.setState({ [event.target.name]: event.target.value });
+                this.setState({
+                    [event.target.name]: event.target.value,
+                })
         }
     }
 
     addIngredient = () => {
-        if (this.state.ingredient) {
-            let ings = this.state.ingredients
-            ings.push({
-                ingredient: this.state.ingredient,
-                qty: this.state.ingQty
-            })
-            this.setState({
-                ingredients: ings,
-                nrOfIngredients: this.state.nrOfIngredients + 1,
-                ingredient: "",
-                ingQty: ""
-            })
-        }
+        let ings = this.state.ingredients
+        ings.push({
+            ingredient: this.state.ingredient,
+            qty: this.state.ingQty
+        })
+        this.setState({
+            ingredients: ings,
+            nrOfIngredients: this.state.nrOfIngredients + 1,
+            ingredient: "",
+            ingQty: ""
+        })
     }
 
     addPhoto = () => {
-        if (this.state.picture) {
-            let pics = this.state.pictures
-            pics.push({
-                src: this.state.picture
-            })
-            this.setState({
-                pictures: pics,
-                nrOfPictures: this.state.nrOfPictures + 1,
-                picture: ""
-            })
+        let pics = this.state.pictures
+        pics.push({
+            src: this.state.picture
+        })
+        this.setState({
+            pictures: pics,
+            nrOfPictures: this.state.nrOfPictures + 1,
+        })
+        document.getElementById('picture').value = ''
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState !== this.state) {
+            const { name, chef, nrOfIngredients, preparation, nrOfPictures } = this.state
+            if (name !== "" &&
+                chef !== "" &&
+                nrOfIngredients > 0 &&
+                preparation !== "" &&
+                nrOfPictures > 0) {
+                this.setState(() => ({
+                    isFormInvalid: false
+                }));
+            }
+            console.log(this.state)
         }
+
     }
 
     async sendData(data) {
@@ -78,7 +105,6 @@ export default class AddRecipe extends Component {
         }
         this.props.history.push("/");
     };
-
 
     render() {
         return (
@@ -122,7 +148,7 @@ export default class AddRecipe extends Component {
                             value={this.state.ingQty}
                         />
                         {this.state.nrOfIngredients > 0 && <RecipeTable ingredients={this.state.ingredients} />}
-                        <h6 onClick={this.addIngredient}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></h6>
+                        <Button color="primary" onClick={this.addIngredient} disabled={this.state.ingredient === "" || this.state.ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
                     <FormGroup>
                         <Label for="preparation">Preparación:</Label>
@@ -131,7 +157,7 @@ export default class AddRecipe extends Component {
                     <FormGroup>
                         <Label for="picture">Photo:</Label>
                         <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <h6 onClick={this.addPhoto}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></h6>
+                        <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
                     <div className="row">
                         {this.state.nrOfPictures > 0 &&
@@ -143,7 +169,7 @@ export default class AddRecipe extends Component {
                                 )
                             })}
                     </div>
-                    <Button onClick={() => this.sendData(this.state)}>¡Envía!</Button>
+                    <Button color="success" onClick={() => this.sendData(this.state)} disabled={this.state.isFormInvalid}>¡Envía!</Button>
                 </Form>
             </Jumbotron>
         );

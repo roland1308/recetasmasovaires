@@ -53,3 +53,7 @@ span {
 div.card-subtitle {
   font-size: 1rem !important;
 }
+
+.pictureSmall {
+  width: 50px;
+}

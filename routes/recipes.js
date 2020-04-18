@@ -3,7 +3,6 @@ const router = express.Router()
 
 const recipeModel = require('../model/recipeModel')
 
-const mime = require('mime')
 const IMAGE_TYPES = ['image/jpeg', 'image/png']
 const cloudinary = require('cloudinary')
 cloudinary.config({
@@ -12,6 +11,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+const path = require('path')
+const sharp = require('sharp')
 const fs = require('fs')
 const multer = require("multer")
 const storage = multer.diskStorage({
@@ -45,7 +46,6 @@ router.post('/add', (req, res) => {
         preparation,
         pictures
     });
-    console.log("Ricetta aggiunta");
     newRecipe
         .save()
         .then(recipe => {
@@ -58,16 +58,28 @@ router.post('/add', (req, res) => {
 })
 
 /*add photo to uploads folder*/
-router.post("/addphoto", upload.single("picture"), (req, res) => {
-    const path = req.file.path
-    console.log(path)
-    cloudinary.v2.uploader.upload(path, { public_id: req.file.originalname }, function (err, result) {
-        if (err) {
-            res.send("err")
-        }
-        // fs.unlinkSync(req.file.path)
-        res.send(result.secure_url)
-    })
+router.post("/addphoto", upload.single("picture"), async (req, res) => {
+    const type = req.file.mimetype;
+    if (IMAGE_TYPES.indexOf(type) == -1) {
+        return res.send({ error: 'La foto tiene que ser jpeg, jpg, jpe, o png' });
+    } else {
+        const { filename: image } = req.file
+        await sharp(req.file.path)
+            .resize(500)
+            .jpeg({ quality: 50 })
+            .toFile(
+                path.resolve(req.file.destination, 'resized', image)
+            )
+        const resizedLink = "uploads/resized/" + image
+        cloudinary.v2.uploader.upload(resizedLink, { public_id: req.file.originalname }, function (err, result) {
+            if (err) {
+                return res.send("err")
+            }
+            fs.unlinkSync(req.file.path)
+            fs.unlinkSync(resizedLink)
+            return res.send(result.secure_url)
+        })
+    }
 });
 
 module.exports = router
