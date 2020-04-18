@@ -3,7 +3,9 @@ const router = express.Router()
 
 const recipeModel = require('../model/recipeModel')
 
-const cloudinary = require('cloudinary').v2
+const mime = require('mime')
+const IMAGE_TYPES = ['image/jpeg', 'image/png']
+const cloudinary = require('cloudinary')
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -14,10 +16,9 @@ const fs = require('fs')
 const multer = require("multer")
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./client/public/assets/");
+        cb(null, "./uploads");
     },
     filename: function (req, file, cb) {
-        const now = new Date().toISOString();
         cb(null, file.originalname);
     }
 });
@@ -57,18 +58,14 @@ router.post('/add', (req, res) => {
 })
 
 /*add photo to uploads folder*/
-router.post("/addphoto", upload.single("picture"), async (req, res) => {
-    try {
-        cloudinary.uploader.upload(req.file.path, { public_id: req.file.originalname })
-            .then(result => {
-                fs.unlinkSync(req.file.path)
-                return res.send(result.secure_url)
-            })
-
-    }
-    catch (error) {
-        return res.send("errore")
-    }
+router.post("/addphoto", upload.single("picture"), (req, res) => {
+    cloudinary.v2.uploader.upload(req.file.path, { public_id: req.file.originalname }, function (err, result) {
+        if (err) {
+            return res.send(err)
+        }
+        fs.unlinkSync(req.file.path)
+        return res.send(result.secure_url)
+    })
 });
 
 module.exports = router

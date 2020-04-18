@@ -17,7 +17,7 @@ mongoose
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads/resized", express.static("uploads/resized"));
 
-app.use(cors())
+// app.use(cors())
 app.use(
     bodyParser.json({
         extended: true
