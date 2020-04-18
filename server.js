@@ -14,8 +14,7 @@ mongoose
     .connect(db, { useNewUrlParser: true, useCreateIndex: true })
     .then(() => console.log("Connection to Mongo DB established"))
     .catch(err => console.log(err));
-app.use("/uploads", express.static("uploads"));
-app.use("/uploads/resized", express.static("uploads/resized"));
+app.use("./uploads", express.static("uploads"));
 
 // app.use(cors())
 app.use(
