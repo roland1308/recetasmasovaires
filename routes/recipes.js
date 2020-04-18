@@ -16,7 +16,7 @@ const fs = require('fs')
 const multer = require("multer")
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./uploads");
+        cb(null, "./ppppuploads");
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
@@ -59,7 +59,7 @@ router.post('/add', (req, res) => {
 
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), (req, res) => {
-    const path = "/ppp" + req.file.path
+    const path = req.file.path
     console.log(path)
     cloudinary.v2.uploader.upload(path, { public_id: req.file.originalname }, function (err, result) {
         if (err) {
