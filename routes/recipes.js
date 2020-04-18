@@ -60,11 +60,11 @@ router.post('/add', (req, res) => {
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), (req, res) => {
     const path = "./" + req.file.path
-    cloudinary.v2.uploader.upload(req.file.path, { public_id: req.file.originalname }, function (err, result) {
+    cloudinary.v2.uploader.upload(path, { public_id: req.file.originalname }, function (err, result) {
         if (err) {
             return res.send(err)
         }
-        fs.unlinkSync(req.file.path)
+        // fs.unlinkSync(req.file.path)
         return res.send(result.secure_url)
     })
 });
