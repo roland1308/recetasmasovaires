@@ -59,7 +59,7 @@ router.post('/add', (req, res) => {
 
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), (req, res) => {
-    const path = req.file.path
+    const path = "/ppp" + req.file.path
     console.log(path)
     cloudinary.v2.uploader.upload(path, { public_id: req.file.originalname }, function (err, result) {
         if (err) {
