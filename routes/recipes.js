@@ -71,13 +71,15 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
                 path.resolve(req.file.destination, 'resized', image)
             )
         const resizedLink = req.file.destination + "/resized/" + image
-        cloudinary.v2.uploader.upload(resizedLink, { public_id: req.file.originalname }, function (err, result) {
-            if (err) {
-                return res.send("err")
-            }
-            fs.unlinkSync(req.file.path)
-            // fs.unlinkSync(resizedLink)
-            return res.send(result.secure_url)
+        new Promise((resolve, reject) => {
+            cloudinary.v2.uploader.upload(resizedLink, { public_id: req.file.originalname }, (err, result) => {
+                if (err) {
+                    return res.send("err")
+                }
+                fs.unlinkSync(req.file.path)
+                fs.unlinkSync(resizedLink)
+                return res.send(result.secure_url)
+            })
         })
     }
 });
