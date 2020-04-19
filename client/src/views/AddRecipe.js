@@ -161,21 +161,21 @@ export default class AddRecipe extends Component {
                         <Label for="preparation">Preparación:</Label>
                         <Input onChange={this.changeField} type="textarea" name="preparation" id="preparation" placeholder="¿Como se hace?" required />
                     </FormGroup>
-                    <FormGroup>
-                        <Label for="picture">Photo:</Label>
-                        <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
-                    </FormGroup>
                     <div className="row">
                         {this.state.nrOfPictures > 0 &&
                             this.state.pictures.map((picture, index) => {
                                 return (
-                                    <div className="col-sm-2" key={index}>
+                                    <div className="col-sm-3" key={index}>
                                         <img className="pictureSmall" src={picture.src} alt={index} />
                                     </div>
                                 )
                             })}
                     </div>
+                    <FormGroup>
+                        <Label for="picture">Photo:</Label>
+                        <Input onChange={this.changeField} type="file" name="picture" id="picture" />
+                        <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
+                    </FormGroup>
                     <Button color="success" onClick={() => this.sendData(this.state)} id="submitForm">¡Envía!</Button>
                 </Form>
             </Jumbotron>
