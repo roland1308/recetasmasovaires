@@ -24,6 +24,11 @@ export default class AddRecipe extends Component {
         }
     };
 
+    componentDidMount = () => {
+        let submitTag = document.getElementById("submitForm")
+        submitTag.classList.add("disabled")
+    }
+
     changeField = event => {
         event.preventDefault()
         switch (event.target.name) {
@@ -34,8 +39,9 @@ export default class AddRecipe extends Component {
                     .then(
                         (response, error) => {
                             if (!response.data.error) {
+                                const croppedImgLink = response.data.replace("upload", "upload/w_150,h_100,c_fill")
                                 this.setState({
-                                    picture: response.data
+                                    picture: croppedImgLink
                                 });
                             } else {
                                 alert(response.data.error)
@@ -76,6 +82,7 @@ export default class AddRecipe extends Component {
         this.setState({
             pictures: pics,
             nrOfPictures: this.state.nrOfPictures + 1,
+            picture: ""
         })
         document.getElementById('picture').value = ''
     }
@@ -88,9 +95,11 @@ export default class AddRecipe extends Component {
                 nrOfIngredients > 0 &&
                 preparation !== "" &&
                 nrOfPictures > 0) {
-                this.setState(() => ({
-                    isFormInvalid: false
-                }));
+                let submitTag = document.getElementById("submitForm")
+                submitTag.classList.remove("disabled")
+            } else {
+                let submitTag = document.getElementById("submitForm")
+                submitTag.classList.add("disabled")
             }
             console.log(this.state)
         }
@@ -169,7 +178,7 @@ export default class AddRecipe extends Component {
                                 )
                             })}
                     </div>
-                    <Button color="success" onClick={() => this.sendData(this.state)} disabled={this.state.isFormInvalid}>¡Envía!</Button>
+                    <Button color="success" onClick={() => this.sendData(this.state)} id="submitForm">¡Envía!</Button>
                 </Form>
             </Jumbotron>
         );
