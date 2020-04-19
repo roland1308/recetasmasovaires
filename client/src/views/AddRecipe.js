@@ -138,6 +138,7 @@ export default class AddRecipe extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="ingredient">Ingredientes:</Label>
+                        {this.state.nrOfIngredients > 0 && <RecipeTable ingredients={this.state.ingredients} />}
                         <Input
                             onChange={this.changeField}
                             type="text"
@@ -154,25 +155,24 @@ export default class AddRecipe extends Component {
                             placeholder={"Cantitad"}
                             value={this.state.ingQty}
                         />
-                        {this.state.nrOfIngredients > 0 && <RecipeTable ingredients={this.state.ingredients} />}
                         <Button color="primary" onClick={this.addIngredient} disabled={this.state.ingredient === "" || this.state.ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
                     <FormGroup>
                         <Label for="preparation">Preparación:</Label>
                         <Input onChange={this.changeField} type="textarea" name="preparation" id="preparation" placeholder="¿Como se hace?" required />
                     </FormGroup>
-                    <div className="row">
-                        {this.state.nrOfPictures > 0 &&
-                            this.state.pictures.map((picture, index) => {
-                                return (
-                                    <div className="col-sm-3" key={index}>
-                                        <img className="pictureSmall" src={picture.src} alt={index} />
-                                    </div>
-                                )
-                            })}
-                    </div>
                     <FormGroup>
-                        <Label for="picture">Photo:</Label>
+                        <Label for="picture">Foto(s):</Label>
+                        <div className="row">
+                            {this.state.nrOfPictures > 0 &&
+                                this.state.pictures.map((picture, index) => {
+                                    return (
+                                        <div className="col-sm-3" key={index}>
+                                            <img className="pictureSmall" src={picture.src} alt={index} />
+                                        </div>
+                                    )
+                                })}
+                        </div>
                         <Input onChange={this.changeField} type="file" name="picture" id="picture" />
                         <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>

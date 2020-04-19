@@ -34,7 +34,7 @@ class ListAll extends Component {
                 <div className="row">
                     {this.state.recipes.map((recipe, index) => {
                         return (
-                            <div className="col-sm-4" key={index}>
+                            <div className="col-sm-6" key={index}>
                                 <RecipeCard recipe={recipe} toggler={index.toString()}></RecipeCard>
                             </div>
                         );
