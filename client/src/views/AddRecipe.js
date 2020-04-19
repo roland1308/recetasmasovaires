@@ -39,7 +39,7 @@ export default class AddRecipe extends Component {
                     .then(
                         (response, error) => {
                             if (!response.data.error) {
-                                const croppedImgLink = response.data.replace("upload", "upload/w_150,h_100,c_fill")
+                                const croppedImgLink = response.data //.replace("upload", "upload/w_150,h_100,c_fill")
                                 this.setState({
                                     picture: croppedImgLink
                                 });
