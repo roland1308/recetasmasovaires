@@ -66,7 +66,7 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
         const { filename: image } = req.file
         await sharp(req.file.path)
             .resize(300, 200, { fit: "cover" })
-            // .jpeg({ quality: 100 })
+            .jpeg({ quality: 80 })
             .toFile(
                 path.resolve(req.file.destination, 'resized', image)
             )
