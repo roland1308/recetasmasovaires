@@ -101,9 +101,7 @@ export default class AddRecipe extends Component {
                 let submitTag = document.getElementById("submitForm")
                 submitTag.classList.add("disabled")
             }
-            console.log(this.state)
         }
-
     }
 
     async sendData(data) {
