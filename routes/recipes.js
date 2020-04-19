@@ -68,7 +68,7 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
             .resize(500)
             .jpeg({ quality: 50 })
             .toFile(
-                path.resolve(req.file.destination, 'cazzo', image)
+                path.resolve(req.file.destination, 'resized', image)
             )
         const resizedLink = req.file.destination + "/resized/" + image
         cloudinary.v2.uploader.upload(resizedLink, { public_id: req.file.originalname }, function (err, result) {
