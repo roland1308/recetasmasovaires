@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Jumbotron, Badge } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import RecipeTable from '../components/RecipeTable';
 
 const axios = require("axios");
@@ -16,6 +16,7 @@ export default class AddRecipe extends Component {
             ingredient: "",
             ingQty: "",
             ingredients: [],
+            pax: null,
             preparation: "",
             nrOfPictures: 0,
             picture: "",
@@ -115,70 +116,85 @@ export default class AddRecipe extends Component {
 
     render() {
         return (
-            <Jumbotron>
-                <Form className="container">
-                    <FormGroup>
-                        <Label for="name">Nombre Receta:</Label>
-                        <Input onChange={this.changeField} type="text" name="name" id="name" placeholder="¿Como se llama tu receta?" required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="chef">Tu nombre:</Label>
-                        <Input onChange={this.changeField} type="text" name="chef" id="chef" placeholder="¿Quien és el chef?" required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="type">¿Que plato és?</Label>
-                        <Input onChange={this.changeField} type="select" name="type" id="type">
-                            <option>Entrante</option>
-                            <option>Primero</option>
-                            <option>Segundo</option>
-                            <option>Acompañamiento</option>
-                            <option>Postre</option>
-                            <option>Plato único</option>
-                        </Input>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="ingredient">Ingredientes:</Label>
-                        {this.state.nrOfIngredients > 0 && <RecipeTable ingredients={this.state.ingredients} />}
-                        <Input
-                            onChange={this.changeField}
-                            type="text"
-                            name="ingredient"
-                            id="ingredient"
-                            placeholder={"Ingrediente nr. " + (this.state.nrOfIngredients + 1)}
-                            value={this.state.ingredient}
-                        />
-                        <Input
-                            onChange={this.changeField}
-                            type="text"
-                            name="ingQty"
-                            id="ingQty"
-                            placeholder={"Cantitad"}
-                            value={this.state.ingQty}
-                        />
-                        <Button color="primary" onClick={this.addIngredient} disabled={this.state.ingredient === "" || this.state.ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="preparation">Preparación:</Label>
-                        <Input onChange={this.changeField} type="textarea" name="preparation" id="preparation" placeholder="¿Como se hace?" required />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="picture">Foto(s):</Label>
-                        <div className="row">
-                            {this.state.nrOfPictures > 0 &&
-                                this.state.pictures.map((picture, index) => {
-                                    return (
-                                        <div className="col-sm-3" key={index}>
-                                            <img className="pictureSmall" src={picture.src} alt={index} />
-                                        </div>
-                                    )
-                                })}
-                        </div>
-                        <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
-                    </FormGroup>
-                    <Button color="success" onClick={() => this.sendData(this.state)} id="submitForm">¡Envía!</Button>
-                </Form>
-            </Jumbotron>
+            <div>
+                <div className="container">
+                    <Form className="container">
+                        <FormGroup>
+                            <Label for="name">Nombre receta:</Label>
+                            <Input onChange={this.changeField} type="text" name="name" id="name" placeholder="¿Como se llama tu receta?" required />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="chef">Tu nombre:</Label>
+                            <Input onChange={this.changeField} type="text" name="chef" id="chef" placeholder="¿Quien és el chef?" required />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="type">¿Que plato és?</Label>
+                            <Input onChange={this.changeField} type="select" name="type" id="type">
+                                <option>entrante</option>
+                                <option>primero</option>
+                                <option>segundo</option>
+                                <option>acompañamiento</option>
+                                <option>postre</option>
+                                <option>plato único</option>
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="pax">Personas: (0 = sin especificar)</Label>
+                            <Input
+                                onChange={this.changeField}
+                                type="number"
+                                name="pax"
+                                id="pax"
+                                placeholder={"¿Para cuantas personas?"}
+                                value={this.state.pax}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="ingredient">Ingredientes:</Label>
+                            {this.state.nrOfIngredients > 0 && <RecipeTable ingredients={this.state.ingredients} />}
+                            <Input
+                                onChange={this.changeField}
+                                type="text"
+                                name="ingredient"
+                                id="ingredient"
+                                placeholder={"Ingrediente nr. " + (this.state.nrOfIngredients + 1)}
+                                value={this.state.ingredient}
+                            />
+                            <Input
+                                onChange={this.changeField}
+                                type="text"
+                                name="ingQty"
+                                id="ingQty"
+                                placeholder={"Cantitad"}
+                                value={this.state.ingQty}
+                            />
+                            <Button color="primary" onClick={this.addIngredient} disabled={this.state.ingredient === "" || this.state.ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="preparation">Preparación:</Label>
+                            <Input onChange={this.changeField} type="textarea" name="preparation" id="preparation" placeholder="¿Como se hace?" required />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="picture">Foto(s):</Label>
+                            <div className="row">
+                                {this.state.nrOfPictures > 0 &&
+                                    this.state.pictures.map((picture, index) => {
+                                        return (
+                                            <div className="col-sm-3" key={index}>
+                                                <img className="pictureSmall" src={picture.src} alt={index} />
+                                            </div>
+                                        )
+                                    })}
+                            </div>
+                            <Input onChange={this.changeField} type="file" name="picture" id="picture" />
+                            <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
+                        </FormGroup>
+                    </Form>
+                </div>
+                <nav className="navbar fixed-bottom navbar-light bg-light">
+                    <Button className="navbar-brand" color="success" onClick={() => this.sendData(this.state)} id="submitForm">¡Envía!</Button>
+                </nav>
+            </div>
         );
     }
 }

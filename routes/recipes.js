@@ -37,12 +37,13 @@ router.get('/all',
 
 /*add new recipe*/
 router.post('/add', (req, res) => {
-    const { name, chef, type, ingredients, preparation, pictures } = req.body
+    const { name, chef, type, ingredients, pax, preparation, pictures } = req.body
     const newRecipe = new recipeModel({
         name,
         chef,
         type,
         ingredients,
+        pax,
         preparation,
         pictures
     });

@@ -11,7 +11,11 @@ const RecipeCard = (props) => {
         <Card>
             <CardBody>
                 <CardTitle>{props.recipe.name}</CardTitle>
-                <CardSubtitle>{"Un "}{props.recipe.type}{" de: "}{props.recipe.chef}</CardSubtitle>
+                <CardSubtitle>{"Un " + props.recipe.type + " de: " + props.recipe.chef + "."}</CardSubtitle>
+                {props.recipe.pax > 0 && (
+                    <CardSubtitle>{"Para " + props.recipe.pax + " personas."}</CardSubtitle>
+                )
+                }
             </CardBody>
             <UncontrolledCarousel items={props.recipe.pictures} />
             <CardBody>

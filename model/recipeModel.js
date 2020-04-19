@@ -19,6 +19,9 @@ const recipeSchema = new mongoose.Schema({
     pictures: {
         type: Array
     },
+    pax: {
+        type: Number
+    }
 })
 
 module.exports = mongoose.model('recipe', recipeSchema)
