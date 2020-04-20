@@ -11,7 +11,7 @@ export default class AddRecipe extends Component {
         this.state = {
             name: "",
             chef: "",
-            type: "Entrante",
+            type: "entrante",
             nrOfIngredients: 0,
             ingredient: "",
             ingQty: "",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Label, Input } from 'reactstrap';
+import { FormGroup, Input } from 'reactstrap';
 
 import RecipeCard from "../components/RecipeCard";
 
@@ -69,15 +69,21 @@ class ListAll extends Component {
         return (
             <div className="container">
                 <div className="filters">
-                    <FormGroup>
-                        <Label for="name">Busca receta por:</Label>
-                        <Input onChange={this.changeName} type="text" name="name" id="name" placeholder="nombre:" />
-                    </FormGroup>
-                    <FormGroup>
-                        <Input onChange={this.changeIngredient} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
-                    </FormGroup>
+                    <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Busca receta por:
+                    </button>
+                    <div class="collapse" id="collapseFilter">
+                        <div className="card-body filterFields">
+                            <FormGroup>
+                                <Input onChange={this.changeName} type="text" name="name" id="name" placeholder="nombre:" />
+                            </FormGroup>
+                            <FormGroup>
+                                <Input onChange={this.changeIngredient} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
+                            </FormGroup>
+                        </div>
+                    </div>
                 </div>
-                <div className="row">
+                <div className="row" id="accordion">
                     {this.state.filteredRecipes.map((recipe, index) => {
                         return (
                             <div className="col-sm-6" key={index}>

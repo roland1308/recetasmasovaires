@@ -19,11 +19,18 @@ code {
   text-decoration: none !important;
 }
 
-div.card-title {
-  font-size: 2rem;
+div.card-body {
+  text-align: left !important;
+  color: black !important;
+  padding: 5px !important;
 }
+
+div.card-title {
+  font-size: 2rem !important;
+}
+
 div.card-subtitle {
-  font-size: 1.5rem;
+  font-size: 1rem !important;
 }
 
 td:nth-child(3),
@@ -33,6 +40,14 @@ th:nth-child(3) {
 
 .landButton {
   width: 80px;
+}
+
+.filterButton {
+  margin-bottom: 2px;
+}
+
+.filterFields {
+  background-color: rgb(216, 216, 241) !important;
 }
 
 span {
@@ -45,10 +60,6 @@ span {
   position: sticky !important;
   top: 0;
   z-index: 20;
-}
-
-div.card-subtitle {
-  font-size: 1rem !important;
 }
 
 .pictureSmall {

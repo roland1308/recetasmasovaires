@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Card, CardBody,
+    CardBody,
     CardTitle, CardSubtitle, UncontrolledCarousel,
     UncontrolledCollapse, Button,
 } from 'reactstrap';
@@ -8,18 +8,21 @@ import RecipeTable from './RecipeTable';
 
 const RecipeCard = (props) => {
     return (
-        <Card>
-            <CardBody>
-                <CardTitle>{props.recipe.name}</CardTitle>
-                <CardSubtitle>{"Un " + props.recipe.type + " de: " + props.recipe.chef + "."}</CardSubtitle>
-                {props.recipe.pax > 0 && (
-                    <CardSubtitle>{"Para " + props.recipe.pax + " personas."}</CardSubtitle>
-                )
-                }
-            </CardBody>
-            <UncontrolledCarousel items={props.recipe.pictures} />
-            <CardBody>
-                <div>
+        <div className="card">
+            <div className="card-header" id={"heading" + props.toggler}>
+                <button className="linkNoDecoration btn btn-link collapsed" data-toggle="collapse" data-target={"#collapse" + props.toggler} aria-expanded="false" aria-controls={"collapse" + props.toggler}>
+                    <CardBody>
+                        <CardTitle>{props.recipe.name}</CardTitle>
+                        <CardSubtitle>{"Un " + props.recipe.type + " de: " + props.recipe.chef + "."}</CardSubtitle>
+                        {props.recipe.pax > 0 && (
+                            <CardSubtitle>{"Para " + props.recipe.pax + " personas."}</CardSubtitle>
+                        )}
+                    </CardBody>
+                </button>
+            </div>
+            <div id={"collapse" + props.toggler} className="card-body collapse" aria-labelledby={"heading" + props.toggler} data-parent="#accordion">
+                <UncontrolledCarousel items={props.recipe.pictures} />
+                <CardBody>
                     <Button color="primary" id={"ingredientToggler" + props.toggler} style={{ marginBottom: '1rem' }}>
                         Ingredientes
                     </Button>
@@ -31,15 +34,13 @@ const RecipeCard = (props) => {
                         Preparación
                     </Button>
                     <UncontrolledCollapse toggler={"#preparationToggler" + props.toggler}>
-                        <Card>
-                            <CardBody>
-                                {props.recipe.preparation}
-                            </CardBody>
-                        </Card>
+                        <CardBody>
+                            {props.recipe.preparation}
+                        </CardBody>
                     </UncontrolledCollapse>
-                </div>
-            </CardBody>
-        </Card>
+                </CardBody>
+            </div>
+        </div>
     );
 };
 
