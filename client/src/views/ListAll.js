@@ -48,11 +48,15 @@ class ListAll extends Component {
         this.setState({
             [event.target.name]: event.target.value,
         })
-        const copyRecipes = this.state.recipes.filter(recipe => {
-            return recipe.ingredients.some(checkIngredient => {
-                return checkIngredient.ingredient.toLowerCase().includes(event.target.value.toLowerCase())
+        const filterIngredient = event.target.value.split(" ")
+        let copyRecipes = this.state.recipes
+        for (let ing of filterIngredient) {
+            copyRecipes = copyRecipes.filter(recipe => {
+                return recipe.ingredients.some(checkIngredient => {
+                    return checkIngredient.ingredient.toLowerCase().includes(ing.toLowerCase())
+                })
             })
-        })
+        }
         this.setState({
             filteredRecipes: copyRecipes
         })
