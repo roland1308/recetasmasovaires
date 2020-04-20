@@ -16,7 +16,7 @@ export default class AddRecipe extends Component {
             ingredient: "",
             ingQty: "",
             ingredients: [],
-            pax: null,
+            pax: undefined,
             preparation: "",
             nrOfPictures: 0,
             picture: "",
@@ -26,6 +26,8 @@ export default class AddRecipe extends Component {
     };
 
     componentDidMount = () => {
+        axios.post("recipes/clear", { directory: "uploads" })
+        axios.post("recipes/clear", { directory: "uploads/resized" })
         let submitTag = document.getElementById("submitForm")
         submitTag.classList.add("disabled")
     }
