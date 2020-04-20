@@ -77,6 +77,8 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
                 if (err) {
                     return res.send("err")
                 }
+                removeOldFiles("uploads")
+                removeOldFiles("uploads/resized")
                 return res.send(result.secure_url)
             })
         })
@@ -89,12 +91,14 @@ router.post("/clear", (req, res) => {
 })
 
 removeOldFiles = directory => {
-    fs.readdir(directory, (err, files) => {
+    fs.readdir(directory, { withFileTypes: true }, (err, files) => {
         if (err) throw err;
         for (const file of files) {
-            fs.unlink(path.join(directory, file), err => {
-                if (err) console.log(err);
-            });
+            if (file.isDirectory() !== true) {
+                fs.unlink(path.join(directory, file.name), err => {
+                    if (err) throw err;
+                });
+            }
         }
     });
 }

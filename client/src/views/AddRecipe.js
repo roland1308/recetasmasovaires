@@ -26,8 +26,6 @@ export default class AddRecipe extends Component {
     };
 
     componentDidMount = () => {
-        axios.post("recipes/clear", { directory: "uploads" })
-        axios.post("recipes/clear", { directory: "uploads/resized" })
         let submitTag = document.getElementById("submitForm")
         submitTag.classList.add("disabled")
     }
