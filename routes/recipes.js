@@ -77,8 +77,6 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
                 if (err) {
                     return res.send("err")
                 }
-                removeOldFiles("uploads")
-                removeOldFiles("uploads/resized")
                 return res.send(result.secure_url)
             })
         })
