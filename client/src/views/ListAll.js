@@ -67,7 +67,7 @@ class ListAll extends Component {
             return null
         }
         return (
-            <div className="container">
+            <div>
                 <div className="filters">
                     <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                         Busca receta por:

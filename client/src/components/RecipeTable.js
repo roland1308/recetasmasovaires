@@ -8,7 +8,7 @@ export default function RecipeTable(props) {
                 <Table hover size="sm">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            {/* <th>#</th> */}
                             <th>Ingrediente</th>
                             <th>Cantidad</th>
                         </tr>
@@ -17,7 +17,7 @@ export default function RecipeTable(props) {
                         return (
                             <tbody key={index}>
                                 <tr>
-                                    <th scope="row">{index + 1}</th>
+                                    {/* <th scope="row">{index + 1}</th> */}
                                     <td>{ingredient.ingredient}</td>
                                     <td>{ingredient.qty}</td>
                                 </tr>

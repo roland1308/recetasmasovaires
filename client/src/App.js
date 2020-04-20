@@ -11,7 +11,8 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Jumbotron
 } from 'reactstrap';
 
 export default class App extends Component {
@@ -45,11 +46,13 @@ export default class App extends Component {
               </Nav>
             </Collapse>
           </Navbar>
-          <Switch>
-            <Route exact path='/' component={LandingPage} />
-            <Route path="/listall" component={ListAll} />
-            <Route path="/addrecipe" component={AddRecipe} />
-          </Switch>
+          <Jumbotron>
+            <Switch>
+              <Route exact path='/' component={LandingPage} />
+              <Route path="/listall" component={ListAll} />
+              <Route path="/addrecipe" component={AddRecipe} />
+            </Switch>
+          </Jumbotron>
         </BrowserRouter>
       </div>
     );

@@ -33,13 +33,14 @@ div.card-subtitle {
   font-size: 1rem !important;
 }
 
-td:nth-child(3),
-th:nth-child(3) {
+td:nth-child(2),
+th:nth-child(2) {
   text-align: right;
 }
 
 .landButton {
   width: 80px;
+  margin: 0.5rem 0;
 }
 
 .filterButton {
@@ -70,11 +71,16 @@ span {
   box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
   margin-bottom: 1rem;
 }
-.container {
+
+.jumbotron {
+  padding: 0 0.5rem !important;
+  margin-bottom: 0 !important;
+}
+/* .container {
   background-color: rgb(216, 216, 241);
   margin: 0;
   padding: 5px !important;
-}
+} */
 
 .filters {
   border-radius: 10px;

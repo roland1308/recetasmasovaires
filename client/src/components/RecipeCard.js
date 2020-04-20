@@ -2,11 +2,12 @@ import React from 'react';
 import {
     CardBody,
     CardTitle, CardSubtitle, UncontrolledCarousel,
-    UncontrolledCollapse, Button,
+    UncontrolledCollapse, Button
 } from 'reactstrap';
 import RecipeTable from './RecipeTable';
 
 const RecipeCard = (props) => {
+    let preparation = props.recipe.preparation.replace(".", ".\r")
     return (
         <div className="card">
             <div className="card-header" id={"heading" + props.toggler}>
@@ -35,7 +36,7 @@ const RecipeCard = (props) => {
                     </Button>
                     <UncontrolledCollapse toggler={"#preparationToggler" + props.toggler}>
                         <CardBody>
-                            {props.recipe.preparation}
+                            {preparation}
                         </CardBody>
                     </UncontrolledCollapse>
                 </CardBody>
