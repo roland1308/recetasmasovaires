@@ -83,22 +83,22 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
     }
 });
 
-router.post("/clear", (req, res) => {
-    removeOldFiles(req.body.directory)
-    res.send("ok")
-})
+// router.post("/clear", (req, res) => {
+//     removeOldFiles(req.body.directory)
+//     res.send("ok")
+// })
 
-removeOldFiles = directory => {
-    fs.readdir(directory, { withFileTypes: true }, (err, files) => {
-        if (err) throw err;
-        for (const file of files) {
-            if (file.isDirectory() !== true) {
-                fs.unlink(path.join(directory, file.name), err => {
-                    if (err) throw err;
-                });
-            }
-        }
-    });
-}
+// removeOldFiles = directory => {
+//     fs.readdir(directory, { withFileTypes: true }, (err, files) => {
+//         if (err) throw err;
+//         for (const file of files) {
+//             if (file.isDirectory() !== true) {
+//                 fs.unlink(path.join(directory, file.name), err => {
+//                     if (err) throw err;
+//                 });
+//             }
+//         }
+//     });
+// }
 
 module.exports = router
