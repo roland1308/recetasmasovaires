@@ -158,7 +158,7 @@ export default class AddRecipe extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="ingredient">Ingredientes:</Label>
-                        {this.state.nrOfIngredients > 0 && <RecipeTable ingredients={this.state.ingredients} />}
+                        {this.state.nrOfIngredients > 0 && <><RecipeTable ingredients={this.state.ingredients} /><br></br></>}
                         <Input
                             onChange={this.changeField}
                             type="text"

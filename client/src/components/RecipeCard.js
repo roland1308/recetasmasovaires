@@ -7,7 +7,6 @@ import {
 import RecipeTable from './RecipeTable';
 
 const RecipeCard = (props) => {
-    let preparation = props.recipe.preparation.replace(".", ".\r")
     return (
         <div className="card">
             <div className="card-header" id={"heading" + props.toggler}>
@@ -24,19 +23,19 @@ const RecipeCard = (props) => {
             <div id={"collapse" + props.toggler} className="card-body collapse" aria-labelledby={"heading" + props.toggler} data-parent="#accordion">
                 <UncontrolledCarousel items={props.recipe.pictures} />
                 <CardBody>
-                    <Button color="primary" id={"ingredientToggler" + props.toggler} style={{ marginBottom: '1rem' }}>
+                    <Button color="primary" id={"ingredientToggler" + props.toggler} style={{ marginTop: "0.5rem", width: "113px" }}>
                         Ingredientes
-                    </Button>
+                        </Button>
                     <UncontrolledCollapse toggler={"#ingredientToggler" + props.toggler}>
                         <RecipeTable ingredients={props.recipe.ingredients} />
                     </UncontrolledCollapse>
                     <br></br>
-                    <Button color="primary" id={"preparationToggler" + props.toggler} style={{ marginBottom: '1rem' }}>
+                    <Button color="primary" id={"preparationToggler" + props.toggler} style={{ marginTop: "0.5rem", width: "113px" }}>
                         Preparación
-                    </Button>
+                        </Button>
                     <UncontrolledCollapse toggler={"#preparationToggler" + props.toggler}>
                         <CardBody>
-                            {preparation}
+                            {props.recipe.preparation}
                         </CardBody>
                     </UncontrolledCollapse>
                 </CardBody>

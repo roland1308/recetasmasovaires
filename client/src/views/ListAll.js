@@ -13,7 +13,9 @@ class ListAll extends Component {
             filteredRecipes: {},
             isLoaded: false,
             name: "",
-            ingredient: ""
+            ingredient: "",
+            chef: "Todos",
+            chefsList: []
         };
     }
 
@@ -23,34 +25,49 @@ class ListAll extends Component {
             this.setState({
                 recipes: response.data,
                 filteredRecipes: response.data,
-                isLoaded: true
+                isLoaded: true,
+                chefsList: Array.from(
+                    new Set(response.data.map(recipe => recipe.chef))
+                )
             })
         } catch (error) {
             console.log(error);
         }
     }
 
-    changeName = event => {
+    changeFilter = event => {
         event.preventDefault()
         this.setState({
             [event.target.name]: event.target.value,
         })
-        let copyRecipes = this.state.recipes.filter(recipe => {
-            return recipe.name.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        this.setState({
-            filteredRecipes: copyRecipes
-        })
+        switch (event.target.name) {
+            case "chef":
+                this.filterRecipes(event.target.value, this.state.name, this.state.ingredient)
+                break
+            case "name":
+                this.filterRecipes(this.state.chef, event.target.value, this.state.ingredient)
+                break
+            case "ingredient":
+                this.filterRecipes(this.state.chef, this.state.name, event.target.value)
+                break
+            default:
+        }
     }
 
-    changeIngredient = event => {
-        event.preventDefault()
-        this.setState({
-            [event.target.name]: event.target.value,
+    filterRecipes = (filterChef, filterName, filterIngredientes) => {
+        const singleIngredient = filterIngredientes.split(" ")
+        filterChef = filterChef === "Todos" ? "" : filterChef
+        let copyRecipes = this.state.recipes.filter(recipe => {
+            return (
+                recipe.chef.includes(filterChef)
+            )
         })
-        const filterIngredient = event.target.value.split(" ")
-        let copyRecipes = this.state.recipes
-        for (let ing of filterIngredient) {
+        copyRecipes = copyRecipes.filter(recipe => {
+            return (
+                recipe.name.toLowerCase().includes(filterName.toLowerCase())
+            )
+        })
+        for (let ing of singleIngredient) {
             copyRecipes = copyRecipes.filter(recipe => {
                 return recipe.ingredients.some(checkIngredient => {
                     return checkIngredient.ingredient.toLowerCase().includes(ing.toLowerCase())
@@ -75,10 +92,19 @@ class ListAll extends Component {
                     <div class="collapse" id="collapseFilter">
                         <div className="card-body filterFields">
                             <FormGroup>
-                                <Input onChange={this.changeName} type="text" name="name" id="name" placeholder="nombre:" />
+                                <Input onChange={this.changeFilter} type="select" name="chef" id="name" placeholder="nombre:">
+                                    <option>Todos</option>
+                                    {this.state.chefsList.map((chef, index) => {
+                                        return (<option key={index}>{chef}</option>)
+                                    }
+                                    )}
+                                </Input>
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeIngredient} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
+                                <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder="nombre:" />
+                            </FormGroup>
+                            <FormGroup>
+                                <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
                             </FormGroup>
                         </div>
                     </div>
