@@ -12,10 +12,11 @@ class ListAll extends Component {
             recipes: {},
             filteredRecipes: {},
             isLoaded: false,
+            chef: "todos los cocineros",
+            chefsList: [],
             name: "",
             ingredient: "",
-            chef: "Todos",
-            chefsList: []
+            type: "todos los platos"
         };
     }
 
@@ -37,34 +38,27 @@ class ListAll extends Component {
 
     changeFilter = event => {
         event.preventDefault()
+        const filterParameters = this.state
+        filterParameters[event.target.name] = event.target.value
         this.setState({
             [event.target.name]: event.target.value,
         })
-        switch (event.target.name) {
-            case "chef":
-                this.filterRecipes(event.target.value, this.state.name, this.state.ingredient)
-                break
-            case "name":
-                this.filterRecipes(this.state.chef, event.target.value, this.state.ingredient)
-                break
-            case "ingredient":
-                this.filterRecipes(this.state.chef, this.state.name, event.target.value)
-                break
-            default:
-        }
+        this.filterRecipes(filterParameters)
     }
 
-    filterRecipes = (filterChef, filterName, filterIngredientes) => {
-        const singleIngredient = filterIngredientes.split(" ")
-        filterChef = filterChef === "Todos" ? "" : filterChef
+    filterRecipes = (filterParameters) => {
+        let { chef, name, ingredient, type } = filterParameters
+        const singleIngredient = ingredient.split(" ")
+        chef = chef === "todos los cocineros" ? "" : chef
+        type = type === "todos los platos" ? "" : type
         let copyRecipes = this.state.recipes.filter(recipe => {
             return (
-                recipe.chef.includes(filterChef)
+                recipe.chef.includes(chef)
             )
         })
         copyRecipes = copyRecipes.filter(recipe => {
             return (
-                recipe.name.toLowerCase().includes(filterName.toLowerCase())
+                recipe.name.toLowerCase().includes(name.toLowerCase())
             )
         })
         for (let ing of singleIngredient) {
@@ -74,6 +68,11 @@ class ListAll extends Component {
                 })
             })
         }
+        copyRecipes = copyRecipes.filter(recipe => {
+            return (
+                recipe.type.includes(type)
+            )
+        })
         this.setState({
             filteredRecipes: copyRecipes
         })
@@ -92,8 +91,9 @@ class ListAll extends Component {
                     <div class="collapse" id="collapseFilter">
                         <div className="card-body filterFields">
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="chef" id="name" placeholder="nombre:">
-                                    <option>Todos</option>
+                                <Input onChange={this.changeFilter} type="select" name="chef" id="chef">
+                                    <option value="" disabled selected hidden>cocinero:</option>
+                                    <option>todos los cocineros</option>
                                     {this.state.chefsList.map((chef, index) => {
                                         return (<option key={index}>{chef}</option>)
                                     }
@@ -106,18 +106,36 @@ class ListAll extends Component {
                             <FormGroup>
                                 <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
                             </FormGroup>
+                            <FormGroup>
+                                <Input onChange={this.changeFilter} type="select" name="type" id="type">
+                                    <option value="" disabled selected hidden>típo de plato:</option>
+                                    <option>todos los platos</option>
+                                    <option>entrante</option>
+                                    <option>primero</option>
+                                    <option>segundo</option>
+                                    <option>acompañamiento</option>
+                                    <option>postre</option>
+                                    <option>plato único</option>
+                                    )}
+                                </Input>
+                            </FormGroup>
                         </div>
                     </div>
                 </div>
-                <div className="row" id="accordion">
-                    {this.state.filteredRecipes.map((recipe, index) => {
-                        return (
-                            <div className="col-sm-6" key={index}>
-                                <RecipeCard recipe={recipe} toggler={index.toString()}></RecipeCard>
-                            </div>
-                        );
-                    })}
-                </div>
+                {this.state.filteredRecipes.length > 0 ?
+                    (<div className="row" id="accordion">
+                        {this.state.filteredRecipes.map((recipe, index) => {
+                            return (
+                                <div className="col-sm-6" key={index}>
+                                    <RecipeCard recipe={recipe} toggler={index.toString()}></RecipeCard>
+                                </div>
+                            );
+                        })}
+                    </div>) :
+                    (<div className="error">
+                        NINGUN RESULTADO
+                    </div>)
+                }
             </div>
         );
     }

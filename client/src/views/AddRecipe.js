@@ -126,15 +126,15 @@ export default class AddRecipe extends Component {
         return (
             <div>
                 <Form className="container">
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="name">Nombre receta:</Label>
                         <Input onChange={this.changeField} type="text" name="name" id="name" placeholder="¿Como se llama tu receta?" />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="chef">Tu nombre:</Label>
                         <Input onChange={this.changeField} type="text" name="chef" id="chef" placeholder="¿Quien és el chef?" />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="type">¿Que plato és?</Label>
                         <Input onChange={this.changeField} type="select" name="type" id="type">
                             <option>entrante</option>
@@ -145,7 +145,7 @@ export default class AddRecipe extends Component {
                             <option>plato único</option>
                         </Input>
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="pax">Personas: (0 = sin especificar)</Label>
                         <Input
                             onChange={this.changeField}
@@ -156,7 +156,7 @@ export default class AddRecipe extends Component {
                             value={this.state.pax}
                         />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="ingredient">Ingredientes:</Label>
                         {this.state.nrOfIngredients > 0 && <><RecipeTable ingredients={this.state.ingredients} /><br></br></>}
                         <Input
@@ -177,7 +177,7 @@ export default class AddRecipe extends Component {
                         />
                         <Button color="primary" onClick={this.addIngredient} disabled={this.state.ingredient === "" || this.state.ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="preparation">Preparación:</Label>
                         <br></br>
                         <TextareaAutosize
@@ -189,7 +189,7 @@ export default class AddRecipe extends Component {
                             id="preparation"
                             placeholder="¿Como se hace?" />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="underline">
                         <Label for="picture">Foto(s):</Label>
                         <div className="row">
                             {this.state.nrOfPictures > 0 &&
