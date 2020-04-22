@@ -1,18 +1,9 @@
-import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
-import RecipeTable from '../components/RecipeTable';
-import TextareaAutosize from 'react-textarea-autosize';
+import React from 'react'
 
-import { connect } from "react-redux";
-
-const axios = require("axios");
-
-class AddRecipe extends Component {
+export default class RecipeForm extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
-            _id: "",
             name: "",
             chef: "",
             type: "entrante",
@@ -32,34 +23,9 @@ class AddRecipe extends Component {
     componentDidMount = () => {
         let submitTag = document.getElementById("submitForm")
         submitTag.classList.add("disabled")
-        const { recipeAction, recipe } = this.props
-        if (recipeAction === "edit") {
-            const {
-                _id,
-                name,
-                chef,
-                type,
-                ingredients,
-                pax,
-                preparation,
-                pictures
-            } = recipe
-            const nrOfIngredients = ingredients.length
-            const nrOfPictures = pictures.length
-            this.setState({
-                _id,
-                name,
-                chef,
-                type,
-                nrOfIngredients,
-                ingredients,
-                pax,
-                preparation,
-                nrOfPictures,
-                pictures,
-                isFormInvalid: false
-            })
-        }
+        this.setState({
+            props
+        })
     }
 
     changeField = event => {
@@ -87,6 +53,9 @@ class AddRecipe extends Component {
                     );
                 break;
             default:
+                if (event.target.value === "\n") {
+                    console.log("ACCAPO")
+                }
                 this.setState({
                     [event.target.name]: event.target.value,
                 })
@@ -142,18 +111,10 @@ class AddRecipe extends Component {
     async sendData(data) {
         let submitTag = document.getElementById("submitForm")
         submitTag.classList.add("disabled")
-        if (this.props.recipeAction === "add") {
-            try {
-                await axios.post("recipes/add", data)
-            } catch (error) {
-                console.log(error.message);
-            }
-        } else {
-            try {
-                await axios.post("recipes/update", data)
-            } catch (error) {
-                console.log(error.message);
-            }
+        try {
+            await axios.post("recipes/add", data)
+        } catch (error) {
+            console.log(error.message);
         }
         this.props.history.push("/");
     };
@@ -164,27 +125,15 @@ class AddRecipe extends Component {
                 <Form className="container">
                     <FormGroup className="underline">
                         <Label for="name">Nombre receta:</Label>
-                        <Input
-                            onChange={this.changeField}
-                            type="text"
-                            name="name"
-                            id="name"
-                            placeholder="¿Como se llama tu receta?"
-                            value={this.state.name} />
+                        <Input onChange={this.changeField} type="text" name="name" id="name" placeholder="¿Como se llama tu receta?" />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="chef">Tu nombre:</Label>
-                        <Input
-                            onChange={this.changeField}
-                            type="text"
-                            name="chef"
-                            id="chef"
-                            placeholder="¿Quien és el chef?"
-                            value={this.state.chef} />
+                        <Input onChange={this.changeField} type="text" name="chef" id="chef" placeholder="¿Quien és el chef?" />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="type">¿Que plato és?</Label>
-                        <Input onChange={this.changeField} type="select" name="type" id="type" value={this.state.type}>
+                        <Input onChange={this.changeField} type="select" name="type" id="type">
                             <option>entrante</option>
                             <option>primero</option>
                             <option>segundo</option>
@@ -235,7 +184,6 @@ class AddRecipe extends Component {
                             onChange={this.changeField}
                             name="preparation"
                             id="preparation"
-                            value={this.state.preparation}
                             placeholder="¿Como se hace?" />
                     </FormGroup>
                     <FormGroup className="underline">
@@ -255,19 +203,9 @@ class AddRecipe extends Component {
                     </FormGroup>
                 </Form>
                 <nav className="navbar fixed-bottom navbar-light bg-light">
-                    <Button className="navbar-brand" color="success" onClick={() => this.sendData(this.state)} id="submitForm">
-                        {this.props.recipeAction === "add" ? "¡Añade!" : "¡Cambia!"}
-                    </Button>
-                    <Button className="navbar-brand" color="warning" onClick={() => this.props.history.push("/")} id="submitForm">¡Anula!</Button>
+                    <Button className="navbar-brand" color="success" onClick={() => this.sendData(this.state)} id="submitForm">¡Envía!</Button>
                 </nav>
             </div>
-        );
+        )
     }
 }
-
-const mapStateToProps = state => ({
-    recipeAction: state.main.recipeAction,
-    recipe: state.main.recipe
-});
-
-export default connect(mapStateToProps)(AddRecipe);

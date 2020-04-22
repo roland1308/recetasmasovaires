@@ -37,6 +37,11 @@
     "passport-github": "^1.1.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
+    "react-icons": "^3.10.0",
+    "redux-devtools-extension": "^2.13.8",
     "sharp": "^0.25.2"
+  },
+  "devDependencies": {
+    "redux": "^4.0.5"
   }
 }

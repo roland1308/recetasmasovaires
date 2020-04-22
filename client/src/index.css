@@ -135,3 +135,11 @@ table {
   animation-duration: 1000ms;
   animation-fill-mode: forwards;
 }
+
+.btnFullWidth {
+  width: 100%;
+}
+
+.editPen {
+  color: green;
+}

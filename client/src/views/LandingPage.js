@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
+import { recipeAdd } from "../store/actions/mainActions";
+import { connect } from "react-redux";
+
 import {
     Button
 } from 'reactstrap';
@@ -13,33 +16,44 @@ class LandingPage extends Component {
             isOpen: false
         };
     }
+
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen
         });
     }
+
+    isAddRecipe() {
+        this.props.dispatch(recipeAdd());
+        this.props.history.push("/addrecipe");
+    }
+
     render() {
         return (
             <div>
-                <h1>Bienvenid@s a nuestro libro de cocina!</h1>
+                <h2>¡Bienvenid@s a nuestro Libro de Recetas!</h2>
                 <hr></hr>
                 <Link to="./listall" className="linkNoDecoration">
                     <Button className="landButton" color="success" size="large">
-                        Mirar
-                        </Button>
-                    <span>Visualiza las recetas presentes.</span>
+                        Buscar
+                    </Button>
+                    <span>Busca entre las recetas presentes.</span>
                 </Link>
                 <hr></hr>
-                <Link to="./addrecipe" className="linkNoDecoration">
+                <div onClick={() => { this.isAddRecipe() }}>
                     <Button className="landButton" color="success" size="large">
                         Añadir
-                        </Button>
+                    </Button>
                     <span>Añade tu receta de familia.</span>
-                </Link>
-                <hr></hr>
+                    <hr></hr>
+                </div>
             </div>
         );
     }
 }
 
-export default LandingPage;
+const mapStateToProps = state => ({
+
+});
+
+export default connect(mapStateToProps)(LandingPage);

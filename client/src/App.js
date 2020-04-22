@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import LandingPage from './views/LandingPage';
 import ListAll from './views/ListAll';
 import AddRecipe from './views/AddRecipe';
+import EditRecipe from './components/EditRecipe';
 
 import {
   Collapse,
@@ -51,6 +52,7 @@ export default class App extends Component {
               <Route exact path='/' component={LandingPage} />
               <Route path="/listall" component={ListAll} />
               <Route path="/addrecipe" component={AddRecipe} />
+              <Route path="/editrecipe" component={EditRecipe} />
             </Switch>
           </Jumbotron>
         </BrowserRouter>

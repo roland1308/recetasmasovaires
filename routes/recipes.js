@@ -58,6 +58,34 @@ router.post('/add', (req, res) => {
         });
 })
 
+/*update a recipe*/
+router.post('/update', (req, res) => {
+    const { _id, name, chef, type, ingredients, pax, preparation, pictures } = req.body
+    recipeModel.findOneAndUpdate(
+        { _id },
+        {
+            $set: {
+                name,
+                chef,
+                type,
+                ingredients,
+                pax,
+                preparation,
+                pictures
+            }
+        },
+        { new: true }
+    ).then(old => {
+        if (old !== null) {
+            res.json(old);
+            console.log("Receipt updated");
+        } else {
+            console.log("UPDATE ERROR");
+            res.json(old);
+        }
+    });
+});
+
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), async (req, res) => {
     const type = req.file.mimetype;
