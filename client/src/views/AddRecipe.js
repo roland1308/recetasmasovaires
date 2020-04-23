@@ -3,6 +3,8 @@ import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import RecipeTable from '../components/RecipeTable';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { TiDeleteOutline } from 'react-icons/ti';
+
 import { connect } from "react-redux";
 
 const axios = require("axios");
@@ -25,7 +27,8 @@ class AddRecipe extends Component {
             nrOfPictures: 0,
             picture: "",
             pictures: [],
-            isFormInvalid: true
+            isFormInvalid: true,
+            removingImg: []
         }
     };
 
@@ -152,15 +155,27 @@ class AddRecipe extends Component {
             try {
                 await axios.post("recipes/update", data)
             } catch (error) {
-                console.log(error.message);
+                console.log(error.message)
             }
         }
         this.props.history.push("/");
     };
 
+    deleteImage = (index) => {
+        let imgArray = this.state.pictures
+        let imgRemoveList = this.state.removingImg
+        imgRemoveList.push(imgArray[index].src)
+        imgArray.splice(index, 1)
+        this.setState({
+            pictures: imgArray,
+            nrOfPictures: this.state.nrOfPictures - 1,
+            removingImg: imgRemoveList
+        })
+    }
+
     render() {
         return (
-            <div>
+            < div >
                 <Form className="container">
                     <FormGroup className="underline">
                         <Label for="name">Nombre receta:</Label>
@@ -245,7 +260,7 @@ class AddRecipe extends Component {
                                 this.state.pictures.map((picture, index) => {
                                     return (
                                         <div className="col-sm-3" key={index}>
-                                            <img className="pictureSmall" src={picture.src} alt={index} />
+                                            {this.props.recipeAction !== "add" && <TiDeleteOutline onClick={() => this.deleteImage(index)} className="deleteSvg float-right" />}                                            <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
                                     )
                                 })}
@@ -255,12 +270,12 @@ class AddRecipe extends Component {
                     </FormGroup>
                 </Form>
                 <nav className="navbar fixed-bottom navbar-light bg-light">
-                    <Button className="navbar-brand" color="success" onClick={() => this.sendData(this.state)} id="submitForm">
+                    <Button className="navbar-brand recipeButton" color="success" onClick={() => this.sendData(this.state)} id="submitForm">
                         {this.props.recipeAction === "add" ? "¡Añade!" : "¡Cambia!"}
                     </Button>
-                    <Button className="navbar-brand" color="warning" onClick={() => this.props.history.push("/")} id="submitForm">¡Anula!</Button>
+                    <Button className="navbar-brand recipeButton" color="warning" onClick={() => this.props.history.push("/")} id="submitForm">¡Anula!</Button>
                 </nav>
-            </div>
+            </div >
         );
     }
 }

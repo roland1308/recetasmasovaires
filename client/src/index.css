@@ -43,6 +43,11 @@ th:nth-child(2) {
   margin: 0.5rem 0;
 }
 
+.recipeButton {
+  width: 120px;
+  margin: 0 !important;
+}
+
 .filterButton {
   margin-bottom: 2px;
 }
@@ -61,6 +66,9 @@ span {
   position: sticky !important;
   top: 0;
   z-index: 20;
+  -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 
 .pictureSmall {
@@ -142,4 +150,22 @@ table {
 
 .editPen {
   color: green;
+}
+
+.deletePen {
+  color: red;
+  font-size: 1.5rem;
+}
+
+.deleteSvg {
+  font-size: 1.5rem;
+  transform: translate(-5px, 30px);
+  border-radius: 50%;
+  color: white;
+  background-color: red;
+}
+
+.card-title {
+  white-space: normal;
+  line-height: 2rem;
 }

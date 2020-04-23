@@ -60,7 +60,7 @@ router.post('/add', (req, res) => {
 
 /*update a recipe*/
 router.post('/update', (req, res) => {
-    const { _id, name, chef, type, ingredients, pax, preparation, pictures } = req.body
+    const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg } = req.body
     recipeModel.findOneAndUpdate(
         { _id },
         {
@@ -77,6 +77,14 @@ router.post('/update', (req, res) => {
         { new: true }
     ).then(old => {
         if (old !== null) {
+            for (img of removingImg) {
+                let destroyImg = img.substr(62, (img.length) - 66)
+                cloudinary.v2.uploader.destroy(destroyImg, (err, result) => {
+                    if (err) {
+                        return res.send("err")
+                    }
+                })
+            }
             res.json(old);
             console.log("Receipt updated");
         } else {
@@ -85,6 +93,11 @@ router.post('/update', (req, res) => {
         }
     });
 });
+
+/*remove a picture from a recipe*/
+router.delete('/deletePicture', (req, res) => {
+    let { _id, imgLink } = req.body
+})
 
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), async (req, res) => {

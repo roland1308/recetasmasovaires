@@ -9,7 +9,9 @@ import {
 
 import RecipeTable from './RecipeTable';
 
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt } from 'react-icons/fa'
+import { TiDeleteOutline } from 'react-icons/ti'
+
 
 const RecipeCard = (props) => {
     return (
@@ -17,12 +19,13 @@ const RecipeCard = (props) => {
             <div className="card-header" id={"heading" + props.toggler}>
                 <button className="btnFullWidth linkNoDecoration btn btn-link collapsed" data-toggle="collapse" data-target={"#collapse" + props.toggler} aria-expanded="false" aria-controls={"collapse" + props.toggler}>
                     <CardBody>
-                        <Link to={{ pathname: "/editrecipe", state: props }} class="float-right linkNoDecoration editPen"><FaPencilAlt /></Link>
+                        <TiDeleteOutline class="float-right linkNoDecoration deletePen" />
                         <CardTitle>{props.recipe.name}</CardTitle>
                         <CardSubtitle>{"Un " + props.recipe.type + " de: " + props.recipe.chef + "."}</CardSubtitle>
                         {props.recipe.pax > 0 && (
                             <CardSubtitle>{"Para " + props.recipe.pax + " personas."}</CardSubtitle>
                         )}
+                        <Link to={{ pathname: "/editrecipe", state: props }} class="float-right linkNoDecoration editPen"><FaPencilAlt /></Link>
                     </CardBody>
                 </button>
             </div>
