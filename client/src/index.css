@@ -169,3 +169,8 @@ table {
   white-space: normal;
   line-height: 2rem;
 }
+
+.card-header {
+  margin: 12px 20px !important;
+  padding: 0 !important;
+}

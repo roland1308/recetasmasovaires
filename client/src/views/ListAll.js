@@ -88,11 +88,11 @@ class ListAll extends Component {
                     <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                         Busca receta por:
                     </button>
-                    <div class="collapse" id="collapseFilter">
+                    <div className="collapse" id="collapseFilter">
                         <div className="card-body filterFields">
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="chef" id="chef">
-                                    <option value="" disabled selected hidden>cocinero:</option>
+                                <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value="">
+                                    <option disabled hidden>cocinero:</option>
                                     <option>todos los cocineros</option>
                                     {this.state.chefsList.map((chef, index) => {
                                         return (<option key={index}>{chef}</option>)
@@ -107,8 +107,8 @@ class ListAll extends Component {
                                 <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="type" id="type">
-                                    <option value="" disabled selected hidden>típo de plato:</option>
+                                <Input onChange={this.changeFilter} type="select" name="type" id="type" value="">
+                                    <option disabled hidden>típo de plato:</option>
                                     <option>todos los platos</option>
                                     <option>entrante</option>
                                     <option>primero</option>

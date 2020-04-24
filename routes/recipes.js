@@ -28,6 +28,8 @@ const upload = multer({ storage: storage });
 /*get all recipes*/
 router.get('/all',
     (req, res) => {
+        removeOldFiles("./uploads/resized")
+        removeOldFiles("./uploads")
         recipeModel.find({})
             .then(files => {
                 res.send(files)
@@ -95,9 +97,18 @@ router.post('/update', (req, res) => {
 });
 
 /*remove a picture from a recipe*/
-router.delete('/deletePicture', (req, res) => {
-    let { _id, imgLink } = req.body
-})
+router.delete('/delete', (req, res) => {
+    const { _id } = req.body
+    recipeModel.findOneAndDelete({ _id }).then(result => {
+        if (result) {
+            console.log("Successful deletion");
+            res.send(result);
+        } else {
+            console.log("NON TROVATA");
+            res.send(result);
+        }
+    });
+});
 
 /*add photo to uploads folder*/
 router.post("/addphoto", upload.single("picture"), async (req, res) => {
@@ -129,17 +140,17 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
 //     res.send("ok")
 // })
 
-// removeOldFiles = directory => {
-//     fs.readdir(directory, { withFileTypes: true }, (err, files) => {
-//         if (err) throw err;
-//         for (const file of files) {
-//             if (file.isDirectory() !== true) {
-//                 fs.unlink(path.join(directory, file.name), err => {
-//                     if (err) throw err;
-//                 });
-//             }
-//         }
-//     });
-// }
+removeOldFiles = directory => {
+    fs.readdir(directory, { withFileTypes: true }, (err, files) => {
+        if (err) throw err;
+        for (const file of files) {
+            if (file.isDirectory() !== true) {
+                fs.unlink(path.join(directory, file.name), err => {
+                    if (err) throw err;
+                });
+            }
+        }
+    });
+}
 
 module.exports = router

@@ -34,8 +34,8 @@ class AddRecipe extends Component {
 
     componentDidMount = () => {
         let submitTag = document.getElementById("submitForm")
-        submitTag.classList.add("disabled")
         const { recipeAction, recipe } = this.props
+        if (recipeAction !== "edit") { submitTag.classList.add("disabled") }
         if (recipeAction === "edit") {
             const {
                 _id,
