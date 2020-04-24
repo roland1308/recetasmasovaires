@@ -28,8 +28,8 @@ const upload = multer({ storage: storage });
 /*get all recipes*/
 router.get('/all',
     (req, res) => {
-        removeOldFiles("./uploads/resized")
-        removeOldFiles("./uploads")
+        // removeOldFiles("./uploads/resized")
+        // removeOldFiles("./uploads")
         recipeModel.find({})
             .then(files => {
                 res.send(files)

@@ -260,7 +260,10 @@ class AddRecipe extends Component {
                                 this.state.pictures.map((picture, index) => {
                                     return (
                                         <div className="col-sm-3" key={index}>
-                                            {this.props.recipeAction !== "add" && <TiDeleteOutline onClick={() => this.deleteImage(index)} className="deleteSvg float-right" />}                                            <img className="pictureSmall" src={picture.src} alt={index} />
+                                            {this.props.recipeAction !== "add" &&
+                                                <TiDeleteOutline onClick={() => this.deleteImage(index)} className="deleteSvg float-right" />
+                                            }
+                                            <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
                                     )
                                 })}
