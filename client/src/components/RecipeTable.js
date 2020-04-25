@@ -8,16 +8,14 @@ export default function RecipeTable(props) {
                 <Table hover size="sm">
                     <thead>
                         <tr>
-                            {/* <th>#</th> */}
                             <th>Ingrediente</th>
                             <th>Cantidad</th>
                         </tr>
                     </thead>
-                    {props.ingredients.length && props.ingredients.map((ingredient, index) => {
+                    {props.ingredients.map((ingredient, index) => {
                         return (
                             <tbody key={index}>
                                 <tr>
-                                    {/* <th scope="row">{index + 1}</th> */}
                                     <td>{ingredient.ingredient}</td>
                                     <td>{ingredient.qty}</td>
                                 </tr>

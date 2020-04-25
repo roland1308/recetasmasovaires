@@ -31,7 +31,9 @@ class LandingPage extends Component {
     render() {
         return (
             <div>
-                <h2>¡Bienvenid@s a nuestro Libro de Recetas!</h2>
+                <br></br>
+                <h3>¡Bienvenid@s a nuestro</h3>
+                <h2> Libro de Recetas!</h2>
                 <hr></hr>
                 <Link to="./listall" className="linkNoDecoration">
                     <Button className="landButton" color="success" size="large">

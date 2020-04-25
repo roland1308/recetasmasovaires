@@ -159,7 +159,6 @@ table {
 
 .deleteSvg {
   font-size: 1.5rem;
-  transform: translate(-5px, 30px);
   border-radius: 50%;
   color: white;
   background-color: red;
@@ -173,4 +172,13 @@ table {
 .card-header {
   margin: 12px 20px !important;
   padding: 0 !important;
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+.ql-editor,
+.ql-blank {
+  font-size: 1rem;
 }

@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import RecipeTable from '../components/RecipeTable';
-import TextareaAutosize from 'react-textarea-autosize';
+
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import { TiDeleteOutline } from 'react-icons/ti';
 
 import { connect } from "react-redux";
+import { ingredientAdd, setNrOfIngs, recipeReset } from '../store/actions/mainActions';
 
 const axios = require("axios");
 
@@ -18,10 +21,8 @@ class AddRecipe extends Component {
             name: "",
             chef: "",
             type: "entrante",
-            nrOfIngredients: 0,
             ingredient: "",
             ingQty: "",
-            ingredients: [],
             pax: undefined,
             preparation: "",
             nrOfPictures: 0,
@@ -30,38 +31,54 @@ class AddRecipe extends Component {
             isFormInvalid: true,
             removingImg: []
         }
-    };
+    }
 
     componentDidMount = () => {
         let submitTag = document.getElementById("submitForm")
         const { recipeAction, recipe } = this.props
-        if (recipeAction !== "edit") { submitTag.classList.add("disabled") }
         if (recipeAction === "edit") {
             const {
                 _id,
                 name,
                 chef,
                 type,
-                ingredients,
                 pax,
                 preparation,
                 pictures
             } = recipe
-            const nrOfIngredients = ingredients.length
+            this.props.dispatch(setNrOfIngs(recipe.ingredients.length))
             const nrOfPictures = pictures.length
             this.setState({
                 _id,
                 name,
                 chef,
                 type,
-                nrOfIngredients,
-                ingredients,
                 pax,
                 preparation,
                 nrOfPictures,
                 pictures,
                 isFormInvalid: false
             })
+        } else {
+            this.props.dispatch(recipeReset())
+            submitTag.classList.add("disabled")
+        }
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState !== this.state) {
+            const { name, chef, preparation, nrOfPictures } = this.state
+            if (name !== "" &&
+                chef !== "" &&
+                this.props.nrOfIngredients > 0 &&
+                preparation !== "" &&
+                nrOfPictures > 0) {
+                let submitTag = document.getElementById("submitForm")
+                submitTag.classList.remove("disabled")
+            } else {
+                let submitTag = document.getElementById("submitForm")
+                submitTag.classList.add("disabled")
+            }
         }
     }
 
@@ -96,16 +113,17 @@ class AddRecipe extends Component {
         }
     }
 
+    changePreparation = (value) => {
+        this.setState({
+            preparation: value
+        })
+    }
+
     addIngredient = (e) => {
         e.preventDefault()
-        let ings = this.state.ingredients
-        ings.push({
-            ingredient: this.state.ingredient,
-            qty: this.state.ingQty
-        })
+        let { ingredient, ingQty } = this.state
+        this.props.dispatch(ingredientAdd({ ingredient, ingQty }))
         this.setState({
-            ingredients: ings,
-            nrOfIngredients: this.state.nrOfIngredients + 1,
             ingredient: "",
             ingQty: ""
         })
@@ -125,38 +143,29 @@ class AddRecipe extends Component {
         document.getElementById('picture').value = ''
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
-        if (prevState !== this.state) {
-            const { name, chef, nrOfIngredients, preparation, nrOfPictures } = this.state
-            if (name !== "" &&
-                chef !== "" &&
-                nrOfIngredients > 0 &&
-                preparation !== "" &&
-                nrOfPictures > 0) {
-                let submitTag = document.getElementById("submitForm")
-                submitTag.classList.remove("disabled")
-            } else {
-                let submitTag = document.getElementById("submitForm")
-                submitTag.classList.add("disabled")
-            }
-        }
-    }
-
     async sendData(data) {
+        const recipeComplete = {
+            _id: data._id,
+            name: data.name,
+            chef: data.chef,
+            type: data.type,
+            ingredients: this.props.recipe.ingredients,
+            pax: data.pax,
+            preparation: data.preparation,
+            pictures: data.pictures,
+            removingImg: data.removingImg
+        }
+        console.log(recipeComplete)
         let submitTag = document.getElementById("submitForm")
         submitTag.classList.add("disabled")
+        let URL = "recipes/update"
         if (this.props.recipeAction === "add") {
-            try {
-                await axios.post("recipes/add", data)
-            } catch (error) {
-                console.log(error.message);
-            }
-        } else {
-            try {
-                await axios.post("recipes/update", data)
-            } catch (error) {
-                console.log(error.message)
-            }
+            URL = "recipes/add"
+        }
+        try {
+            await axios.post(URL, recipeComplete)
+        } catch (error) {
+            console.log(error.message);
         }
         this.props.history.push("/");
     };
@@ -174,8 +183,21 @@ class AddRecipe extends Component {
     }
 
     render() {
+        let { name, chef, type, pax, ingredient, ingQty, preparation, nrOfPictures, picture, pictures } = this.state
+        const { nrOfIngredients, recipe } = this.props
+        const modules = {
+            toolbar: [
+                ['bold', 'italic'],
+                [{ 'list': 'bullet' }],
+                ['clean']
+            ],
+        }
+        const formats = [
+            'bold', 'italic',
+            'list', 'bullet'
+        ]
         return (
-            < div >
+            <div>
                 <Form className="container">
                     <FormGroup className="underline">
                         <Label for="name">Nombre receta:</Label>
@@ -185,7 +207,7 @@ class AddRecipe extends Component {
                             name="name"
                             id="name"
                             placeholder="¿Como se llama tu receta?"
-                            value={this.state.name} />
+                            value={name} />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="chef">Tu nombre:</Label>
@@ -195,11 +217,11 @@ class AddRecipe extends Component {
                             name="chef"
                             id="chef"
                             placeholder="¿Quien és el chef?"
-                            value={this.state.chef} />
+                            value={chef} />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="type">¿Que plato és?</Label>
-                        <Input onChange={this.changeField} type="select" name="type" id="type" value={this.state.type}>
+                        <Input onChange={this.changeField} type="select" name="type" id="type" value={type}>
                             <option>entrante</option>
                             <option>primero</option>
                             <option>segundo</option>
@@ -216,19 +238,19 @@ class AddRecipe extends Component {
                             name="pax"
                             id="pax"
                             placeholder={"¿Para cuantas personas?"}
-                            value={this.state.pax}
+                            value={pax}
                         />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="ingredient">Ingredientes:</Label>
-                        {this.state.nrOfIngredients > 0 && <><RecipeTable ingredients={this.state.ingredients} /><br></br></>}
+                        {nrOfIngredients > 0 && <><RecipeTable ingredients={recipe.ingredients} /><br></br></>}
                         <Input
                             onChange={this.changeField}
                             type="text"
                             name="ingredient"
                             id="ingredient"
-                            placeholder={"Ingrediente nr. " + (this.state.nrOfIngredients + 1)}
-                            value={this.state.ingredient}
+                            placeholder={"Ingrediente nr. " + (nrOfIngredients + 1)}
+                            value={ingredient}
                         />
                         <Input
                             onChange={this.changeField}
@@ -236,32 +258,33 @@ class AddRecipe extends Component {
                             name="ingQty"
                             id="ingQty"
                             placeholder={"Cantitad"}
-                            value={this.state.ingQty}
+                            value={ingQty}
                         />
-                        <Button color="primary" onClick={this.addIngredient} disabled={this.state.ingredient === "" || this.state.ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
+                        <Button color="primary" onClick={this.addIngredient} disabled={ingredient === "" || ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="preparation">Preparación:</Label>
                         <br></br>
-                        <TextareaAutosize
-                            style={{ width: "100%" }}
-                            useCacheForDOMMeasurements
-                            minRows={3}
-                            onChange={this.changeField}
+                        <ReactQuill
+                            theme="snow"
+                            modules={modules}
+                            formats={formats}
+                            onChange={this.changePreparation}
                             name="preparation"
                             id="preparation"
-                            value={this.state.preparation}
-                            placeholder="¿Como se hace?" />
+                            placeholder={"¿Como se hace?"}
+                            value={preparation}
+                        />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="picture">Foto(s):</Label>
                         <div className="row">
-                            {this.state.nrOfPictures > 0 &&
-                                this.state.pictures.map((picture, index) => {
+                            {nrOfPictures > 0 &&
+                                pictures.map((picture, index) => {
                                     return (
                                         <div className="col-sm-3" key={index}>
                                             {this.props.recipeAction !== "add" &&
-                                                <TiDeleteOutline onClick={() => this.deleteImage(index)} className="deleteSvg float-right" />
+                                                <TiDeleteOutline onClick={() => { if (window.confirm(`¿Estás seguro que quieres eliminar esta foto?`)) this.deleteImage(index) }} className="deleteSvg float-right" style={{ transform: "translate(-5px, 30px)" }} />
                                             }
                                             <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
@@ -269,7 +292,7 @@ class AddRecipe extends Component {
                                 })}
                         </div>
                         <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <Button color="primary" onClick={this.addPhoto} disabled={this.state.picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
+                        <Button color="primary" onClick={this.addPhoto} disabled={picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
                 </Form>
                 <nav className="navbar fixed-bottom navbar-light bg-light">
@@ -285,7 +308,8 @@ class AddRecipe extends Component {
 
 const mapStateToProps = state => ({
     recipeAction: state.main.recipeAction,
-    recipe: state.main.recipe
+    recipe: state.main.recipe,
+    nrOfIngredients: state.main.nrOfIngredients,
 });
 
 export default connect(mapStateToProps)(AddRecipe);

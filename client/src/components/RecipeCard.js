@@ -53,7 +53,7 @@ class RecipeCard extends Component {
                         </Button>
                         <UncontrolledCollapse toggler={"#preparationToggler" + this.props.toggler}>
                             <CardBody>
-                                {preparation}
+                                <div dangerouslySetInnerHTML={{ __html: preparation }}></div>
                             </CardBody>
                         </UncontrolledCollapse>
                     </CardBody>
