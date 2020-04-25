@@ -3,11 +3,12 @@ import {
     RECIPE_EDIT,
     RECIPE_RESET,
     INGREDIENT_ADD,
+    INGREDIENT_REMOVE,
     SET_NR_OF_INGS
 } from '../actions/mainActions';
 
 const initialState = {
-    recipeAction: "",
+    recipeAction: "add",
     recipe: {
         ingredients: []
     },
@@ -29,7 +30,7 @@ export default function mainReducer(state = initialState, action) {
             }
         case RECIPE_RESET:
             return {
-                recipeAction: "",
+                recipeAction: "add",
                 recipe: {
                     ingredients: []
                 },
@@ -45,6 +46,14 @@ export default function mainReducer(state = initialState, action) {
                 ...state,
                 recipe: copyRecipe,
                 nrOfIngredients: state.nrOfIngredients + 1
+            }
+        case INGREDIENT_REMOVE:
+            let copyRecipeForDel = state.recipe
+            copyRecipeForDel.ingredients.slice(action.payload, 1)
+            return {
+                ...state,
+                recipe: copyRecipeForDel,
+                nrOfIngredients: state.nrOfIngredients - 1
             }
         case SET_NR_OF_INGS:
             return {

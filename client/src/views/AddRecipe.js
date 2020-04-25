@@ -155,7 +155,6 @@ class AddRecipe extends Component {
             pictures: data.pictures,
             removingImg: data.removingImg
         }
-        console.log(recipeComplete)
         let submitTag = document.getElementById("submitForm")
         submitTag.classList.add("disabled")
         let URL = "recipes/update"
