@@ -23,7 +23,7 @@ class AddRecipe extends Component {
             type: "entrante",
             ingredient: "",
             ingQty: "",
-            pax: undefined,
+            pax: 0,
             preparation: "",
             nrOfPictures: 0,
             picture: "",
@@ -236,9 +236,8 @@ class AddRecipe extends Component {
                             type="number"
                             name="pax"
                             id="pax"
-                            placeholder={"¿Para cuantas personas?"}
-                            value={pax}
-                        />
+                            placeholder="¿Para cuantas personas?"
+                            value={pax > 0 ? pax : undefined} />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="ingredient">Ingredientes:</Label>
@@ -249,8 +248,7 @@ class AddRecipe extends Component {
                             name="ingredient"
                             id="ingredient"
                             placeholder={"Ingrediente nr. " + (nrOfIngredients + 1)}
-                            value={ingredient}
-                        />
+                            value={ingredient} />
                         <Input
                             onChange={this.changeField}
                             type="text"

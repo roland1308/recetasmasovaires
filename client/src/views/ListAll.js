@@ -91,7 +91,7 @@ class ListAll extends Component {
                     <div className="collapse" id="collapseFilter">
                         <div className="card-body filterFields">
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value="">
+                                <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value={this.state.chef}>
                                     <option disabled hidden>cocinero:</option>
                                     <option>todos los cocineros</option>
                                     {this.state.chefsList.map((chef, index) => {
@@ -107,7 +107,7 @@ class ListAll extends Component {
                                 <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="type" id="type" value="">
+                                <Input onChange={this.changeFilter} type="select" name="type" id="type" value={this.state.type}>
                                     <option disabled hidden>típo de plato:</option>
                                     <option>todos los platos</option>
                                     <option>entrante</option>
