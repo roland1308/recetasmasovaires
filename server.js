@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
 const path = require('path');
-const cors = require('cors');
 
 const bodyParser = require("body-parser");
 
@@ -39,6 +38,10 @@ app.use(function (req, res, next) {
 });
 
 app.use('/recipes', require('./routes/recipes'))
+app.use('/recipesita', require('./routes/recipesita'))
+app.use('/recipeseng', require('./routes/recipeseng'))
+app.use('/recipescat', require('./routes/recipescat'))
+app.use('/users', require('./routes/users'))
 
 // Serve static assets if we are in production
 if (process.env.NODE_ENV === "production") {

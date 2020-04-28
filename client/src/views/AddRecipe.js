@@ -20,7 +20,7 @@ class AddRecipe extends Component {
             _id: "",
             name: "",
             chef: "",
-            type: "entrante",
+            type: "",
             ingredient: "",
             ingQty: "",
             pax: 0,
@@ -156,10 +156,10 @@ class AddRecipe extends Component {
             removingImg: data.removingImg
         }
         let submitTag = document.getElementById("submitForm")
+        let URL = this.props.url + "update"
         submitTag.classList.add("disabled")
-        let URL = "recipes/update"
         if (this.props.recipeAction === "add") {
-            URL = "recipes/add"
+            URL = this.props.url + "add"
         }
         try {
             await axios.post(URL, recipeComplete)
@@ -195,72 +195,81 @@ class AddRecipe extends Component {
             'bold', 'italic',
             'list', 'bullet'
         ]
+        const { language } = this.props
         return (
-            <div>
+            < div >
                 <Form className="container">
                     <FormGroup className="underline">
-                        <Label for="name">Nombre receta:</Label>
+                        <Label for="name">{language[7]}</Label>
                         <Input
                             onChange={this.changeField}
                             type="text"
                             name="name"
                             id="name"
-                            placeholder="¿Como se llama tu receta?"
+                            placeholder={language[8]}
                             value={name} />
                     </FormGroup>
                     <FormGroup className="underline">
-                        <Label for="chef">Tu nombre:</Label>
+                        <Label for="chef">{language[9]}</Label>
                         <Input
                             onChange={this.changeField}
                             type="text"
                             name="chef"
                             id="chef"
-                            placeholder="¿Quien és el chef?"
+                            placeholder={language[10]}
                             value={chef} />
                     </FormGroup>
                     <FormGroup className="underline">
-                        <Label for="type">¿Que plato és?</Label>
+                        <Label for="type">{language[11]}</Label>
                         <Input onChange={this.changeField} type="select" name="type" id="type" value={type}>
-                            <option>entrante</option>
-                            <option>primero</option>
-                            <option>segundo</option>
-                            <option>acompañamiento</option>
-                            <option>postre</option>
-                            <option>plato único</option>
+                            <option>{language[12]}</option>
+                            <option>{language[13]}</option>
+                            <option>{language[14]}</option>
+                            <option>{language[15]}</option>
+                            <option>{language[16]}</option>
+                            <option>{language[17]}</option>
                         </Input>
                     </FormGroup>
                     <FormGroup className="underline">
-                        <Label for="pax">Personas: (0 = sin especificar)</Label>
+                        <Label for="pax">{language[18]}</Label>
                         <Input
                             onChange={this.changeField}
                             type="number"
                             name="pax"
                             id="pax"
-                            placeholder="¿Para cuantas personas?"
+                            placeholder={language[19]}
                             value={pax > 0 ? pax : undefined} />
                     </FormGroup>
                     <FormGroup className="underline">
-                        <Label for="ingredient">Ingredientes:</Label>
+                        <Label for="ingredient">{language[20]}</Label>
                         {nrOfIngredients > 0 && <><RecipeTable ingredients={recipe.ingredients} /><br></br></>}
                         <Input
                             onChange={this.changeField}
                             type="text"
                             name="ingredient"
                             id="ingredient"
-                            placeholder={"Ingrediente nr. " + (nrOfIngredients + 1)}
+                            placeholder={language[21] + (nrOfIngredients + 1)}
                             value={ingredient} />
                         <Input
                             onChange={this.changeField}
                             type="text"
                             name="ingQty"
                             id="ingQty"
-                            placeholder={"Cantitad"}
+                            placeholder={language[22]}
                             value={ingQty}
                         />
-                        <Button color="primary" onClick={this.addIngredient} disabled={ingredient === "" || ingQty === "" ? true : false}>¡Añade ingrediente! <Badge color="info" pill>+</Badge></Button>
+                        <Button
+                            color="primary"
+                            onClick={this.addIngredient}
+                            disabled={ingredient === "" || ingQty === "" ?
+                                true : false
+                            }>
+                            {language[23]}
+                            <Badge color="info" pill>+</Badge>
+                        </Button>
                     </FormGroup>
                     <FormGroup className="underline">
-                        <Label for="preparation">Preparación:</Label>
+                        <Label for="preparation">{language[24]}</Label>
                         <br></br>
                         <ReactQuill
                             theme="snow"
@@ -269,19 +278,19 @@ class AddRecipe extends Component {
                             onChange={this.changePreparation}
                             name="preparation"
                             id="preparation"
-                            placeholder={"¿Como se hace?"}
+                            placeholder={language[25]}
                             value={preparation}
                         />
                     </FormGroup>
                     <FormGroup className="underline">
-                        <Label for="picture">Foto(s):</Label>
+                        <Label for="picture">{language[26]}</Label>
                         <div className="row">
                             {nrOfPictures > 0 &&
                                 pictures.map((picture, index) => {
                                     return (
                                         <div className="col-sm-3" key={index}>
                                             {this.props.recipeAction !== "add" &&
-                                                <TiDeleteOutline onClick={() => { if (window.confirm(`¿Estás seguro que quieres eliminar esta foto?`)) this.deleteImage(index) }} className="deleteSvg float-right" style={{ transform: "translate(-5px, 30px)" }} />
+                                                <TiDeleteOutline onClick={() => { if (window.confirm(language[28])) this.deleteImage(index) }} className="deleteSvg float-right" style={{ transform: "translate(-5px, 30px)" }} />
                                             }
                                             <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
@@ -289,14 +298,14 @@ class AddRecipe extends Component {
                                 })}
                         </div>
                         <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <Button color="primary" onClick={this.addPhoto} disabled={picture === "" ? true : false}>¡Añade foto(s)! <Badge color="info" pill>+</Badge></Button>
+                        <Button color="primary" onClick={this.addPhoto} disabled={picture === "" ? true : false}>{language[27]}<Badge color="info" pill>+</Badge></Button>
                     </FormGroup>
                 </Form>
                 <nav className="navbar fixed-bottom navbar-light bg-light">
                     <Button className="navbar-brand recipeButton" color="success" onClick={() => this.sendData(this.state)} id="submitForm">
-                        {this.props.recipeAction === "add" ? "¡Añade!" : "¡Cambia!"}
+                        {this.props.recipeAction === "add" ? language[29] : language[30]}
                     </Button>
-                    <Button className="navbar-brand recipeButton" color="warning" onClick={() => this.props.history.push("/")} id="submitForm">¡Anula!</Button>
+                    <Button className="navbar-brand recipeButton" color="warning" onClick={() => this.props.history.push("/")} id="submitForm">{language[31]}</Button>
                 </nav>
             </div >
         );
@@ -304,6 +313,8 @@ class AddRecipe extends Component {
 }
 
 const mapStateToProps = state => ({
+    language: state.main.language,
+    url: state.main.url,
     recipeAction: state.main.recipeAction,
     recipe: state.main.recipe,
     nrOfIngredients: state.main.nrOfIngredients,

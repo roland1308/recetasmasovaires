@@ -6,7 +6,7 @@ import { recipeEdit } from "../store/actions/mainActions";
 class editRecipe extends Component {
 
     componentDidMount() {
-        this.props.dispatch(recipeEdit(this.props.location.state.recipe));
+        this.props.dispatch(recipeEdit(this.props.location.state));
         this.props.history.push("/addrecipe")
     }
 

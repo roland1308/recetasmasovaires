@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { FormGroup, Input } from 'reactstrap';
+import { connect } from "react-redux";
 
 import RecipeCard from "../components/RecipeCard";
-
-const axios = require("axios");
 
 class ListAll extends Component {
     constructor(props) {
@@ -11,29 +10,23 @@ class ListAll extends Component {
         this.state = {
             recipes: {},
             filteredRecipes: {},
-            isLoaded: false,
-            chef: "todos los cocineros",
+            chef: props.language[33],
             chefsList: [],
             name: "",
             ingredient: "",
-            type: "todos los platos"
+            type: props.language[37]
         };
     }
 
-    async componentDidMount() {
-        try {
-            const response = await axios.get("/recipes/all");
-            this.setState({
-                recipes: response.data,
-                filteredRecipes: response.data,
-                isLoaded: true,
-                chefsList: Array.from(
-                    new Set(response.data.map(recipe => recipe.chef))
-                )
-            })
-        } catch (error) {
-            console.log(error);
-        }
+    componentDidMount() {
+        const { recipes } = this.props
+        this.setState({
+            recipes,
+            filteredRecipes: recipes,
+            chefsList: Array.from(
+                new Set(recipes.map(recipe => recipe.chef))
+            )
+        })
     }
 
     changeFilter = event => {
@@ -49,8 +42,8 @@ class ListAll extends Component {
     filterRecipes = (filterParameters) => {
         let { chef, name, ingredient, type } = filterParameters
         const singleIngredient = ingredient.split(" ")
-        chef = chef === "todos los cocineros" ? "" : chef
-        type = type === "todos los platos" ? "" : type
+        chef = chef === this.props.language[33] ? "" : chef
+        type = type === this.props.language[37] ? "" : type
         let copyRecipes = this.state.recipes.filter(recipe => {
             return (
                 recipe.chef.includes(chef)
@@ -79,21 +72,19 @@ class ListAll extends Component {
     }
 
     render() {
-        if (!this.state.isLoaded) {
-            return null
-        }
+        const { language } = this.props
         return (
             <div>
                 <div className="filters">
                     <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        Busca receta por:
+                        {language[32]}
                     </button>
                     <div className="collapse" id="collapseFilter">
                         <div className="card-body filterFields">
                             <FormGroup>
                                 <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value={this.state.chef}>
-                                    <option disabled hidden>cocinero:</option>
-                                    <option>todos los cocineros</option>
+                                    <option disabled hidden>{language[33]}</option>
+                                    <option>{language[34]}</option>
                                     {this.state.chefsList.map((chef, index) => {
                                         return (<option key={index}>{chef}</option>)
                                     }
@@ -101,21 +92,21 @@ class ListAll extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder="nombre:" />
+                                <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[35]} />
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder="ingredientes:" />
+                                <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[36]} />
                             </FormGroup>
                             <FormGroup>
                                 <Input onChange={this.changeFilter} type="select" name="type" id="type" value={this.state.type}>
-                                    <option disabled hidden>típo de plato:</option>
-                                    <option>todos los platos</option>
-                                    <option>entrante</option>
-                                    <option>primero</option>
-                                    <option>segundo</option>
-                                    <option>acompañamiento</option>
-                                    <option>postre</option>
-                                    <option>plato único</option>
+                                    <option disabled hidden>{language[37]}</option>
+                                    <option>{language[38]}</option>
+                                    <option>{language[39]}</option>
+                                    <option>{language[40]}</option>
+                                    <option>{language[41]}</option>
+                                    <option>{language[42]}</option>
+                                    <option>{language[43]}</option>
+                                    <option>{language[44]}</option>
                                     )}
                                 </Input>
                             </FormGroup>
@@ -133,7 +124,7 @@ class ListAll extends Component {
                         })}
                     </div>) :
                     (<div className="error">
-                        NINGUN RESULTADO
+                        {language[45]}
                     </div>)
                 }
             </div>
@@ -141,4 +132,9 @@ class ListAll extends Component {
     }
 }
 
-export default ListAll;
+const mapStateToProps = state => ({
+    language: state.main.language,
+    recipes: state.main.recipes,
+});
+
+export default connect(mapStateToProps)(ListAll);

@@ -1,6 +1,6 @@
 {
-  "short_name": "¡Masovaires!",
-  "name": "¡Las recetas de los Masovaires!",
+  "short_name": "My Recipes",
+  "name": "Family's recipes",
   "icons": [
     {
       "src": "masovaires.png",
