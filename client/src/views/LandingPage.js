@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { languages } from '../components/languages'
+import changeLanguage from '../components/changeLanguage';
 import { setLanguage } from '../store/actions/mainActions'
 
 import { Input, Button } from 'reactstrap';
@@ -91,38 +91,10 @@ class LandingPage extends Component {
         }
     }
 
-    setLanguage = (language) => {
-        let payload = ""
-        switch (language) {
-            case "English":
-                payload = {
-                    lang: languages().eng,
-                    url: "/recipeseng/"
-                }
-                break;
-            case "Italiano":
-                payload = {
-                    lang: languages().ita,
-                    url: "/recipesita/"
-                }
-                break;
-            case "Español":
-                payload = {
-                    lang: languages().esp,
-                    url: "/recipes/"
-                }
-                break;
-            case "Català":
-                payload = {
-                    lang: languages().cat,
-                    url: "/recipescat/"
-                }
-                break;
-            default:
-                break;
-        }
+    setLanguage = (lang) => {
+        const payload = changeLanguage(lang)
         this.props.dispatch(setLanguage(payload))
-        this.getData(payload.url + "all")
+        this.getData(this.props.user.database + "all")
     }
 
     async getData(database) {
@@ -160,6 +132,7 @@ class LandingPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    user: state.main.user
 })
 
 export default connect(mapStateToProps)(LandingPage)

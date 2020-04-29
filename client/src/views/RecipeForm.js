@@ -53,9 +53,6 @@ export default class RecipeForm extends Component {
                     );
                 break;
             default:
-                if (event.target.value === "\n") {
-                    console.log("ACCAPO")
-                }
                 this.setState({
                     [event.target.name]: event.target.value,
                 })

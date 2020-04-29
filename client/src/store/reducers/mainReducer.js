@@ -8,6 +8,8 @@ import {
     INGREDIENT_ADD,
     INGREDIENT_REMOVE,
     SET_NR_OF_INGS,
+    RECIPE_PUSH,
+    RECIPE_DELETE,
 } from '../actions/mainActions';
 
 
@@ -15,10 +17,9 @@ const initialState = {
     user: {},
     recipes: [],
     language: undefined,
-    url: "",
     recipeAction: "add",
-    recipe: {
-        ingredients: []
+    editRecipe: {
+        editIngredients: []
     },
     nrOfIngredients: 0
 };
@@ -28,8 +29,7 @@ export default function mainReducer(state = initialState, action) {
         case SET_LANGUAGE:
             return {
                 ...state,
-                language: action.payload.lang,
-                url: action.payload.url
+                language: action.payload
             }
         case SET_RECIPES:
             return {
@@ -47,37 +47,63 @@ export default function mainReducer(state = initialState, action) {
                 recipeAction: "add"
             };
         case RECIPE_EDIT:
+            const edit = {
+                editIngredients: action.payload.ingredients,
+                pictures: action.payload.pictures,
+                _id: action.payload._id,
+                name: action.payload.name,
+                chef: action.payload.chef,
+                type: action.payload.type,
+                pax: action.payload.pax,
+                preparation: action.payload.preparation
+            }
             return {
                 ...state,
                 recipeAction: "edit",
-                recipe: action.payload
+                editRecipe: edit
             }
         case RECIPE_RESET:
             return {
                 ...state,
                 recipeAction: "add",
-                recipe: {
-                    ingredients: []
+                editRecipe: {
+                    editIngredients: []
                 },
                 nrOfIngredients: 0
             }
-        case INGREDIENT_ADD:
-            let copyRecipe = state.recipe
-            copyRecipe.ingredients.push({
-                ingredient: action.payload.ingredient,
-                qty: action.payload.ingQty
-            })
+        case RECIPE_PUSH:
+            let copyRecipes = state.recipes
+            copyRecipes.push(action.payload)
             return {
                 ...state,
-                recipe: copyRecipe,
+                recipes: copyRecipes,
+            }
+        case RECIPE_DELETE:
+            let copyRecipeDeleted = state.recipes
+            const index = copyRecipeDeleted.findIndex(x => x._id === action.payload)
+            copyRecipeDeleted.splice(index, 1)
+            console.log("index", index, "payload", action.payload, copyRecipeDeleted)
+            return {
+                ...state,
+                recipes: copyRecipeDeleted
+            }
+        case INGREDIENT_ADD:
+            let copyRecipe = state.editRecipe
+            copyRecipe.editIngredients = [
+                ...copyRecipe.editIngredients,
+                action.payload
+            ]
+            return {
+                ...state,
+                editRecipe: copyRecipe,
                 nrOfIngredients: state.nrOfIngredients + 1
             }
         case INGREDIENT_REMOVE:
-            let copyRecipeForDel = state.recipe
-            copyRecipeForDel.ingredients.slice(action.payload, 1)
+            let copyRecipeForDel = state.editRecipe
+            copyRecipeForDel.editIngredients.slice(action.payload, 1)
             return {
                 ...state,
-                recipe: copyRecipeForDel,
+                editRecipe: copyRecipeForDel,
                 nrOfIngredients: state.nrOfIngredients - 1
             }
         case SET_NR_OF_INGS:

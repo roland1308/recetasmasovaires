@@ -73,7 +73,7 @@ export function languages() {
             // LandingPage
             "Family's Recipes",
             "Welcome to our",
-            "Recipe book!",
+            "Recipes' book!",
             "Search",
             "Search among the recipes.",
             "Add",
@@ -140,7 +140,7 @@ export function languages() {
         ita: [
             // LandingPage
             "Ricette di famiglia",
-            "Benvenuti nel nostro",
+            "Benvenut@ nel nostro",
             "Ricettario!",
             "Cerca",
             "Cerca tra le ricette presenti.",

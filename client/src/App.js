@@ -5,8 +5,8 @@ import ListAll from './views/ListAll';
 import AddRecipe from './views/AddRecipe';
 import EditRecipe from './components/EditRecipe';
 
-import { languages } from './components/languages'
 import { setLanguage } from "./store/actions/mainActions";
+import changeLanguage from './components/changeLanguage';
 import { connect } from "react-redux";
 
 import {
@@ -36,28 +36,9 @@ class App extends Component {
   // }
 
   setLanguage = (lang) => {
-    let payload = {
-      lang: "",
-      url: this.props.url
-    }
-    this.toggle()
-    switch (lang) {
-      case "English":
-        payload.lang = languages().eng
-        break;
-      case "Italiano":
-        payload.lang = languages().ita
-        break;
-      case "Español":
-        payload.lang = languages().esp
-        break;
-      case "Català":
-        payload.lang = languages().cat
-        break;
-      default:
-        break;
-    }
+    const payload = changeLanguage(lang)
     this.props.dispatch(setLanguage(payload))
+    this.toggle()
   }
 
   toggle() {
@@ -66,14 +47,14 @@ class App extends Component {
     });
   }
   render() {
-    const { language } = this.props
+    const { language, user } = this.props
     return (
       <div className="App">
         {language !== undefined ? (
           <BrowserRouter>
             <Navbar color="inverse" light expand="md">
               <Link className="linkNoDecoration navbar" to="/">
-                {language[0]}
+                {user.book}
               </Link>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
@@ -108,7 +89,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   language: state.main.language,
-  url: state.main.url,
+  user: state.main.user,
 });
 
 export default connect(mapStateToProps)(App);

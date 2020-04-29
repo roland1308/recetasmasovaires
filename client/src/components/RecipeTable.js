@@ -16,10 +16,20 @@ class RecipeTable extends Component {
     }
 
     componentDidMount() {
-        if (this.props.recipe.ingredients.length > 0) {
-            this.setState({ editedIngredients: this.props.recipe.ingredients })
+        if (this.props.editRecipe.editIngredients.length > 0) {
+            this.setState({ editedIngredients: this.props.editRecipe.editIngredients })
         } else {
             this.setState({ editedIngredients: this.props.ingredients })
+        }
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.nrOfIngredients !== this.props.nrOfIngredients) {
+            if (this.props.editRecipe.editIngredients.length > 0) {
+                this.setState({ editedIngredients: this.props.editRecipe.editIngredients })
+            } else {
+                this.setState({ editedIngredients: this.props.ingredients })
+            }
         }
     }
 
@@ -65,7 +75,7 @@ class RecipeTable extends Component {
 const mapStateToProps = state => ({
     language: state.main.language,
     recipeAction: state.main.recipeAction,
-    recipe: state.main.recipe,
+    editRecipe: state.main.editRecipe,
     nrOfIngredients: state.main.nrOfIngredients,
 });
 

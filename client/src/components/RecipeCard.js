@@ -16,7 +16,7 @@ import Axios from 'axios';
 
 class RecipeCard extends Component {
     deleteRecipe = (_id) => {
-        let URL = this.props.url + "delete"
+        let URL = this.props.user.database + "delete"
         Axios.delete(URL, {
             data: { _id }
         })
@@ -68,7 +68,7 @@ class RecipeCard extends Component {
 
 const mapStateToProps = state => ({
     language: state.main.language,
-    url: state.main.url,
+    user: state.main.user,
 });
 
 export default connect(mapStateToProps)(RecipeCard);

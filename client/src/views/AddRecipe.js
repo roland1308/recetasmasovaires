@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import { TiDeleteOutline } from 'react-icons/ti';
 
 import { connect } from "react-redux";
-import { ingredientAdd, setNrOfIngs, recipeReset } from '../store/actions/mainActions';
+import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete } from '../store/actions/mainActions';
 
 const axios = require("axios");
 
@@ -22,7 +22,7 @@ class AddRecipe extends Component {
             chef: "",
             type: "",
             ingredient: "",
-            ingQty: "",
+            qty: "",
             pax: 0,
             preparation: "",
             nrOfPictures: 0,
@@ -34,8 +34,9 @@ class AddRecipe extends Component {
     }
 
     componentDidMount = () => {
+        this.setState({ type: this.props.language[12] })
         let submitTag = document.getElementById("submitForm")
-        const { recipeAction, recipe } = this.props
+        const { recipeAction, editRecipe } = this.props
         if (recipeAction === "edit") {
             const {
                 _id,
@@ -45,8 +46,8 @@ class AddRecipe extends Component {
                 pax,
                 preparation,
                 pictures
-            } = recipe
-            this.props.dispatch(setNrOfIngs(recipe.ingredients.length))
+            } = editRecipe
+            this.props.dispatch(setNrOfIngs(editRecipe.editIngredients.length))
             const nrOfPictures = pictures.length
             this.setState({
                 _id,
@@ -121,11 +122,11 @@ class AddRecipe extends Component {
 
     addIngredient = (e) => {
         e.preventDefault()
-        let { ingredient, ingQty } = this.state
-        this.props.dispatch(ingredientAdd({ ingredient, ingQty }))
+        let { ingredient, qty } = this.state
+        this.props.dispatch(ingredientAdd({ ingredient, qty }))
         this.setState({
             ingredient: "",
-            ingQty: ""
+            qty: ""
         })
     }
 
@@ -149,18 +150,22 @@ class AddRecipe extends Component {
             name: data.name,
             chef: data.chef,
             type: data.type,
-            ingredients: this.props.recipe.ingredients,
+            ingredients: this.props.editRecipe.editIngredients,
             pax: data.pax,
             preparation: data.preparation,
             pictures: data.pictures,
             removingImg: data.removingImg
         }
         let submitTag = document.getElementById("submitForm")
-        let URL = this.props.url + "update"
         submitTag.classList.add("disabled")
+        let URL = ""
         if (this.props.recipeAction === "add") {
-            URL = this.props.url + "add"
+            URL = this.props.user.database + "add";
+        } else {
+            URL = this.props.user.database + "update"
+            this.props.dispatch(recipeDelete(recipeComplete._id))
         }
+        this.props.dispatch(recipePush(recipeComplete))
         try {
             await axios.post(URL, recipeComplete)
         } catch (error) {
@@ -182,8 +187,8 @@ class AddRecipe extends Component {
     }
 
     render() {
-        let { name, chef, type, pax, ingredient, ingQty, preparation, nrOfPictures, picture, pictures } = this.state
-        const { nrOfIngredients, recipe } = this.props
+        let { name, chef, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
+        const { nrOfIngredients, editRecipe, language } = this.props
         const modules = {
             toolbar: [
                 ['bold', 'italic'],
@@ -195,7 +200,6 @@ class AddRecipe extends Component {
             'bold', 'italic',
             'list', 'bullet'
         ]
-        const { language } = this.props
         return (
             < div >
                 <Form className="container">
@@ -242,7 +246,7 @@ class AddRecipe extends Component {
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="ingredient">{language[20]}</Label>
-                        {nrOfIngredients > 0 && <><RecipeTable ingredients={recipe.ingredients} /><br></br></>}
+                        {nrOfIngredients > 0 && <><RecipeTable ingredients={editRecipe.editIngredients} /><br></br></>}
                         <Input
                             onChange={this.changeField}
                             type="text"
@@ -253,15 +257,15 @@ class AddRecipe extends Component {
                         <Input
                             onChange={this.changeField}
                             type="text"
-                            name="ingQty"
-                            id="ingQty"
+                            name="qty"
+                            id="qty"
                             placeholder={language[22]}
-                            value={ingQty}
+                            value={qty}
                         />
                         <Button
                             color="primary"
                             onClick={this.addIngredient}
-                            disabled={ingredient === "" || ingQty === "" ?
+                            disabled={ingredient === "" || qty === "" ?
                                 true : false
                             }>
                             {language[23]}
@@ -314,9 +318,9 @@ class AddRecipe extends Component {
 
 const mapStateToProps = state => ({
     language: state.main.language,
-    url: state.main.url,
+    user: state.main.user,
     recipeAction: state.main.recipeAction,
-    recipe: state.main.recipe,
+    editRecipe: state.main.editRecipe,
     nrOfIngredients: state.main.nrOfIngredients,
 });
 
