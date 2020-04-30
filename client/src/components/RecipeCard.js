@@ -13,23 +13,30 @@ import RecipeTable from './RecipeTable';
 import { FaPencilAlt } from 'react-icons/fa'
 import { TiDeleteOutline } from 'react-icons/ti'
 import Axios from 'axios';
+import { recipeDelete } from '../store/actions/mainActions';
 
 class RecipeCard extends Component {
+
     deleteRecipe = (_id) => {
-        let URL = this.props.user.database + "delete"
-        Axios.delete(URL, {
-            data: { _id }
-        })
-        window.open("/", "_self")
+        if (_id !== "") {
+            let URL = this.props.user.database + "delete"
+            Axios.delete(URL, {
+                data: { _id }
+            })
+            this.props.dispatch(recipeDelete(_id))
+            // window.open("/", "_self")
+        }
     };
 
     render() {
-        const { language } = this.props
+        const { language, user } = this.props
         const { _id, name, type, chef, pax, pictures, ingredients, preparation } = this.props.recipe
         return (
             <div className="card">
                 <div className="card-header" id={"heading" + this.props.toggler}>
-                    <TiDeleteOutline onClick={() => { if (window.confirm(language[46] + name + "?")) this.deleteRecipe(_id) }} className="float-right linkNoDecoration deletePen" />
+                    {user.name === chef &&
+                        <TiDeleteOutline onClick={() => { if (window.confirm(language[46] + name + "?")) this.deleteRecipe(_id) }} className="float-right linkNoDecoration deletePen" />
+                    }
                     <button className="btnFullWidth linkNoDecoration btn btn-link collapsed" data-toggle="collapse" data-target={"#collapse" + this.props.toggler} aria-expanded="false" aria-controls={"collapse" + this.props.toggler}>
                         <CardBody>
                             <CardTitle>{name}</CardTitle>
@@ -39,7 +46,9 @@ class RecipeCard extends Component {
                             )}
                         </CardBody>
                     </button>
-                    <Link to={{ pathname: "/editrecipe", state: this.props.recipe }} className="float-right linkNoDecoration editPen"><FaPencilAlt /></Link>
+                    {user.name === chef &&
+                        <Link to={{ pathname: "/editrecipe", state: this.props.recipe }} className="float-right linkNoDecoration editPen"><FaPencilAlt /></Link>
+                    }
                 </div>
                 <div id={"collapse" + this.props.toggler} className="card-body collapse" aria-labelledby={"heading" + this.props.toggler} data-parent="#accordion">
                     <UncontrolledCarousel items={pictures} />

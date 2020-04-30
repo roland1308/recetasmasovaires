@@ -34,7 +34,10 @@ class AddRecipe extends Component {
     }
 
     componentDidMount = () => {
-        this.setState({ type: this.props.language[12] })
+        this.setState({
+            type: this.props.language[12],
+            chef: this.props.user.name
+        })
         let submitTag = document.getElementById("submitForm")
         const { recipeAction, editRecipe } = this.props
         if (recipeAction === "edit") {
@@ -171,8 +174,14 @@ class AddRecipe extends Component {
         } catch (error) {
             console.log(error.message);
         }
+        this.props.dispatch(recipeReset())
         this.props.history.push("/");
     };
+
+    cancelInput = () => {
+        this.props.dispatch(recipeReset())
+        this.props.history.push("/");
+    }
 
     deleteImage = (index) => {
         let imgArray = this.state.pictures
@@ -187,7 +196,7 @@ class AddRecipe extends Component {
     }
 
     render() {
-        let { name, chef, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
+        let { name, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
         const { nrOfIngredients, editRecipe, language } = this.props
         const modules = {
             toolbar: [
@@ -213,7 +222,7 @@ class AddRecipe extends Component {
                             placeholder={language[8]}
                             value={name} />
                     </FormGroup>
-                    <FormGroup className="underline">
+                    {/* <FormGroup className="underline">
                         <Label for="chef">{language[9]}</Label>
                         <Input
                             onChange={this.changeField}
@@ -222,7 +231,7 @@ class AddRecipe extends Component {
                             id="chef"
                             placeholder={language[10]}
                             value={chef} />
-                    </FormGroup>
+                    </FormGroup> */}
                     <FormGroup className="underline">
                         <Label for="type">{language[11]}</Label>
                         <Input onChange={this.changeField} type="select" name="type" id="type" value={type}>
@@ -309,7 +318,7 @@ class AddRecipe extends Component {
                     <Button className="navbar-brand recipeButton" color="success" onClick={() => this.sendData(this.state)} id="submitForm">
                         {this.props.recipeAction === "add" ? language[29] : language[30]}
                     </Button>
-                    <Button className="navbar-brand recipeButton" color="warning" onClick={() => this.props.history.push("/")} id="submitForm">{language[31]}</Button>
+                    <Button className="navbar-brand recipeButton" color="warning" onClick={this.cancelInput} id="submitForm">{language[31]}</Button>
                 </nav>
             </div >
         );

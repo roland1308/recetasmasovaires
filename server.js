@@ -38,9 +38,9 @@ app.use(function (req, res, next) {
 });
 
 app.use('/recipes', require('./routes/recipes'))
-app.use('/recipesita', require('./routes/recipesita'))
-app.use('/recipeseng', require('./routes/recipeseng'))
-app.use('/recipescat', require('./routes/recipescat'))
+app.use('/recipeitas', require('./routes/recipeitas'))
+app.use('/recipeengs', require('./routes/recipeengs'))
+app.use('/recipecats', require('./routes/recipecats'))
 app.use('/users', require('./routes/users'))
 
 // Serve static assets if we are in production

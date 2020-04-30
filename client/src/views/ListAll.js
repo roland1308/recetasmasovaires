@@ -72,7 +72,7 @@ class ListAll extends Component {
     }
 
     render() {
-        const { language } = this.props
+        const { language, nrOfRecipes } = this.props
         return (
             <div>
                 <div className="filters">
@@ -113,7 +113,7 @@ class ListAll extends Component {
                         </div>
                     </div>
                 </div>
-                {this.state.filteredRecipes.length > 0 ?
+                {(this.state.filteredRecipes.length > 0) && (nrOfRecipes > 0) ?
                     (<div className="row" id="accordion">
                         {this.state.filteredRecipes.map((recipe, index) => {
                             return (
@@ -135,6 +135,7 @@ class ListAll extends Component {
 const mapStateToProps = state => ({
     language: state.main.language,
     recipes: state.main.recipes,
+    nrOfRecipes: state.main.nrOfRecipes
 });
 
 export default connect(mapStateToProps)(ListAll);

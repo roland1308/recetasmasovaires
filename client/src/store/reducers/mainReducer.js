@@ -16,6 +16,7 @@ import {
 const initialState = {
     user: {},
     recipes: [],
+    nrOfRecipes: 0,
     language: undefined,
     recipeAction: "add",
     editRecipe: {
@@ -34,7 +35,8 @@ export default function mainReducer(state = initialState, action) {
         case SET_RECIPES:
             return {
                 ...state,
-                recipes: action.payload
+                recipes: action.payload,
+                nrOfRecipes: action.payload.length
             }
         case SET_USER:
             return {
@@ -77,15 +79,16 @@ export default function mainReducer(state = initialState, action) {
             return {
                 ...state,
                 recipes: copyRecipes,
+                nrOfRecipes: state.nrOfRecipes + 1
             }
         case RECIPE_DELETE:
             let copyRecipeDeleted = state.recipes
             const index = copyRecipeDeleted.findIndex(x => x._id === action.payload)
             copyRecipeDeleted.splice(index, 1)
-            console.log("index", index, "payload", action.payload, copyRecipeDeleted)
             return {
                 ...state,
-                recipes: copyRecipeDeleted
+                recipes: copyRecipeDeleted,
+                nrOfRecipes: state.nrOfRecipes - 1
             }
         case INGREDIENT_ADD:
             let copyRecipe = state.editRecipe

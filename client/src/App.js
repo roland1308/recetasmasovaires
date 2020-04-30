@@ -18,7 +18,6 @@ import {
   NavLink,
   Jumbotron
 } from 'reactstrap';
-import RecipeCard from './components/RecipeCard';
 import LandingPage from './views/LandingPage';
 
 class App extends Component {
@@ -74,7 +73,6 @@ class App extends Component {
                 <Route path="/listall" component={ListAll} />
                 <Route path="/addrecipe" component={AddRecipe} />
                 <Route path="/editrecipe" component={EditRecipe} />
-                <Route path="/recipecard" component={RecipeCard} />
               </Switch>
             </Jumbotron>
           </BrowserRouter>

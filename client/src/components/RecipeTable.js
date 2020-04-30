@@ -16,19 +16,21 @@ class RecipeTable extends Component {
     }
 
     componentDidMount() {
-        if (this.props.editRecipe.editIngredients.length > 0) {
-            this.setState({ editedIngredients: this.props.editRecipe.editIngredients })
+        const { recipeAction, editRecipe, ingredients } = this.props
+        if ((recipeAction === "edit") && (editRecipe.editIngredients.length > 0)) {
+            this.setState({ editedIngredients: editRecipe.editIngredients })
         } else {
-            this.setState({ editedIngredients: this.props.ingredients })
+            this.setState({ editedIngredients: ingredients })
         }
     }
 
     componentDidUpdate = (prevProps, prevState) => {
         if (prevProps.nrOfIngredients !== this.props.nrOfIngredients) {
-            if (this.props.editRecipe.editIngredients.length > 0) {
-                this.setState({ editedIngredients: this.props.editRecipe.editIngredients })
+            const { recipeAction, editRecipe, ingredients } = this.props
+            if ((recipeAction === "edit") && (editRecipe.editIngredients.length > 0)) {
+                this.setState({ editedIngredients: editRecipe.editIngredients })
             } else {
-                this.setState({ editedIngredients: this.props.ingredients })
+                this.setState({ editedIngredients: ingredients })
             }
         }
     }
