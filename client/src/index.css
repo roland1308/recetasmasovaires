@@ -108,6 +108,7 @@ span {
 .jumbotron {
   padding: 0.5rem !important;
   margin-bottom: 0 !important;
+  margin-top: -3px !important;
 }
 /* .container {
   background-color: rgb(216, 216, 241);

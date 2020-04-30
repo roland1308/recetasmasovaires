@@ -28,7 +28,6 @@ class AddRecipe extends Component {
             nrOfPictures: 0,
             picture: "",
             pictures: [],
-            isFormInvalid: true,
             removingImg: []
         }
     }
@@ -60,8 +59,7 @@ class AddRecipe extends Component {
                 pax,
                 preparation,
                 nrOfPictures,
-                pictures,
-                isFormInvalid: false
+                pictures
             })
         } else {
             this.props.dispatch(recipeReset())
@@ -79,9 +77,11 @@ class AddRecipe extends Component {
                 nrOfPictures > 0) {
                 let submitTag = document.getElementById("submitForm")
                 submitTag.classList.remove("disabled")
+                // submitTag.addEventListener("click", () => this.sendData(this.state));
             } else {
                 let submitTag = document.getElementById("submitForm")
                 submitTag.classList.add("disabled")
+                // submitTag.removeEventListener("click", () => this.sendData(this.state));
             }
         }
     }
@@ -148,34 +148,44 @@ class AddRecipe extends Component {
     }
 
     async sendData(data) {
-        const recipeComplete = {
-            _id: data._id,
-            name: data.name,
-            chef: data.chef,
-            type: data.type,
-            ingredients: this.props.editRecipe.editIngredients,
-            pax: data.pax,
-            preparation: data.preparation,
-            pictures: data.pictures,
-            removingImg: data.removingImg
+        const { name, chef, preparation, nrOfPictures } = data
+        if (name !== "" &&
+            chef !== "" &&
+            this.props.nrOfIngredients > 0 &&
+            preparation !== "" &&
+            nrOfPictures > 0) {
+            let recipeComplete = {
+                _id: data._id,
+                name: data.name,
+                chef: data.chef,
+                type: data.type,
+                ingredients: this.props.editRecipe.editIngredients,
+                pax: data.pax,
+                preparation: data.preparation,
+                pictures: data.pictures,
+                removingImg: data.removingImg
+            }
+            let submitTag = document.getElementById("submitForm")
+            submitTag.classList.add("disabled")
+            let URL = ""
+            if (this.props.recipeAction === "add") {
+                URL = this.props.user.database + "add";
+            } else {
+                URL = this.props.user.database + "update"
+                this.props.dispatch(recipeDelete(recipeComplete._id))
+            }
+            try {
+                let response = await axios.post(URL, recipeComplete)
+                if (this.props.recipeAction === "add") {
+                    recipeComplete._id = response.data._id
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+            this.props.dispatch(recipePush(recipeComplete))
+            this.props.dispatch(recipeReset())
+            this.props.history.push("/");
         }
-        let submitTag = document.getElementById("submitForm")
-        submitTag.classList.add("disabled")
-        let URL = ""
-        if (this.props.recipeAction === "add") {
-            URL = this.props.user.database + "add";
-        } else {
-            URL = this.props.user.database + "update"
-            this.props.dispatch(recipeDelete(recipeComplete._id))
-        }
-        this.props.dispatch(recipePush(recipeComplete))
-        try {
-            await axios.post(URL, recipeComplete)
-        } catch (error) {
-            console.log(error.message);
-        }
-        this.props.dispatch(recipeReset())
-        this.props.history.push("/");
     };
 
     cancelInput = () => {
@@ -315,7 +325,7 @@ class AddRecipe extends Component {
                     </FormGroup>
                 </Form>
                 <nav className="navbar fixed-bottom navbar-light bg-light">
-                    <Button className="navbar-brand recipeButton" color="success" onClick={() => this.sendData(this.state)} id="submitForm">
+                    <Button className="navbar-brand recipeButton" onClick={() => this.sendData(this.state)} color="success" id="submitForm">
                         {this.props.recipeAction === "add" ? language[29] : language[30]}
                     </Button>
                     <Button className="navbar-brand recipeButton" color="warning" onClick={this.cancelInput} id="submitForm">{language[31]}</Button>
