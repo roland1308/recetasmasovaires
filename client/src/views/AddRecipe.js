@@ -107,8 +107,10 @@ class AddRecipe extends Component {
                                 });
                                 document.getElementById('picture').value = ''
                             }
-                        }
-                    );
+                        })
+                    .catch(error => {
+                        console.log(error)
+                    });
                 break;
             default:
                 this.setState({

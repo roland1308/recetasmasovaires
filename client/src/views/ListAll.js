@@ -27,7 +27,6 @@ class ListAll extends Component {
                 new Set(recipes.map(recipe => recipe.chef))
             )
         })
-        console.log(recipes);
     }
 
     changeFilter = event => {

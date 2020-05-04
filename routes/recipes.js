@@ -143,7 +143,7 @@ router.delete('/delete', (req, res) => {
 router.post("/addphoto", upload.single("picture"), async (req, res) => {
     const type = req.file.mimetype;
     if (IMAGE_TYPES.indexOf(type) == -1) {
-        return res.send({ error: 'La foto tiene que ser jpeg, jpg, jpe, o png' });
+        return res.send({ error: 'Only jpeg, jpg, jpe, o png are allowed' });
     } else {
         const { filename: image } = req.file
         await sharp(req.file.path)
