@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 const sendinblue = require('sendinblue-api');
-
 const parameters = { "apiKey": process.env.sendinblue, "timeout": 5000 };
 const sendinObj = new sendinblue(parameters);
 

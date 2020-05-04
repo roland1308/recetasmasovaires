@@ -35,6 +35,7 @@ let input = {
     'subject': 'Test mail form V2 codice corto',
     'html': 'This is the <h1>HTML</h1>'
 };
+
 /*get all recipes*/
 router.get('/all',
     (req, res) => {
@@ -59,7 +60,7 @@ router.post('/add', (req, res) => {
         preparation,
         pictures
     });
-    input.subject = "New recipe in Family Recipes España"
+    input.subject = "New recipe in Family Recipes Spanish"
     input.html = chef + ' just added the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -82,7 +83,7 @@ router.post('/add', (req, res) => {
 /*update a recipe*/
 router.post('/update', (req, res) => {
     const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg } = req.body
-    input.subject = "Recipe updated in Family Recipes España"
+    input.subject = "Recipe updated in Family Recipes Spanish"
     input.html = chef + ' just updated the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
