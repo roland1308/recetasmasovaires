@@ -1,22 +1,40 @@
 body {
   position: relative;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App {
+  font-family: 'Indie Flower', cursive !important;
+  font-weight: 600 !important;
 }
 
 .landingPage {
   width: 300px;
   margin: 100px auto;
 }
+
+thead {
+  background-color: rgb(219, 202, 143);
+}
+
+td {
+  border: 1px black solid;
+}
+/* .backImage {
+  background-image: linear-gradient(rgba(250, 250, 250, 0.7), rgba(250, 250, 250, 0.7)), url("../src/antipasto-3484782_960_720.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card {
+  background-color: rgb(153,204,204) !important;
+} */
 
 .welcomeText {
   height: 200px;
@@ -62,6 +80,11 @@ th:nth-child(2) {
   text-align: right;
 }
 
+.spinner {
+  width: 50px !important;
+  margin: auto !important;
+}
+
 .landButton {
   width: 89px;
   margin: 0.5rem 0;
@@ -83,6 +106,11 @@ th:nth-child(2) {
 span {
   color: black;
   margin-left: 10px;
+}
+
+a.nav-link {
+  font-size: 0.8rem;
+    line-height: 1;
 }
 
 .navbar {

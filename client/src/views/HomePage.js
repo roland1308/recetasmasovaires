@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import { Spinner } from 'reactstrap';
 
-import { recipeAdd } from "../store/actions/mainActions";
+import { recipeAdd, checkToken } from "../store/actions/mainActions";
 import { connect } from "react-redux";
 
 import {
     Button
 } from 'reactstrap';
 
-class LandingPage extends Component {
+class HomePage extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.state = {
             isOpen: false
         };
+    }
+
+    componentDidMount() {
+        const token = window.localStorage.token;
+        if (token && this.props.isLogged === false) {
+            console.log(token);
+            this.props.dispatch(checkToken(token));
+        }
     }
 
     toggle() {
@@ -29,6 +38,13 @@ class LandingPage extends Component {
     }
 
     render() {
+        if (this.props.isLoading) {
+            return (
+                <div className="spinner">
+                    <Spinner color="danger" />
+                </div>
+            )
+        }
         const { language } = this.props
         return (
             <div>
@@ -56,7 +72,9 @@ class LandingPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    language: state.main.language
+    language: state.main.language,
+    user: state.main.user,
+    isLoading: state.main.isLoading,
 });
 
-export default connect(mapStateToProps)(LandingPage);
+export default connect(mapStateToProps)(HomePage);

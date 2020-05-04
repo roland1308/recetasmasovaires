@@ -1,4 +1,6 @@
 // Action types
+import changeLanguage from '../../components/changeLanguage';
+
 export const SET_LANGUAGE = "SET_LANGUAGE"
 export const SET_RECIPES = "SET_RECIPES"
 
@@ -13,7 +15,10 @@ export const RECIPE_DELETE = "RECIPE_DELETE";
 
 export const INGREDIENT_ADD = "INGREDIENT_ADD";
 export const INGREDIENT_REMOVE = "INGREDIENT_REMOVE";
-export const SET_NR_OF_INGS = "SET_NR_OF_INGS"
+export const SET_NR_OF_INGS = "SET_NR_OF_INGS";
+export const SET_LOADING = "SET_LOADING";
+
+const axios = require("axios");
 
 export const setLanguage = (payload) => ({
     type: SET_LANGUAGE,
@@ -62,3 +67,59 @@ export const setNrOfIngs = (nrOfIngs) => ({
     type: SET_NR_OF_INGS,
     payload: nrOfIngs
 })
+
+export const setLoading = (state) => ({
+    type: SET_LOADING,
+    payload: state
+})
+
+export const checkToken = token => {
+    return async dispatch => {
+        dispatch(setLoading(true))
+        try {
+            const response1 = await axios.get("/users/check", {
+                headers: {
+                    authorization: `bearer ${token}`
+                }
+            });
+            dispatch(setUser(response1.data));
+            const payload = changeLanguage(response1.data.language)
+            dispatch(setLanguage(payload))
+            try {
+                const response2 = await axios.get(response1.data.database + "all");
+                dispatch(setRecipes(response2.data))
+            } catch (error) {
+                console.log(error);
+            }
+            dispatch(setLoading(false))
+            return "success"
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    };
+};
+
+export const logUser = response => {
+    return async dispatch => {
+        dispatch(setLoading(true))
+        try {
+            dispatch(setUser(response));
+            const payload = changeLanguage(response.language)
+            dispatch(setLanguage(payload))
+            try {
+                const response2 = await axios.get(response.database + "all");
+                dispatch(setRecipes(response2.data))
+            } catch (error) {
+                console.log(error);
+            }
+            const token = await axios.post("/users/token", response);
+            window.localStorage.setItem("token", token.data)
+            dispatch(setLoading(false))
+            return "success"
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    };
+};

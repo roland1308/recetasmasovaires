@@ -4,8 +4,9 @@ import HomePage from './views/HomePage';
 import ListAll from './views/ListAll';
 import AddRecipe from './views/AddRecipe';
 import EditRecipe from './components/EditRecipe';
+import { Spinner } from 'reactstrap';
 
-import { setLanguage } from "./store/actions/mainActions";
+import { setLanguage, checkToken } from "./store/actions/mainActions";
 import changeLanguage from './components/changeLanguage';
 import { connect } from "react-redux";
 
@@ -30,9 +31,12 @@ class App extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.props.dispatch(setLanguage(languages().esp))
-  // }
+  componentDidMount() {
+    const token = window.localStorage.token;
+    if (token && this.props.isLogged === false) {
+      this.props.dispatch(checkToken(token));
+    }
+  }
 
   setLanguage = (lang) => {
     const payload = changeLanguage(lang)
@@ -46,10 +50,17 @@ class App extends Component {
     });
   }
   render() {
-    const { language, user } = this.props
+    const { user, isLogged } = this.props
+    if (this.props.isLoading) {
+      return (
+        <div className="spinner">
+          <Spinner color="danger" />
+        </div>
+      )
+    }
     return (
       <div className="App">
-        {language !== undefined ? (
+        {isLogged ? (
           <BrowserRouter>
             <Navbar color="inverse" light expand="md">
               <Link className="linkNoDecoration navbar" to="/">
@@ -88,6 +99,8 @@ class App extends Component {
 const mapStateToProps = state => ({
   language: state.main.language,
   user: state.main.user,
+  isLoading: state.main.isLoading,
+  isLogged: state.main.isLogged,
 });
 
 export default connect(mapStateToProps)(App);

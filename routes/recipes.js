@@ -25,6 +25,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+const sendinblue = require('sendinblue-api');
+const parameters = { "apiKey": process.env.sendinblue, "timeout": 5000 };
+const sendinObj = new sendinblue(parameters);
+
+let input = {
+    'to': { 'a.renato@gmail.com': 'to whom!' },
+    'from': ['recetasmasovaires@gmail.com', 'Family Recipes'],
+    'subject': 'Test mail form V2 codice corto',
+    'html': 'This is the <h1>HTML</h1>'
+};
 /*get all recipes*/
 router.get('/all',
     (req, res) => {
@@ -49,6 +59,15 @@ router.post('/add', (req, res) => {
         preparation,
         pictures
     });
+    input.subject = "New recipe in Family Recipes España"
+    input.html = chef + ' just added the recipe: ' + name
+    sendinObj.send_email(input, function (err, response) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(response);
+        }
+    });
     newRecipe
         .save()
         .then(recipe => {
@@ -63,6 +82,15 @@ router.post('/add', (req, res) => {
 /*update a recipe*/
 router.post('/update', (req, res) => {
     const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg } = req.body
+    input.subject = "Recipe updated in Family Recipes España"
+    input.html = chef + ' just updated the recipe: ' + name
+    sendinObj.send_email(input, function (err, response) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(response);
+        }
+    });
     recipeModel.findOneAndUpdate(
         { _id },
         {

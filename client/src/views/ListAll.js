@@ -27,6 +27,7 @@ class ListAll extends Component {
                 new Set(recipes.map(recipe => recipe.chef))
             )
         })
+        console.log(recipes);
     }
 
     changeFilter = event => {
@@ -37,13 +38,18 @@ class ListAll extends Component {
             [event.target.name]: event.target.value,
         })
         this.filterRecipes(filterParameters)
+        console.log(this.state.filteredRecipes);
+        console.log(filterParameters);
+
     }
 
     filterRecipes = (filterParameters) => {
         let { chef, name, ingredient, type } = filterParameters
         const singleIngredient = ingredient.split(" ")
-        chef = chef === this.props.language[33] ? "" : chef
-        type = type === this.props.language[37] ? "" : type
+        chef = (chef === this.props.language[33]) ||
+            (chef === this.props.language[34]) ? "" : chef
+        type = (type === this.props.language[37]) ||
+            (type === this.props.language[38]) ? "" : type
         let copyRecipes = this.state.recipes.filter(recipe => {
             return (
                 recipe.chef.includes(chef)
@@ -69,6 +75,8 @@ class ListAll extends Component {
         this.setState({
             filteredRecipes: copyRecipes
         })
+        console.log(this.state.filteredRecipes);
+
     }
 
     render() {
@@ -133,9 +141,10 @@ class ListAll extends Component {
 }
 
 const mapStateToProps = state => ({
+    user: state.main.user,
     language: state.main.language,
     recipes: state.main.recipes,
-    nrOfRecipes: state.main.nrOfRecipes
+    nrOfRecipes: state.main.nrOfRecipes,
 });
 
 export default connect(mapStateToProps)(ListAll);

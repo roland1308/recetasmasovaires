@@ -8,6 +8,13 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const db = process.env.mongoURI;
 
+const passport = require("passport");
+
+//passport middleware
+app.use(passport.initialize());
+//passport configuration
+require("./config/passport");
+
 const mongoose = require("mongoose");
 mongoose
     .connect(db, { useNewUrlParser: true, useCreateIndex: true })

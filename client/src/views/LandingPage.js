@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import changeLanguage from '../components/changeLanguage';
-import { setLanguage } from '../store/actions/mainActions'
+import { setLanguage, logUser, setRecipes } from '../store/actions/mainActions'
 
 import { Input, Button } from 'reactstrap';
-
-import { setRecipes, setUser } from '../store/actions/mainActions';
 
 const axios = require("axios");
 
@@ -81,10 +79,8 @@ class LandingPage extends Component {
             const response = await axios.post("/users/login", data);
             if (response.data === "error") {
                 alert("Log In Error!")
-                console.log(response.data)
             } else {
-                this.props.dispatch(setUser(response.data))
-                this.setLanguage(response.data.language)
+                this.props.dispatch(logUser(response.data))
             }
         } catch (error) {
             console.log(error);
@@ -113,26 +109,17 @@ class LandingPage extends Component {
                 <div className="welcomeText">
                     {welcomeText[language][0]}
                 </div>
-                {/* {welcomeText[language][1]} */}
-                {/* <Label for="name">{welcomeText[language][1]}</Label> */}
                 <Input onChange={this.changeField} type="text" value={name} name="name" id="name" placeholder={welcomeText[language][1]} />
                 <Input onChange={this.changeField} type="password" name="password" id="password" placeholder={welcomeText[language][2]} />
                 <Button onClick={() => this.logIn({ name, password })} className="landButton" color="success">{welcomeText[language][3]}</Button>
                 <Button className="landButton float-right" color="warning">{welcomeText[language][4]}</Button>
-                {/* <Input onChange={this.setLanguage} type="select" name="setLanguage" id="setLanguage" value="----">
-                    <option disabled hidden>----</option>
-                    <option>English</option>
-                    <option>Italiano</option>
-                    <option>Español</option>
-                    <option>Català</option>
-                </Input> */}
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.main.user
+    user: state.main.user,
 })
 
 export default connect(mapStateToProps)(LandingPage)

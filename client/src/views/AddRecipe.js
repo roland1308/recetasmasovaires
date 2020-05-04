@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import { TiDeleteOutline } from 'react-icons/ti';
 
 import { connect } from "react-redux";
-import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete } from '../store/actions/mainActions';
+import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading } from '../store/actions/mainActions';
 
 const axios = require("axios");
 
@@ -154,6 +154,7 @@ class AddRecipe extends Component {
             this.props.nrOfIngredients > 0 &&
             preparation !== "" &&
             nrOfPictures > 0) {
+            this.props.dispatch(setLoading(true))
             let recipeComplete = {
                 _id: data._id,
                 name: data.name,
@@ -184,7 +185,8 @@ class AddRecipe extends Component {
             }
             this.props.dispatch(recipePush(recipeComplete))
             this.props.dispatch(recipeReset())
-            this.props.history.push("/");
+            this.props.history.push("/")
+            this.props.dispatch(setLoading(false))
         }
     };
 

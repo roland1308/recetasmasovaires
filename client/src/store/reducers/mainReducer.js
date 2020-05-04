@@ -10,19 +10,22 @@ import {
     SET_NR_OF_INGS,
     RECIPE_PUSH,
     RECIPE_DELETE,
+    SET_LOADING,
 } from '../actions/mainActions';
 
 
 const initialState = {
-    user: {},
+    user: undefined,
     recipes: [],
     nrOfRecipes: 0,
     language: undefined,
-    recipeAction: "add",
+    recipeAction: undefined,
     editRecipe: {
         editIngredients: []
     },
-    nrOfIngredients: 0
+    nrOfIngredients: 0,
+    isLoading: false,
+    isLogged: false
 };
 
 export default function mainReducer(state = initialState, action) {
@@ -41,7 +44,8 @@ export default function mainReducer(state = initialState, action) {
         case SET_USER:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                isLogged: true
             }
         case RECIPE_ADD:
             return {
@@ -113,6 +117,11 @@ export default function mainReducer(state = initialState, action) {
             return {
                 ...state,
                 nrOfIngredients: action.payload
+            }
+        case SET_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload
             }
 
         default:
