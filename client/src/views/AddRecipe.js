@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import RecipeTable from '../components/RecipeTable';
 
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import { TiDeleteOutline } from 'react-icons/ti';
 
 import { connect } from "react-redux";
 import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading } from '../store/actions/mainActions';
+import QuillProva from '../components/QuillProva';
 
 const axios = require("axios");
 
@@ -119,12 +119,6 @@ class AddRecipe extends Component {
         }
     }
 
-    changePreparation = (value) => {
-        this.setState({
-            preparation: value
-        })
-    }
-
     addIngredient = (e) => {
         e.preventDefault()
         let { ingredient, qty } = this.state
@@ -150,7 +144,8 @@ class AddRecipe extends Component {
     }
 
     async sendData(data) {
-        const { name, chef, preparation, nrOfPictures } = data
+        const { name, chef, nrOfPictures } = data
+        const preparation = document.getElementById("quillDiv").firstElementChild.innerHTML;
         if (name !== "" &&
             chef !== "" &&
             this.props.nrOfIngredients > 0 &&
@@ -164,7 +159,7 @@ class AddRecipe extends Component {
                 type: data.type,
                 ingredients: this.props.editRecipe.editIngredients,
                 pax: data.pax,
-                preparation: data.preparation,
+                preparation,
                 pictures: data.pictures,
                 removingImg: data.removingImg
             }
@@ -212,17 +207,6 @@ class AddRecipe extends Component {
     render() {
         let { name, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
         const { nrOfIngredients, editRecipe, language } = this.props
-        const modules = {
-            toolbar: [
-                ['bold', 'italic'],
-                [{ 'list': 'bullet' }],
-                ['clean']
-            ],
-        }
-        const formats = [
-            'bold', 'italic',
-            'list', 'bullet'
-        ]
         return (
             < div >
                 <Form className="container">
@@ -236,16 +220,6 @@ class AddRecipe extends Component {
                             placeholder={language[8]}
                             value={name} />
                     </FormGroup>
-                    {/* <FormGroup className="underline">
-                        <Label for="chef">{language[9]}</Label>
-                        <Input
-                            onChange={this.changeField}
-                            type="text"
-                            name="chef"
-                            id="chef"
-                            placeholder={language[10]}
-                            value={chef} />
-                    </FormGroup> */}
                     <FormGroup className="underline">
                         <Label for="type">{language[11]}</Label>
                         <Input onChange={this.changeField} type="select" name="type" id="type" value={type}>
@@ -298,16 +272,7 @@ class AddRecipe extends Component {
                     <FormGroup className="underline">
                         <Label for="preparation">{language[24]}</Label>
                         <br></br>
-                        <ReactQuill
-                            theme="snow"
-                            modules={modules}
-                            formats={formats}
-                            onChange={this.changePreparation}
-                            name="preparation"
-                            id="preparation"
-                            placeholder={language[25]}
-                            value={preparation}
-                        />
+                        <QuillProva placeholder={language[25]} value={preparation} />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="picture">{language[26]}</Label>

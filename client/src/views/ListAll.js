@@ -37,9 +37,6 @@ class ListAll extends Component {
             [event.target.name]: event.target.value,
         })
         this.filterRecipes(filterParameters)
-        console.log(this.state.filteredRecipes);
-        console.log(filterParameters);
-
     }
 
     filterRecipes = (filterParameters) => {
@@ -74,8 +71,6 @@ class ListAll extends Component {
         this.setState({
             filteredRecipes: copyRecipes
         })
-        console.log(this.state.filteredRecipes);
-
     }
 
     render() {
