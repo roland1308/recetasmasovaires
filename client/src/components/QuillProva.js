@@ -14,9 +14,10 @@ export default (payload) => {
     const { quill, quillRef } = useQuill({ theme, modules, formats, placeholder });
     React.useEffect(() => {
         if (quill) {
-            quill.clipboard.dangerouslyPasteHTML(payload.value);
+            quill.setContents(quill.clipboard.convert(payload.value));
         }
     }, [quill, payload.value]);
+
     return (
         <div>
             <div className="preparationField" id="quillDiv" ref={quillRef} />

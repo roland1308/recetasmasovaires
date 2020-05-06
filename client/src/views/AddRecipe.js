@@ -62,10 +62,8 @@ class AddRecipe extends Component {
                 pictures
             })
             submitTag.classList.add("chunkyGreen")
-        } else {
-            // this.props.dispatch(recipeReset())
-            // submitTag.classList.add("chunkyGrey")
         }
+        if (recipeAction === "add") { document.getElementById("name").focus() };
     }
 
     componentDidUpdate = (prevProps, prevState) => {

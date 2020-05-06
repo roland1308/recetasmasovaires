@@ -208,10 +208,10 @@ export function languages() {
             "Receptes dels Masovaires",
             "Benvinguts al nostre",
             "Llibre de Receptes!",
-            "Cercar",
-            "Busca entre les receptes presents.",
+            "Cerca",
+            "Cerca entre les receptes presents.",
             "Afegeix",
-            "Anade la teva recepta de família.",
+            "Afegeix la teva recepta de família.",
             // ------------------------------------------------ -----
             // AddRecipe
             "Nom recepta*:",

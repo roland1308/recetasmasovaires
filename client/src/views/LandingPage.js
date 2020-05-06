@@ -49,6 +49,7 @@ class LandingPage extends Component {
         window.setInterval(() => {
             this.changeText()
         }, 2000); //every 2 seconds
+        document.getElementById("name").focus()
     }
 
     changeText = () => {
