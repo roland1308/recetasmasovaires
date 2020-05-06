@@ -63,7 +63,7 @@ class App extends Component {
         {isLogged ? (
           <BrowserRouter>
             <Navbar color="inverse" light expand="md">
-              <Link className="linkNoDecoration navbar" to="/">
+              <Link className="pumpkin-flat-button linkNoDecoration" to="/">
                 {user.book}
               </Link>
               <NavbarToggler onClick={this.toggle} />
