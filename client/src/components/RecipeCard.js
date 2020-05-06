@@ -77,7 +77,9 @@ class RecipeCard extends Component {
             <div style={cardColor} className="card">
                 <div style={cardStyle} className="card-header" id={"heading" + this.props.toggler}>
                     {user.name === chef &&
-                        <TiDeleteOutline onClick={() => { if (window.confirm(language[46] + name + "?")) this.deleteRecipe(_id) }} className="float-right linkNoDecoration deletePen" />
+                        <div id="red" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[46] + name + "?")) this.deleteRecipe(_id) }}>
+                            <TiDeleteOutline className="deleteSvg" />
+                        </div>
                     }
                     <button className="btnFullWidth linkNoDecoration btn btn-link collapsed" data-toggle="collapse" data-target={"#collapse" + this.props.toggler} aria-expanded="false" aria-controls={"collapse" + this.props.toggler}>
                         <CardBody>
@@ -89,7 +91,9 @@ class RecipeCard extends Component {
                         </CardBody>
                     </button>
                     {user.name === chef &&
-                        <Link to={{ pathname: "/editrecipe", state: this.props.recipe }} className="float-right linkNoDecoration editPen"><FaPencilAlt /></Link>
+                        <Link id="green" className="button green text-blanco text-shadow-negra float-right" to={{ pathname: "/editrecipe", state: this.props.recipe }}>
+                            <FaPencilAlt className="deleteSvg" style={{ fontSize: "1rem", margin: "3px" }} />
+                        </Link>
                     }
                 </div>
                 <div id={"collapse" + this.props.toggler} className="card-body collapse" aria-labelledby={"heading" + this.props.toggler} data-parent="#accordion">

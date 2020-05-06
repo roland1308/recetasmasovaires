@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import RecipeTable from '../components/RecipeTable';
 
 import 'react-quill/dist/quill.snow.css';
@@ -61,26 +61,31 @@ class AddRecipe extends Component {
                 nrOfPictures,
                 pictures
             })
+            submitTag.classList.add("chunkyGreen")
         } else {
-            this.props.dispatch(recipeReset())
-            submitTag.classList.add("disabled")
+            // this.props.dispatch(recipeReset())
+            // submitTag.classList.add("chunkyGrey")
         }
     }
 
     componentDidUpdate = (prevProps, prevState) => {
         if (prevState !== this.state) {
-            const { name, chef, preparation, nrOfPictures } = this.state
+            const { name, preparation, nrOfPictures } = this.state
+            let preparationDiv = preparation
+            const quillDiv = document.getElementById("quillDiv").firstElementChild
+            if (quillDiv) { preparationDiv = quillDiv.innerHTML };
+
             if (name !== "" &&
-                chef !== "" &&
                 this.props.nrOfIngredients > 0 &&
-                preparation !== "" &&
+                preparationDiv !== "" &&
                 nrOfPictures > 0) {
                 let submitTag = document.getElementById("submitForm")
-                submitTag.classList.remove("disabled")
+                submitTag.classList.remove("chunkyGrey")
+                submitTag.classList.add("chunkyGreen")
                 // submitTag.addEventListener("click", () => this.sendData(this.state));
             } else {
                 let submitTag = document.getElementById("submitForm")
-                submitTag.classList.add("disabled")
+                submitTag.classList.add("chunkyGrey")
                 // submitTag.removeEventListener("click", () => this.sendData(this.state));
             }
         }
@@ -144,10 +149,9 @@ class AddRecipe extends Component {
     }
 
     async sendData(data) {
-        const { name, chef, nrOfPictures } = data
+        const { name, nrOfPictures } = data
         const preparation = document.getElementById("quillDiv").firstElementChild.innerHTML;
         if (name !== "" &&
-            chef !== "" &&
             this.props.nrOfIngredients > 0 &&
             preparation !== "" &&
             nrOfPictures > 0) {
@@ -164,7 +168,7 @@ class AddRecipe extends Component {
                 removingImg: data.removingImg
             }
             let submitTag = document.getElementById("submitForm")
-            submitTag.classList.add("disabled")
+            submitTag.classList.add("chunkyGrey")
             let URL = ""
             if (this.props.recipeAction === "add") {
                 URL = this.props.user.database + "add";
@@ -205,9 +209,16 @@ class AddRecipe extends Component {
     }
 
     render() {
-        let { name, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
+        const { name, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
         const { nrOfIngredients, editRecipe, language } = this.props
-        return (
+        let ingredientClass = "chunky chunkyViolet"
+        let pictureClass = "chunky chunkyViolet"
+        if (ingredient === "" || qty === "") {
+            ingredientClass = "chunky chunkyGrey"
+        }
+        if (picture === "") {
+            pictureClass = "chunky chunkyGrey"
+        } return (
             < div >
                 <Form className="container">
                     <FormGroup className="underline">
@@ -259,15 +270,15 @@ class AddRecipe extends Component {
                             placeholder={language[22]}
                             value={qty}
                         />
-                        <Button
-                            color="primary"
+                        <button
+                            className={ingredientClass}
                             onClick={this.addIngredient}
                             disabled={ingredient === "" || qty === "" ?
                                 true : false
                             }>
                             {language[23]}
                             <Badge color="info" pill>+</Badge>
-                        </Button>
+                        </button>
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="preparation">{language[24]}</Label>
@@ -282,7 +293,9 @@ class AddRecipe extends Component {
                                     return (
                                         <div className="col-sm-3" key={index}>
                                             {this.props.recipeAction !== "add" &&
-                                                <TiDeleteOutline onClick={() => { if (window.confirm(language[28])) this.deleteImage(index) }} className="deleteSvg float-right" style={{ transform: "translate(-5px, 30px)" }} />
+                                                <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[28])) this.deleteImage(index) }}>
+                                                    <TiDeleteOutline className="deleteSvg" />
+                                                </div>
                                             }
                                             <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
@@ -290,14 +303,14 @@ class AddRecipe extends Component {
                                 })}
                         </div>
                         <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <Button color="primary" onClick={this.addPhoto} disabled={picture === "" ? true : false}>{language[27]}<Badge color="info" pill>+</Badge></Button>
+                        <button className={pictureClass} onClick={this.addPhoto} disabled={picture === "" ? true : false}>{language[27]}<Badge color="info" pill>+</Badge></button>
                     </FormGroup>
                 </Form>
                 <nav className="navbar fixed-bottom navbar-light bg-light">
-                    <Button className="navbar-brand recipeButton" onClick={() => this.sendData(this.state)} color="success" id="submitForm">
+                    <button className="chunky chunkyW101" onClick={() => this.sendData(this.state)} id="submitForm">
                         {this.props.recipeAction === "add" ? language[29] : language[30]}
-                    </Button>
-                    <Button className="navbar-brand recipeButton" color="warning" onClick={this.cancelInput} id="submitForm">{language[31]}</Button>
+                    </button>
+                    <button className="chunky chunkyYellow chunkyW101" onClick={this.cancelInput} id="submitForm">{language[31]}</button>
                 </nav>
             </div >
         );

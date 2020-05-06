@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Spinner } from 'reactstrap';
 
-import { recipeAdd, checkToken } from "../store/actions/mainActions";
+import { checkToken, recipeReset } from "../store/actions/mainActions";
 import { connect } from "react-redux";
-
-import {
-    Button
-} from 'reactstrap';
 
 class HomePage extends Component {
     constructor(props) {
@@ -33,7 +29,7 @@ class HomePage extends Component {
     }
 
     isAddRecipe() {
-        this.props.dispatch(recipeAdd());
+        this.props.dispatch(recipeReset());
         this.props.history.push("/addrecipe");
     }
 
@@ -53,16 +49,16 @@ class HomePage extends Component {
                 <h2>{language[2]}</h2>
                 <hr></hr>
                 <Link to="listall" className="linkNoDecoration">
-                    <Button className="landButton" color="success" size="large">
+                    <button className="chunky chunkyGreen chunkyW101">
                         {language[3]}
-                    </Button>
+                    </button>
                     <span>{language[4]}</span>
                 </Link>
                 <hr></hr>
                 <div onClick={() => { this.isAddRecipe() }}>
-                    <Button className="landButton" color="success" size="large">
+                    <button className="chunky chunkyGreen chunkyW101">
                         {language[5]}
-                    </Button>
+                    </button>
                     <span>{language[6]}</span>
                     <hr></hr>
                 </div>

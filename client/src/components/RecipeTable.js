@@ -60,9 +60,11 @@ class RecipeTable extends Component {
                                         <td>{ingredient.ingredient}</td>
                                         <td>{ingredient.qty}</td>
                                         {this.props.recipeAction === "edit" && (
-                                            <td>
-                                                <TiDeleteOutline onClick={() => { if (window.confirm(language[55])) this.deleteIngredient(index) }} className="float-right linkNoDecoration deletePen" />
+                                            // <td>
+                                            <td id="red" className="button red text-blanco text-shadow-negra ingredientDel" onClick={() => { if (window.confirm(language[55])) this.deleteIngredient(index) }}>
+                                                <TiDeleteOutline className="deleteSvg" style={{ fontSize: "1rem", margin: "-5px" }} />
                                             </td>
+                                            // </td>
                                         )}
                                     </tr>
                                 </tbody>

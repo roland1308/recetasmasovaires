@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import changeLanguage from '../components/changeLanguage';
 import { setLanguage, logUser, setRecipes } from '../store/actions/mainActions'
 
-import { Input, Button } from 'reactstrap';
+import { Input } from 'reactstrap';
 
 const axios = require("axios");
 
@@ -111,8 +111,8 @@ class LandingPage extends Component {
                 </div>
                 <Input onChange={this.changeField} type="text" value={name} name="name" id="name" placeholder={welcomeText[language][1]} />
                 <Input onChange={this.changeField} type="password" name="password" id="password" placeholder={welcomeText[language][2]} />
-                <Button onClick={() => this.logIn({ name, password })} className="landButton" color="success">{welcomeText[language][3]}</Button>
-                <Button className="landButton float-right" color="warning">{welcomeText[language][4]}</Button>
+                <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[language][3]}</button>
+                <button className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[language][4]}</button>
             </div>
         )
     }
