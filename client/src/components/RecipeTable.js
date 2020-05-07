@@ -48,8 +48,8 @@ class RecipeTable extends Component {
                     <Table hover size="sm">
                         <thead>
                             <tr>
-                                <th>{language[53]}</th>
-                                <th>{language[54]}</th>
+                                <th>{language[0]}</th>
+                                <th>{language[1]}</th>
                                 {this.props.recipeAction === "edit" && <th></th>}
                             </tr>
                         </thead>
@@ -61,7 +61,7 @@ class RecipeTable extends Component {
                                         <td>{ingredient.qty}</td>
                                         {this.props.recipeAction === "edit" && (
                                             // <td>
-                                            <td id="red" className="button red text-blanco text-shadow-negra ingredientDel" onClick={() => { if (window.confirm(language[55])) this.deleteIngredient(index) }}>
+                                            <td id="red" className="button red text-blanco text-shadow-negra ingredientDel" onClick={() => { if (window.confirm(language[2])) this.deleteIngredient(index) }}>
                                                 <TiDeleteOutline className="deleteSvg" style={{ fontSize: "1rem", margin: "-5px" }} />
                                             </td>
                                             // </td>
@@ -77,7 +77,7 @@ class RecipeTable extends Component {
     }
 }
 const mapStateToProps = state => ({
-    language: state.main.language,
+    language: state.main.language.recipetable,
     recipeAction: state.main.recipeAction,
     editRecipe: state.main.editRecipe,
     nrOfIngredients: state.main.nrOfIngredients,

@@ -10,11 +10,11 @@ class ListAll extends Component {
         this.state = {
             recipes: {},
             filteredRecipes: {},
-            chef: props.language[33],
+            chef: props.language[1],
             chefsList: [],
             name: "",
             ingredient: "",
-            type: props.language[37]
+            type: props.language[5]
         };
     }
 
@@ -42,10 +42,10 @@ class ListAll extends Component {
     filterRecipes = (filterParameters) => {
         let { chef, name, ingredient, type } = filterParameters
         const singleIngredient = ingredient.split(" ")
-        chef = (chef === this.props.language[33]) ||
-            (chef === this.props.language[34]) ? "" : chef
-        type = (type === this.props.language[37]) ||
-            (type === this.props.language[38]) ? "" : type
+        chef = (chef === this.props.language[1]) ||
+            (chef === this.props.language[2]) ? "" : chef
+        type = (type === this.props.language[5]) ||
+            (type === this.props.language[6]) ? "" : type
         let copyRecipes = this.state.recipes.filter(recipe => {
             return (
                 recipe.chef.includes(chef)
@@ -79,14 +79,14 @@ class ListAll extends Component {
             <div>
                 <div className="filters">
                     <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        {language[32]}
+                        {language[0]}
                     </button>
                     <div className="collapse" id="collapseFilter">
                         <div className="card-body filterFields">
                             <FormGroup>
                                 <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value={this.state.chef}>
-                                    <option disabled hidden>{language[33]}</option>
-                                    <option>{language[34]}</option>
+                                    <option disabled hidden>{language[1]}</option>
+                                    <option>{language[2]}</option>
                                     {this.state.chefsList.map((chef, index) => {
                                         return (<option key={index}>{chef}</option>)
                                     }
@@ -94,21 +94,21 @@ class ListAll extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[35]} />
+                                <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[3]} />
                             </FormGroup>
                             <FormGroup>
-                                <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[36]} />
+                                <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
                             </FormGroup>
                             <FormGroup>
                                 <Input onChange={this.changeFilter} type="select" name="type" id="type" value={this.state.type}>
-                                    <option disabled hidden>{language[37]}</option>
-                                    <option>{language[38]}</option>
-                                    <option>{language[39]}</option>
-                                    <option>{language[40]}</option>
-                                    <option>{language[41]}</option>
-                                    <option>{language[42]}</option>
-                                    <option>{language[43]}</option>
-                                    <option>{language[44]}</option>
+                                    <option disabled hidden>{language[5]}</option>
+                                    <option>{language[6]}</option>
+                                    <option>{language[7]}</option>
+                                    <option>{language[8]}</option>
+                                    <option>{language[9]}</option>
+                                    <option>{language[10]}</option>
+                                    <option>{language[11]}</option>
+                                    <option>{language[12]}</option>
                                     )}
                                 </Input>
                             </FormGroup>
@@ -126,7 +126,7 @@ class ListAll extends Component {
                         })}
                     </div>) :
                     (<div className="error">
-                        {language[45]}
+                        {language[13]}
                     </div>)
                 }
             </div>
@@ -136,7 +136,7 @@ class ListAll extends Component {
 
 const mapStateToProps = state => ({
     user: state.main.user,
-    language: state.main.language,
+    language: state.main.language.listall,
     recipes: state.main.recipes,
     nrOfRecipes: state.main.nrOfRecipes,
 });

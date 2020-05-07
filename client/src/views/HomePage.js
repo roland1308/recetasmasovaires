@@ -68,7 +68,7 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = state => ({
-    language: state.main.language,
+    language: state.main.language.homepage,
     user: state.main.user,
     isLoading: state.main.isLoading,
 });

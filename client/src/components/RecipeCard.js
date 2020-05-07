@@ -77,16 +77,16 @@ class RecipeCard extends Component {
             <div style={cardColor} className="card">
                 <div style={cardStyle} className="card-header" id={"heading" + this.props.toggler}>
                     {user.name === chef &&
-                        <div id="red" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[46] + name + "?")) this.deleteRecipe(_id) }}>
+                        <div id="red" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
                             <TiDeleteOutline className="deleteSvg" />
                         </div>
                     }
                     <button className="btnFullWidth linkNoDecoration btn btn-link collapsed" data-toggle="collapse" data-target={"#collapse" + this.props.toggler} aria-expanded="false" aria-controls={"collapse" + this.props.toggler}>
                         <CardBody>
                             <CardTitle>{name}</CardTitle>
-                            <CardSubtitle>{language[47] + type + language[48] + chef + "."}</CardSubtitle>
+                            <CardSubtitle>{language[1] + type + language[2] + chef + "."}</CardSubtitle>
                             {pax > 0 && (
-                                <CardSubtitle>{language[49] + pax + language[50]}</CardSubtitle>
+                                <CardSubtitle>{language[3] + pax + language[4]}</CardSubtitle>
                             )}
                         </CardBody>
                     </button>
@@ -100,14 +100,14 @@ class RecipeCard extends Component {
                     <UncontrolledCarousel items={pictures} />
                     <CardBody>
                         <Button color="primary" id={"ingredientToggler" + this.props.toggler} style={{ marginTop: "0.5rem", width: "113px" }}>
-                            {language[51]}
+                            {language[5]}
                         </Button>
                         <UncontrolledCollapse toggler={"#ingredientToggler" + this.props.toggler}>
                             <RecipeTable ingredients={ingredients} />
                         </UncontrolledCollapse>
                         <br></br>
                         <Button color="primary" id={"preparationToggler" + this.props.toggler} style={{ marginTop: "0.5rem", width: "113px" }}>
-                            {language[52]}
+                            {language[6]}
                         </Button>
                         <UncontrolledCollapse toggler={"#preparationToggler" + this.props.toggler}>
                             <Card>
@@ -124,7 +124,7 @@ class RecipeCard extends Component {
 }
 
 const mapStateToProps = state => ({
-    language: state.main.language,
+    language: state.main.language.recipecard,
     user: state.main.user,
 });
 
