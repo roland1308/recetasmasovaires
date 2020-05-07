@@ -253,7 +253,8 @@ body {
   width: auto;
   height: auto;
   padding: 5px 10px;
-  font-size: 22px;
+  margin: 5px;
+  font-size: 18px;
   color: white;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
@@ -273,6 +274,37 @@ body {
 }
 .pumpkin-flat-button:hover {
   color: white;
+}
+
+.flexNavbar {
+  position: fixed;
+  top: 0;
+  display: flex;
+  height: 45px;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  z-index: 50;
+  background-color: rgb(223, 215, 215);
+}
+
+div.dropdown svg {
+  font-size: 45px !important;
+}
+
+div.dropdown-menu.show {
+  padding-bottom: 0;
+  box-shadow: 7px 9px 26px 3px rgba(0, 0, 0, 0.75);
+}
+
+.menuText {
+  font-size: 1rem !important;
+  line-height: 0;
+}
+
+.menu-left {
+  transform: translate3d(-120px, 40px, 0px) !important;
 }
 
 .preparationField {
@@ -407,7 +439,8 @@ a.nav-link {
 .jumbotron {
   padding: 0.5rem !important;
   margin-bottom: 0 !important;
-  margin-top: -3px !important;
+  margin-top: 45px !important;
+  overflow: hidden;
 }
 /* .container {
   background-color: rgb(216, 216, 241);
@@ -421,7 +454,6 @@ a.nav-link {
   background-color: rgb(216, 216, 241);
   z-index: 20;
   position: sticky;
-  top: 61px;
   -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
