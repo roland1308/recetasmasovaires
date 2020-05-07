@@ -94,7 +94,8 @@ export const checkToken = token => {
             dispatch(setLoading(false))
             return "success"
         } catch (error) {
-            console.log(error);
+            window.localStorage.removeItem("token");
+            dispatch(setLoading(false))
             return error;
         }
     };
