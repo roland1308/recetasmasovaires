@@ -130,6 +130,7 @@ class AddRecipe extends Component {
             ingredient: "",
             qty: ""
         })
+        document.getElementById("ingredient").focus()
     }
 
     addPhoto = (e) => {
@@ -184,7 +185,7 @@ class AddRecipe extends Component {
             }
             this.props.dispatch(recipePush(recipeComplete))
             this.props.dispatch(recipeReset())
-            this.props.history.push("/")
+            this.props.history.push("/listall")
             this.props.dispatch(setLoading(false))
         }
     };
