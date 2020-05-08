@@ -76,15 +76,27 @@ class LandingPage extends Component {
     }
 
     async logIn(data) {
-        try {
-            const response = await axios.post("/users/login", data);
-            if (response.data === "error") {
-                alert("Log In Error!")
-            } else {
-                this.props.dispatch(logUser(response.data))
+        if (data.password === "guest") {
+            const userGuest = {
+                _id: "",
+                name: data.name,
+                database: "/recipeengs/",
+                language: "English",
+                book: "Recipes Book",
+                password: "guest"
             }
-        } catch (error) {
-            console.log(error);
+            this.props.dispatch(logUser(userGuest))
+        } else {
+            try {
+                const response = await axios.post("/users/login", data);
+                if (response.data === "error") {
+                    alert("Log In Error!")
+                } else {
+                    this.props.dispatch(logUser(response.data))
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 

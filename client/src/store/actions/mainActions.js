@@ -115,7 +115,7 @@ export const logUser = response => {
                 console.log(error);
             }
             const token = await axios.post("/users/token", response);
-            window.localStorage.setItem("token", token.data)
+            if (response.password !== "guest") { window.localStorage.setItem("token", token.data) }
             dispatch(setLoading(false))
             return "success"
         } catch (error) {
