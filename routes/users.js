@@ -21,6 +21,14 @@ let input = {
 
 // Login user
 router.post("/login", (req, res) => {
+    const userGuest = {
+        _id: "",
+        name: req.body.name,
+        database: "/recipeengs/",
+        language: "English",
+        book: "Recipes Book",
+        password: "guest"
+    }
     input.subject = "New log in from Family Recipes"
     input.html = req.body.name + ' just logged in!'
     sendinObj.send_email(input, function (err, response) {
@@ -30,33 +38,37 @@ router.post("/login", (req, res) => {
             console.log(response);
         }
     });
-    userModel
-        .findOne({
-            name: req.body.name
-        })
-        .then(user => {
-            if (!user) {
-                console.log("User not found");
-                res.send("error");
-            } else {
-                if (user.password !== req.body.password) {
-                    console.log("PW ERRATA");
-                    res.send("error")
+    if (req.body.password !== "guest") {
+        userModel
+            .findOne({
+                name: req.body.name
+            })
+            .then(user => {
+                if (!user) {
+                    console.log("User not found");
+                    res.send("error");
                 } else {
+                    if (user.password !== req.body.password) {
+                        console.log("PW ERRATA");
+                        res.send("error")
+                    } else {
+                        //   // create JWT payload, sign token and send it back
+                        res.send(user);
+                    }
+                    // compare passwords with bycript compare function
+                    //   bcrypt.compare(req.body.pw, user.pw, function (err, result) {
+                    // if (!result) {
+                    //   console.log("PW ERRATA", err);
+                    //   res.send("PW ERRATA");
+                    // } else {
                     //   // create JWT payload, sign token and send it back
-                    res.send(user);
+                    //   res.send(user);
+                    // }
                 }
-                // compare passwords with bycript compare function
-                //   bcrypt.compare(req.body.pw, user.pw, function (err, result) {
-                // if (!result) {
-                //   console.log("PW ERRATA", err);
-                //   res.send("PW ERRATA");
-                // } else {
-                //   // create JWT payload, sign token and send it back
-                //   res.send(user);
-                // }
-            }
-        });
+            });
+    } else {
+        res.send(userGuest)
+    }
 });
 
 //Create TOKEN
