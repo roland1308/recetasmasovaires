@@ -11,6 +11,7 @@ import {
     RECIPE_PUSH,
     RECIPE_DELETE,
     SET_LOADING,
+    RECIPE_LIST,
 } from '../actions/mainActions';
 
 
@@ -93,6 +94,11 @@ export default function mainReducer(state = initialState, action) {
                 ...state,
                 recipes: copyRecipeDeleted,
                 nrOfRecipes: state.nrOfRecipes - 1
+            }
+        case RECIPE_LIST:
+            return {
+                ...state,
+                recipeAction: "list"
             }
         case INGREDIENT_ADD:
             let copyRecipe = state.editRecipe

@@ -50,7 +50,9 @@ class RecipeTable extends Component {
                             <tr>
                                 <th>{language[0]}</th>
                                 <th>{language[1]}</th>
-                                {this.props.recipeAction === "edit" && <th></th>}
+                                {this.props.recipeAction !== "list" &&
+                                    <th style={{ width: "25px" }}></th>
+                                }
                             </tr>
                         </thead>
                         {this.state.editedIngredients.length > 0 && this.state.editedIngredients.map((ingredient, index) => {
@@ -59,12 +61,10 @@ class RecipeTable extends Component {
                                     <tr>
                                         <td>{ingredient.ingredient}</td>
                                         <td>{ingredient.qty}</td>
-                                        {this.props.recipeAction === "edit" && (
-                                            // <td>
+                                        {this.props.recipeAction !== "list" && (
                                             <td id="red" className="button red text-blanco text-shadow-negra ingredientDel" onClick={() => { if (window.confirm(language[2])) this.deleteIngredient(index) }}>
                                                 <TiDeleteOutline className="deleteSvg" style={{ fontSize: "1rem", margin: "-5px" }} />
                                             </td>
-                                            // </td>
                                         )}
                                     </tr>
                                 </tbody>

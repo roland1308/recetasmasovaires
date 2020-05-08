@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FormGroup, Input } from 'reactstrap';
 import { connect } from "react-redux";
 
+import FadeIn from "react-fade-in";
+
 import RecipeCard from "../components/RecipeCard";
 
 class ListAll extends Component {
@@ -76,7 +78,7 @@ class ListAll extends Component {
     render() {
         const { language, nrOfRecipes } = this.props
         return (
-            <div>
+            <FadeIn>
                 <div className="filters">
                     <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                         {language[0]}
@@ -129,7 +131,7 @@ class ListAll extends Component {
                         {language[13]}
                     </div>)
                 }
-            </div>
+            </FadeIn>
         );
     }
 }

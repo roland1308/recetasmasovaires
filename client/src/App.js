@@ -7,25 +7,17 @@ import EditRecipe from './components/EditRecipe';
 import { Spinner } from 'reactstrap';
 
 import { setLanguage, checkToken } from "./store/actions/mainActions";
-import changeLanguage from './components/changeLanguage';
+import changeLanguage from '../src/utils/changeLanguage';
 import { connect } from "react-redux";
-
-import { MdFavorite } from "react-icons/md";
-import { FaRegComment } from "react-icons/fa";
 
 import MenuRoundedIcon from "@material-ui/icons/MenuRounded";
 
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
   NavItem,
   NavLink,
   Jumbotron
 } from 'reactstrap';
 import LandingPage from './views/LandingPage';
-import { RecipeNavBar } from './views/RecipeNavBar';
 
 class App extends Component {
   constructor(props) {

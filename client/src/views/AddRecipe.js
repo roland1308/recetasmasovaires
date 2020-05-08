@@ -291,11 +291,11 @@ class AddRecipe extends Component {
                                 pictures.map((picture, index) => {
                                     return (
                                         <div className="col-sm-3" key={index}>
-                                            {this.props.recipeAction !== "add" &&
-                                                <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[21])) this.deleteImage(index) }}>
-                                                    <TiDeleteOutline className="deleteSvg" />
-                                                </div>
-                                            }
+                                            {/* {this.props.recipeAction !== "add" && */}
+                                            <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[21])) this.deleteImage(index) }}>
+                                                <TiDeleteOutline className="deleteSvg" />
+                                            </div>
+                                            {/* } */}
                                             <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
                                     )

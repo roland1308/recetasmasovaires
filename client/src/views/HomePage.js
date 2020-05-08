@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import { Spinner } from 'reactstrap';
 
-import { checkToken, recipeReset } from "../store/actions/mainActions";
+import { checkToken, recipeReset, recipeList } from "../store/actions/mainActions";
 import { connect } from "react-redux";
 
 class HomePage extends Component {
@@ -33,6 +32,11 @@ class HomePage extends Component {
         this.props.history.push("/addrecipe");
     }
 
+    isListRecipe() {
+        this.props.dispatch(recipeList());
+        this.props.history.push("/listall");
+    }
+
     render() {
         if (this.props.isLoading) {
             return (
@@ -48,12 +52,12 @@ class HomePage extends Component {
                 <h3>{language[1]}</h3>
                 <h2>{language[2]}</h2>
                 <hr></hr>
-                <Link to="listall" className="linkNoDecoration">
+                <div onClick={() => { this.isListRecipe() }}>
                     <button className="chunky chunkyGreen chunkyW101">
                         {language[3]}
                     </button>
                     <span>{language[4]}</span>
-                </Link>
+                </div>
                 <hr></hr>
                 <div onClick={() => { this.isAddRecipe() }}>
                     <button className="chunky chunkyGreen chunkyW101">

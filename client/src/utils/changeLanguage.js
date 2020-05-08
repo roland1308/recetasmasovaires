@@ -1,4 +1,4 @@
-import { languages } from '../components/languages'
+import { languages } from './languages'
 
 function changeLanguage(lang) {
     let payload = ""

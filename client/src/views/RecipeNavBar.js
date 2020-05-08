@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
-import Avatar from "@material-ui/core/Avatar";
 
-import { IoIosSettings } from "react-icons/io";
-import { IoIosPower } from "react-icons/io";
 import { MdFavorite } from "react-icons/md";
 import { FaRegComment } from "react-icons/fa";
 

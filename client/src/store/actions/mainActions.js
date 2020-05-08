@@ -1,5 +1,5 @@
 // Action types
-import changeLanguage from '../../components/changeLanguage';
+import changeLanguage from '../../utils/changeLanguage';
 
 export const SET_LANGUAGE = "SET_LANGUAGE"
 export const SET_RECIPES = "SET_RECIPES"
@@ -12,6 +12,8 @@ export const RECIPE_RESET = "RECIPE_RESET";
 
 export const RECIPE_PUSH = "RECIPE_PUSH";
 export const RECIPE_DELETE = "RECIPE_DELETE";
+
+export const RECIPE_LIST = "RECIPE_LIST";
 
 export const INGREDIENT_ADD = "INGREDIENT_ADD";
 export const INGREDIENT_REMOVE = "INGREDIENT_REMOVE";
@@ -51,6 +53,10 @@ export const recipePush = (recipe) => ({
 export const recipeDelete = (id) => ({
     type: RECIPE_DELETE,
     payload: id
+})
+
+export const recipeList = () => ({
+    type: RECIPE_LIST
 })
 
 export const ingredientAdd = (ingAdd) => ({

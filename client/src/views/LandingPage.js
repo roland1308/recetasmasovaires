@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import changeLanguage from '../components/changeLanguage';
+import changeLanguage from '../utils/changeLanguage';
 import { setLanguage, logUser, setRecipes } from '../store/actions/mainActions'
 
 import { Input } from 'reactstrap';
