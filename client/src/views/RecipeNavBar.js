@@ -16,13 +16,8 @@ export class RecipeNavBar extends Component {
         return (
             <div className="flexNavbar">
                 <Link className="pumpkin-flat-button linkNoDecoration" to="/">
-                    "user.book"
+                    {user.book}
                 </Link>
-
-
-
-
-
                 <div className="dropdown">
                     <MenuRoundedIcon
                         style={{ fontSize: 100 }}
@@ -44,7 +39,6 @@ export class RecipeNavBar extends Component {
                         </Link>
                     </div>
                 </div>
-
             </div>
         );
     }

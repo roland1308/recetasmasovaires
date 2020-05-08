@@ -217,7 +217,7 @@ class AddRecipe extends Component {
         if (picture === "") {
             pictureClass = "chunky chunkyGrey"
         } return (
-            < div >
+            <div>
                 <Form className="container">
                     <FormGroup className="underline">
                         <Label for="name">{language[0]}</Label>
