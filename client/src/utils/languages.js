@@ -7,7 +7,7 @@ export function languages() {
                 "¡Bienvenid@s a nuestro",
                 "Libro de Recetas!",
                 "Buscar",
-                "Busca entre las recetas presentes.",
+                "Busca entre las recetas.",
                 "Añadir",
                 "Añade tu receta de familia."
             ],
@@ -213,7 +213,7 @@ export function languages() {
                 "Benvinguts al nostre",
                 "Llibre de Receptes!",
                 "Cerca",
-                "Cerca entre les receptes presents.",
+                "Cerca entre les receptes.",
                 "Afegeix",
                 "Afegeix la teva recepta de família."
             ],
@@ -245,7 +245,7 @@ export function languages() {
                 "Anul·la!"
             ],
             listall: [
-                "Busca recepta per:",
+                "Cerca recepta per:",
                 "cuiner:",
                 "tots els cuiners",
                 "nom recepta:",

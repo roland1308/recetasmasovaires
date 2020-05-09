@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import FadeIn from "react-fade-in";
 
 import RecipeCard from "../components/RecipeCard";
+import { recipeList } from '../store/actions/mainActions';
 
 class ListAll extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class ListAll extends Component {
 
     componentDidMount() {
         const { recipes } = this.props
+        this.props.dispatch(recipeList())
         this.setState({
             recipes,
             filteredRecipes: recipes,

@@ -3,8 +3,12 @@ import { connect } from "react-redux";
 
 import { Table, Card, CardBody, } from 'reactstrap';
 
+import { ingredientRemove, ingredientsEditList } from '../store/actions/mainActions';
+
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
 import { TiDeleteOutline } from 'react-icons/ti'
-import { ingredientRemove } from '../store/actions/mainActions';
+import { GrDrag } from 'react-icons/gr'
 
 class RecipeTable extends Component {
     constructor(props) {
@@ -40,6 +44,19 @@ class RecipeTable extends Component {
         this.state.editedIngredients.splice(index, 1)
     }
 
+    onDragEnd = result => {
+        const { destination, source } = result
+        const { editIngredients } = this.props.editRecipe
+        if (!destination || (destination.index === source.index)) {
+            return
+        }
+        const draggingIngredient = editIngredients[source.index]
+        const newIngredientList = editIngredients
+        newIngredientList.splice(source.index, 1)
+        newIngredientList.splice(destination.index, 0, draggingIngredient)
+        this.props.dispatch(ingredientsEditList(newIngredientList))
+    }
+
     render() {
         const { language } = this.props
         return (
@@ -55,21 +72,56 @@ class RecipeTable extends Component {
                                 }
                             </tr>
                         </thead>
-                        {this.state.editedIngredients.length > 0 && this.state.editedIngredients.map((ingredient, index) => {
-                            return (
-                                <tbody key={index}>
-                                    <tr>
-                                        <td>{ingredient.ingredient}</td>
-                                        <td>{ingredient.qty}</td>
-                                        {this.props.recipeAction !== "list" && (
-                                            <td id="red" className="button red text-blanco text-shadow-negra ingredientDel" onClick={() => { if (window.confirm(language[2])) this.deleteIngredient(index) }}>
-                                                <TiDeleteOutline className="deleteSvg" style={{ fontSize: "1rem", margin: "-5px" }} />
-                                            </td>
+                        {this.props.recipeAction === "list" ? (
+                            <tbody>
+                                {this.state.editedIngredients.length > 0 && this.state.editedIngredients.map((ingredient, index) => {
+                                    return (
+                                        <tr>
+                                            <td>{ingredient.ingredient}</td>
+                                            <td>{ingredient.qty}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        ) : (
+                                <DragDropContext
+                                    // onDragStart
+                                    // onDragUpdate
+                                    onDragEnd={this.onDragEnd}
+                                >
+                                    <Droppable droppableId="ingredientList">
+                                        {(providedDrop) => (
+                                            <tbody
+                                                ref={providedDrop.innerRef}
+                                                {...providedDrop.droppableProps}
+                                            >
+                                                {this.state.editedIngredients.length > 0 && this.state.editedIngredients.map((ingredient, index) => {
+                                                    return (
+                                                        <Draggable draggableId={index.toString()} index={index}>
+                                                            {(providedDrag, snapshot) => (
+                                                                <tr key={index}
+                                                                    className={snapshot.isDragging && "tdBackground " + snapshot.isDragging && "tdBackgroundDragging"}
+                                                                    {...providedDrag.draggableProps}
+                                                                    ref={providedDrag.innerRef}
+                                                                >
+                                                                    <td
+                                                                        {...providedDrag.dragHandleProps}
+                                                                    ><GrDrag />{" "}{ingredient.ingredient}</td>
+                                                                    <td>{ingredient.qty}</td>
+                                                                    <td onClick={() => { if (window.confirm(language[2])) this.deleteIngredient(index) }}>
+                                                                        <TiDeleteOutline className="deleteSvgBack" style={{ fontSize: "1rem", margin: "-5px" }} />
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                        </Draggable>
+                                                    )
+                                                })}
+                                                {providedDrop.placeholder}
+                                            </tbody>
                                         )}
-                                    </tr>
-                                </tbody>
-                            )
-                        })}
+                                    </Droppable>
+                                </DragDropContext>
+                            )}
                     </Table>
                 </CardBody>
             </Card>

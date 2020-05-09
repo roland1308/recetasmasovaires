@@ -15,6 +15,8 @@ export const RECIPE_DELETE = "RECIPE_DELETE";
 
 export const RECIPE_LIST = "RECIPE_LIST";
 
+export const INGREDIENTS_EDIT_LIST = "INGREDIENTS_EDIT_LIST"
+
 export const INGREDIENT_ADD = "INGREDIENT_ADD";
 export const INGREDIENT_REMOVE = "INGREDIENT_REMOVE";
 export const SET_NR_OF_INGS = "SET_NR_OF_INGS";
@@ -57,6 +59,11 @@ export const recipeDelete = (id) => ({
 
 export const recipeList = () => ({
     type: RECIPE_LIST
+})
+
+export const ingredientsEditList = (newEditList) => ({
+    type: INGREDIENTS_EDIT_LIST,
+    payload: newEditList
 })
 
 export const ingredientAdd = (ingAdd) => ({

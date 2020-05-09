@@ -336,7 +336,16 @@ thead {
 }
 
 td {
-  border: 1px black solid;
+  border: 0px black solid !important;
+  width: 70%;
+  /* background-color: white; */
+} 
+
+.tdBackgroundDragging {
+  background-color: rgba(195, 246, 179, .5) !important;
+}
+.tdBackground {
+  background-color: white;
 }
 
 .welcomeText {
@@ -357,8 +366,8 @@ td {
   100% {
     font-size: 3rem;
   }}
-
-.linkNoDecoration {
+  
+  .linkNoDecoration {
   color: white;
   cursor: pointer;
   text-decoration: none !important;
@@ -508,6 +517,14 @@ table {
 .deleteSvg {
   font-size: 1.5rem;
   vertical-align: text-top;
+}
+.deleteSvgBack {
+  font-size: 1.5rem;
+  color: white;
+  background-color: red;
+  border-radius: 50%;
+  vertical-align: baseline;
+  margin: 0px !important;
 }
 
 .ingredientDel {
