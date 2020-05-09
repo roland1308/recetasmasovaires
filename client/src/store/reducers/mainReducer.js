@@ -13,6 +13,7 @@ import {
     SET_LOADING,
     RECIPE_LIST,
     INGREDIENTS_EDIT_LIST,
+    LOG_OUT,
 } from '../actions/mainActions';
 
 
@@ -48,6 +49,10 @@ export default function mainReducer(state = initialState, action) {
                 ...state,
                 user: action.payload,
                 isLogged: true
+            }
+        case LOG_OUT:
+            return {
+                initialState
             }
         case RECIPE_ADD:
             return {

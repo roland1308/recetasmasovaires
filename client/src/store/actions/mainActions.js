@@ -1,10 +1,12 @@
 // Action types
 import changeLanguage from '../../utils/changeLanguage';
 
-export const SET_LANGUAGE = "SET_LANGUAGE"
-export const SET_RECIPES = "SET_RECIPES"
+export const SET_LANGUAGE = "SET_LANGUAGE";
+export const SET_RECIPES = "SET_RECIPES";
 
-export const SET_USER = "SET_USER"
+export const SET_USER = "SET_USER";
+
+export const LOG_OUT = "LOG_OUT";
 
 export const RECIPE_ADD = "RECIPE_ADD";
 export const RECIPE_EDIT = "RECIPE_EDIT";
@@ -35,6 +37,9 @@ export const setRecipes = (recipes) => ({
 export const setUser = (user) => ({
     type: SET_USER,
     payload: user
+})
+export const logOut = () => ({
+    type: LOG_OUT
 })
 export const recipeAdd = () => ({
     type: RECIPE_ADD,

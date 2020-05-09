@@ -14,10 +14,12 @@ Please don't share personal information/photos during guest access.
 - Create, edit and remove user's own recipes:
 ```
 Ingredients' list drag and drop to change order.
-Ingredient and foto removingç.
+Ingredient and foto removing.
 ```
 
 ## Work In Progress:
 - Register new user.
 - Comments' management.
 - Favorites' management.
+- Recipes' short list.
+- Edit ingredient.
