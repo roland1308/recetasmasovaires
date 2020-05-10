@@ -45,7 +45,7 @@ class RecipesNavbar extends Component {
                             <div onClick={() => this.setLanguage("Català")}>Català</div>
                         </div>
                         <div className="dropdown-divider"></div>
-                        <div onClick={() => this.logOut()} className="dropdown-item" href="#">LogOut</div>
+                        <button onClick={() => this.logOut()} className="dropdown-item">LogOut</button>
                     </div>
                 </div>
             </div>

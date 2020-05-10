@@ -240,9 +240,9 @@ export function languages() {
                 "Foto(s)*: (almenys una)",
                 "Afegeix foto(s)!",
                 `Estàs segur que vols eliminar aquesta foto?`,
-                "Afegeix!",
-                "Canvia!",
-                "Anul·la!"
+                "¡Afegeix!",
+                "¡Canvia!",
+                "¡Anul·la!"
             ],
             listall: [
                 "Cerca recepta per:",

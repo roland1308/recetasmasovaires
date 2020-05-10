@@ -23,3 +23,4 @@ Ingredient and foto removing.
 - Favorites' management.
 - Recipes' short list.
 - Edit ingredient.
+- Re-arrange recipe list card.

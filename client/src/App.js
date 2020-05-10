@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import {
   Jumbotron
 } from 'reactstrap';
-import LandingPage from './views/LandingPage';
+import LogIn from './views/LogIn';
 import RecipesNavbar from './components/RecipesNavbar';
 
 class App extends Component {
@@ -35,22 +35,25 @@ class App extends Component {
     }
     return (
       <div className="App">
-        {isLogged ? (
-          <BrowserRouter>
-            <RecipesNavbar />
-            <Jumbotron>
-              <Switch>
-                <Route exact path='/' component={HomePage} />
-                <Route path="/listall" component={ListAll} />
-                <Route path="/addrecipe" component={AddRecipe} />
-                <Route path="/editrecipe" component={EditRecipe} />
-              </Switch>
-            </Jumbotron>
-          </BrowserRouter>
-        ) : (
-            <LandingPage />
-          )
-        }
+        <BrowserRouter>
+          {isLogged ? (
+            <div>
+              <RecipesNavbar />
+              <Jumbotron>
+                <Switch>
+                  <Route exact path='/' component={HomePage} />
+                  <Route path="/listall" component={ListAll} />
+                  <Route path="/addrecipe" component={AddRecipe} />
+                  <Route path="/editrecipe" component={EditRecipe} />
+                  <Route path="/login" component={LogIn} />
+                </Switch>
+              </Jumbotron>
+            </div>
+          ) : (
+              <LogIn />
+            )
+          }
+        </BrowserRouter>
       </div>
     );
   }
