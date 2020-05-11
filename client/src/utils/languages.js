@@ -136,7 +136,13 @@ export function languages() {
                 "For ",
                 " people.",
                 "Ingredients",
-                "Preparation"
+                "Preparation",
+                "starter",
+                "first course",
+                "second course",
+                "accompaniment",
+                "dessert",
+                "single plate"
             ],
             recipetable: [
                 "Ingredient",
@@ -205,7 +211,13 @@ export function languages() {
                 "Per ",
                 " persone.",
                 "Ingredienti",
-                "Preparazione"
+                "Preparazione",
+                "antipasto",
+                "primo",
+                "secondo",
+                "contorno",
+                "dolce",
+                "piatto unico"
             ],
             recipetable: [
                 "Ingrediente",
@@ -273,7 +285,13 @@ export function languages() {
                 "Per ",
                 " persones.",
                 "Ingredients",
-                "Preparació"
+                "Preparació",
+                "entrant",
+                "primer",
+                "segon",
+                "acompanyament",
+                "postres",
+                "plat únic"
             ],
             recipetable: [
                 "Ingredient",
