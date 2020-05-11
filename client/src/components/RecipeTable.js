@@ -76,7 +76,7 @@ class RecipeTable extends Component {
                             <tbody>
                                 {this.state.editedIngredients.length > 0 && this.state.editedIngredients.map((ingredient, index) => {
                                     return (
-                                        <tr>
+                                        <tr key={index}>
                                             <td>{ingredient.ingredient}</td>
                                             <td>{ingredient.qty}</td>
                                         </tr>
@@ -97,10 +97,10 @@ class RecipeTable extends Component {
                                             >
                                                 {this.state.editedIngredients.length > 0 && this.state.editedIngredients.map((ingredient, index) => {
                                                     return (
-                                                        <Draggable draggableId={index.toString()} index={index}>
+                                                        <Draggable key={index} draggableId={index.toString()} index={index}>
                                                             {(providedDrag, snapshot) => (
-                                                                <tr key={index}
-                                                                    className={snapshot.isDragging && "tdBackground " + snapshot.isDragging && "tdBackgroundDragging"}
+                                                                <tr
+                                                                    className={snapshot.isDragging ? "tdBackground tdBackgroundDragging" : ""}
                                                                     {...providedDrag.draggableProps}
                                                                     ref={providedDrag.innerRef}
                                                                 >

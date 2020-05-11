@@ -3,6 +3,10 @@ const router = express.Router()
 
 require("dotenv").config();
 const secretOrKey = process.env.secretOrKey;
+const booklist = process.env.booklist.split(',');
+const bookCodes = process.env.bookCodes.split(',');
+const bookDBs = process.env.bookDBs.split(',');
+const languageList = process.env.languageList.split(',');
 
 const userModel = require('../model/userModel')
 const jwt = require("jsonwebtoken");
@@ -22,18 +26,31 @@ let input = {
     'html': 'This is the <h1>HTML</h1>'
 };
 
+/*check book code*/
+router.get("/book/:bookCode", (req, res) => {
+    const index = bookCodes.findIndex(x => x === req.params.bookCode)
+    let response = {}
+    if (index !== -1) {
+        response = {
+            status: true,
+            book: booklist[index],
+            database: bookDBs[index],
+            language: languageList[index]
+        }
+    } else {
+        response = {
+            status: false,
+            book: undefined,
+            database: undefined,
+            language: undefined
+        }
+    }
+    res.json(response)
+})
+
 /*add a User if not existing already: CREATE*/
 router.post("/add", async (req, res) => {
     const { name, password, database, language, book } = req.body;
-    input.subject = name + ' just registered!'
-    input.html = name + ' just registered!'
-    sendinObj.send_email(input, function (err, response) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(response);
-        }
-    });
     if (!name || !password || !database || !language || !book) {
         return res.status(400).json({ msg: "Please fill all fields" });
     }
@@ -48,9 +65,19 @@ router.post("/add", async (req, res) => {
         newUser
             .save()
             .then(user => {
+                input.subject = name + ' just registered!'
+                input.html = name + ' just registered!'
+                sendinObj.send_email(input, function (err, response) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(response);
+                    }
+                });
                 res.send(user);
             })
             .catch(err => {
+                console.log(err)
                 res.send(err);
             });
     });
@@ -77,14 +104,14 @@ router.post("/login", (req, res) => {
                 console.log("User not found");
                 res.send("error");
             } else {
-                // bcrypt.compare(password, user.password, function (err, result) {
-                //     if (!result) {
-                //         console.log("password ERRATA");
-                //         res.send("error")
-                //     } else {
-                res.send(user);
-                // }
-                // })
+                bcrypt.compare(password, user.password, function (err, result) {
+                    if (!result) {
+                        console.log("password ERRATA");
+                        res.send("error")
+                    } else {
+                        res.send(user);
+                    }
+                })
             }
         });
 });

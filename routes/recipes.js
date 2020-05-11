@@ -3,6 +3,8 @@ const router = express.Router()
 
 const recipeModel = require('../model/recipeModel')
 
+const passport = require("passport");
+
 const IMAGE_TYPES = ['image/jpeg', 'image/png']
 const cloudinary = require('cloudinary')
 cloudinary.config({
@@ -49,7 +51,7 @@ router.get('/all',
     });
 
 /*add new recipe*/
-router.post('/add', (req, res) => {
+router.post('/add', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { name, chef, type, ingredients, pax, preparation, pictures } = req.body
     const newRecipe = new recipeModel({
         name,
@@ -60,7 +62,7 @@ router.post('/add', (req, res) => {
         preparation,
         pictures
     });
-    input.subject = "New recipe in Family Recipes Spanish"
+    input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just added the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -81,9 +83,9 @@ router.post('/add', (req, res) => {
 })
 
 /*update a recipe*/
-router.post('/update', (req, res) => {
+router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg } = req.body
-    input.subject = "Recipe updated in Family Recipes Spanish"
+    input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just updated the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -126,7 +128,7 @@ router.post('/update', (req, res) => {
 });
 
 /*remove a picture from a recipe*/
-router.delete('/delete', (req, res) => {
+router.delete('/delete', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { _id } = req.body
     recipeModel.findOneAndDelete({ _id }).then(result => {
         if (result) {
@@ -169,17 +171,17 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
 //     res.send("ok")
 // })
 
-removeOldFiles = directory => {
-    fs.readdir(directory, { withFileTypes: true }, (err, files) => {
-        if (err) throw err;
-        for (const file of files) {
-            if (file.isDirectory() !== true) {
-                fs.unlink(path.join(directory, file.name), err => {
-                    if (err) throw err;
-                });
-            }
-        }
-    });
-}
+// removeOldFiles = directory => {
+//     fs.readdir(directory, { withFileTypes: true }, (err, files) => {
+//         if (err) throw err;
+//         for (const file of files) {
+//             if (file.isDirectory() !== true) {
+//                 fs.unlink(path.join(directory, file.name), err => {
+//                     if (err) throw err;
+//                 });
+//             }
+//         }
+//     });
+// }
 
 module.exports = router

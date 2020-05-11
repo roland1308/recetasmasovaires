@@ -19,10 +19,12 @@ import { recipeDelete } from '../store/actions/mainActions';
 class RecipeCard extends Component {
 
     deleteRecipe = (_id) => {
+        const token = window.localStorage.token;
         if (_id !== "") {
             let URL = this.props.user.database + "delete"
             Axios.delete(URL, {
-                data: { _id }
+                data: { _id },
+                headers: { authorization: `bearer ${token}` }
             })
             this.props.dispatch(recipeDelete(_id))
             // window.open("/", "_self")

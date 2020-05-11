@@ -5,6 +5,7 @@ import { logUser } from '../store/actions/mainActions'
 
 import { Input } from 'reactstrap';
 
+
 const axios = require("axios");
 
 class LogIn extends Component {
@@ -99,10 +100,15 @@ class LogIn extends Component {
     }
 
     async logIn(data) {
-        if (data.password === "guest") {
+        const { name, password } = data
+        if (!name || !password) {
+            alert("Please fill all fields")
+            return
+        }
+        if (password === "guest") {
             const userGuest = {
                 _id: "",
-                name: data.name,
+                name: name,
                 database: "/recipeengs/",
                 language: "English",
                 book: "Recipes Book",
@@ -123,15 +129,47 @@ class LogIn extends Component {
         }
     }
 
-    registerUser = () => {
-        // this.setState({
-        //     isRegister: true
-        // })
+    toggleIsRegister = () => {
+        this.setState({
+            isRegister: !this.state.isRegister
+        })
+        document.getElementById("name").focus()
+    }
+
+    async registerUser(data) {
+        const { name, password, passwordCheck, bookCode } = data
+        if (!name || !password || !passwordCheck || !bookCode) {
+            alert("Please fill all fields")
+            return
+        }
+        if (password !== passwordCheck) {
+            alert("Both password must be the same")
+            return
+        }
+        const response = await axios.get("/users/book/" + bookCode)
+        const { status, book, database, language } = response.data
+        if (status) {
+            const payload = { name, password, database, language, book }
+            try {
+                const responseAdd = await axios.post("/users/add", payload)
+                const errorAdd = responseAdd.data.errmsg
+                if (errorAdd) {
+                    if (errorAdd.includes("E11000 duplicate key error collection")) {
+                        alert("Name already present!")
+                        return
+                    }
+                }
+                this.props.dispatch(logUser(responseAdd.data))
+            } catch (error) {
+                alert(error)
+            }
+        } else {
+            alert("Wrong Code")
+        }
     }
 
     render() {
-
-        const { welcomeText, languagePos, name, password, isRegister, bookCode } = this.state
+        const { welcomeText, languagePos, name, password, passwordCheck, isRegister, bookCode } = this.state
         return (
             <div className="logIn">
                 <div className="welcomeText">
@@ -141,15 +179,15 @@ class LogIn extends Component {
                 <Input onChange={this.changeField} type="password" name="password" id="password" placeholder={welcomeText[languagePos][2]} />
                 {isRegister ? (
                     <div>
-                        <Input onChange={this.changeField} type="passwordCheck" name="passwordCheck" id="passwordCheck" placeholder={welcomeText[languagePos][8]} />
-                        <Input onChange={this.changeField} type="bookCode" value={bookCode} name="bookCode" id="bookCode" placeholder={welcomeText[languagePos][9]} />
-                        <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][6]}</button>
-                        <button onClick={this.registerUser} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][7]}</button>
+                        <Input onChange={this.changeField} type="password" name="passwordCheck" id="passwordCheck" placeholder={welcomeText[languagePos][8]} />
+                        <Input onChange={this.changeField} type="text" value={bookCode} name="bookCode" id="bookCode" placeholder={welcomeText[languagePos][9]} />
+                        <button onClick={() => this.registerUser({ name, password, passwordCheck, bookCode })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][6]}</button>
+                        <button onClick={this.toggleIsRegister} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][7]}</button>
                     </div>
                 ) : (
                         <div>
                             <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][3]}</button>
-                            <button onClick={this.registerUser} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][4]}</button>
+                            <button onClick={this.toggleIsRegister} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][4]}</button>
                         </div>
                     )}
             </div>

@@ -148,6 +148,7 @@ class AddRecipe extends Component {
     }
 
     async sendData(data) {
+        const token = window.localStorage.token;
         const { name, nrOfPictures } = data
         const preparation = document.getElementById("quillDiv").firstElementChild.innerHTML;
         if (name !== "" &&
@@ -176,7 +177,13 @@ class AddRecipe extends Component {
                 this.props.dispatch(recipeDelete(recipeComplete._id))
             }
             try {
-                let response = await axios.post(URL, recipeComplete)
+                const response = await axios.post(URL,
+                    recipeComplete,
+                    {
+                        headers: {
+                            authorization: `bearer ${token}`
+                        }
+                    });
                 if (this.props.recipeAction === "add") {
                     recipeComplete._id = response.data._id
                 }

@@ -16,9 +16,12 @@ Please don't share personal information/photos during guest access.
 Ingredients' list drag and drop to change order.
 Ingredient and foto removing.
 ```
+- JWT authentication for CRUD operations.
+- Register new user:
+```
+Need a "BOOK CODE" to access to proper recipes' database!
 
 ## Work In Progress:
-- Register new user.
 - Comments' management.
 - Favorites' management.
 - Recipes' short list.
