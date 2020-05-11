@@ -49,24 +49,24 @@ class RecipeCard extends Component {
             "153,204,179",
             "113,183,183"
         ]
-        let color = 5
+        let color = undefined
         switch (type) {
-            case "antipasto":
+            case language[7]:
                 color = 0
                 break;
-            case "primo":
+            case language[8]:
                 color = 1
                 break;
-            case "secondo":
+            case language[9]:
                 color = 2
                 break;
-            case "contorno":
+            case language[10]:
                 color = 3
                 break;
-            case "dolce":
+            case language[11]:
                 color = 4
                 break;
-            case "piatto unico":
+            case language[12]:
                 color = 5
                 break;
             default:

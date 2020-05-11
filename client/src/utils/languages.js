@@ -61,7 +61,13 @@ export function languages() {
                 "Para ",
                 " personas.",
                 "Ingredientes",
-                "Preparación"
+                "Preparación",
+                "entrante",
+                "primero",
+                "segundo",
+                "acompañamiento",
+                "postre",
+                "plato único"
             ],
             recipetable: [
                 "Ingrediente",
