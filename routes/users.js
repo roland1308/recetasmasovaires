@@ -3,10 +3,11 @@ const router = express.Router()
 
 require("dotenv").config();
 const secretOrKey = process.env.secretOrKey;
-const booklist = process.env.booklist.split(',');
 const bookCodes = process.env.bookCodes.split(',');
-const bookDBs = process.env.bookDBs.split(',');
-const languageList = process.env.languageList.split(',');
+
+const bookList = ["Recetas de los Masovaires", "Ricette degli amici", "Recipes' book", "Llibre de receptes"]
+const bookDBs = ["/recipes/", "/recipeitas/", "/recipeengs/", "/recipecats/"]
+const languageList = ["Español", "Italiano", "English", "Català"]
 
 const userModel = require('../model/userModel')
 const jwt = require("jsonwebtoken");
@@ -33,7 +34,7 @@ router.get("/book/:bookCode", (req, res) => {
     if (index !== -1) {
         response = {
             status: true,
-            book: booklist[index],
+            book: bookList[index],
             database: bookDBs[index],
             language: languageList[index]
         }
