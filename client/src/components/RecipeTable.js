@@ -62,7 +62,7 @@ class RecipeTable extends Component {
         return (
             <Card>
                 <CardBody>
-                    <Table hover size="sm">
+                    <Table striped hover size="sm">
                         <thead>
                             <tr>
                                 <th>{language[0]}</th>

@@ -312,11 +312,11 @@ class AddRecipe extends Component {
                         <button className={pictureClass} onClick={this.addPhoto} disabled={picture === "" ? true : false}>{language[20]}<Badge color="info" pill>+</Badge></button>
                     </FormGroup>
                 </Form>
-                <nav className="navbar fixed-bottom navbar-light bg-light">
-                    <button className="chunky chunkyW101" onClick={() => this.sendData(this.state)} id="submitForm">
+                <nav className="footbar">
+                    <button className="chunky chunkyW101 chunkyM25" onClick={() => this.sendData(this.state)} id="submitForm">
                         {this.props.recipeAction === "add" ? language[22] : language[23]}
                     </button>
-                    <button className="chunky chunkyYellow chunkyW101" onClick={this.cancelInput} id="submitForm">{language[24]}</button>
+                    <button className="chunky chunkyYellow chunkyW101 chunkyM25" onClick={this.cancelInput} id="submitForm">{language[24]}</button>
                 </nav>
             </div >
         );

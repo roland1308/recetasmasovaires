@@ -7,6 +7,11 @@ import FadeIn from "react-fade-in";
 import RecipeCard from "../components/RecipeCard";
 import { recipeList } from '../store/actions/mainActions';
 
+import { FcSearch } from 'react-icons/fc';
+import { FcGenericSortingAsc } from 'react-icons/fc';
+import { FcAlphabeticalSortingAz } from 'react-icons/fc';
+import { FcAlphabeticalSortingZa } from 'react-icons/fc';
+
 class ListAll extends Component {
     constructor(props) {
         super(props);
@@ -17,7 +22,10 @@ class ListAll extends Component {
             chefsList: [],
             name: "",
             ingredient: "",
-            type: props.language[5]
+            type: props.language[5],
+            orderChef: 1,
+            orderName: 1,
+            orderType: 1
         };
     }
 
@@ -77,63 +85,137 @@ class ListAll extends Component {
         })
     }
 
+    sortChef = () => {
+        let sortRecipe = this.state.filteredRecipes
+        sortRecipe.sort((a, b) => {
+            let nameA = a.chef.toUpperCase()
+            let nameB = b.chef.toUpperCase()
+            if (nameA < nameB) {
+                return -this.state.orderChef;
+            }
+            if (nameA > nameB) {
+                return this.state.orderChef;
+            }
+        })
+        this.setState({
+            filteredRecipes: sortRecipe,
+            orderChef: -this.state.orderChef
+        })
+    }
+
+    sortName = () => {
+        let sortRecipe = this.state.filteredRecipes
+        sortRecipe.sort((a, b) => {
+            let nameA = a.name.toUpperCase()
+            let nameB = b.name.toUpperCase()
+            if (nameA < nameB) {
+                return -this.state.orderName;
+            }
+            if (nameA > nameB) {
+                return this.state.orderName;
+            }
+        })
+        this.setState({
+            filteredRecipes: sortRecipe,
+            orderName: -this.state.orderName
+        })
+        console.log(this.state.orderName)
+    }
+
+    sortType = () => {
+        let sortRecipe = this.state.filteredRecipes
+        sortRecipe.sort((a, b) => {
+            let nameA = a.type.toUpperCase()
+            let nameB = b.type.toUpperCase()
+            if (nameA < nameB) {
+                return -this.state.orderType;
+            }
+            if (nameA > nameB) {
+                return this.state.orderType;
+            }
+        })
+        this.setState({
+            filteredRecipes: sortRecipe,
+            orderType: -this.state.orderType
+        })
+    }
+
     render() {
         const { language, nrOfRecipes } = this.props
+        const { orderName, orderChef, orderType } = this.state
         return (
-            <FadeIn>
-                <div className="filters">
-                    <button className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        {language[0]}
-                    </button>
-                    <div className="collapse" id="collapseFilter">
-                        <div className="card-body filterFields">
-                            <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value={this.state.chef}>
-                                    <option disabled hidden>{language[1]}</option>
-                                    <option>{language[2]}</option>
-                                    {this.state.chefsList.map((chef, index) => {
-                                        return (<option key={index}>{chef}</option>)
-                                    }
+            <div>
+                <FadeIn>
+                    {(this.state.filteredRecipes.length > 0) && (nrOfRecipes > 0) ?
+                        (<div className="row" id="accordion">
+                            {this.state.filteredRecipes.map((recipe, index) => {
+                                return (
+                                    <div className="col-sm-6" key={index}>
+                                        <RecipeCard recipe={recipe} toggler={index.toString()}></RecipeCard>
+                                    </div>
+                                );
+                            })}
+                        </div>) :
+                        (<div className="error">
+                            {language[13]}
+                        </div>)
+                    }
+                </FadeIn>
+                <div className="footbar">
+                    <div className="dropup">
+                        <FcSearch
+                            className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"
+                        />
+                        <div className="collapse" id="collapseFilter">
+                            <div className="card-body bottomMenu filterFields">
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value={this.state.chef}>
+                                        <option disabled hidden>{language[1]}</option>
+                                        <option>{language[2]}</option>
+                                        {this.state.chefsList.map((chef, index) => {
+                                            return (<option key={index}>{chef}</option>)
+                                        }
+                                        )}
+                                    </Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[3]} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="select" name="type" id="type" value={this.state.type}>
+                                        <option disabled hidden>{language[5]}</option>
+                                        <option>{language[6]}</option>
+                                        <option>{language[7]}</option>
+                                        <option>{language[8]}</option>
+                                        <option>{language[9]}</option>
+                                        <option>{language[10]}</option>
+                                        <option>{language[11]}</option>
+                                        <option>{language[12]}</option>
                                     )}
                                 </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[3]} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Input onChange={this.changeFilter} type="select" name="type" id="type" value={this.state.type}>
-                                    <option disabled hidden>{language[5]}</option>
-                                    <option>{language[6]}</option>
-                                    <option>{language[7]}</option>
-                                    <option>{language[8]}</option>
-                                    <option>{language[9]}</option>
-                                    <option>{language[10]}</option>
-                                    <option>{language[11]}</option>
-                                    <option>{language[12]}</option>
-                                    )}
-                                </Input>
-                            </FormGroup>
+                                </FormGroup>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="btn-group dropup">
+                        <FcGenericSortingAsc
+                            className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter2" aria-expanded="false" aria-controls="collapseFilter2"
+                        />
+                        <div className="collapse" id="collapseFilter2">
+                            <div className="card-body bottomMenu sortFields">
+
+                                <p onClick={this.sortChef} className="form-control">{language[1]}{" "}{orderChef === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
+                                <p onClick={this.sortName} className="form-control">{language[3]}{" "}{orderName === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
+                                <p onClick={this.sortType} className="form-control">{language[5]}{" "}{orderType === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-                {(this.state.filteredRecipes.length > 0) && (nrOfRecipes > 0) ?
-                    (<div className="row" id="accordion">
-                        {this.state.filteredRecipes.map((recipe, index) => {
-                            return (
-                                <div className="col-sm-6" key={index}>
-                                    <RecipeCard recipe={recipe} toggler={index.toString()}></RecipeCard>
-                                </div>
-                            );
-                        })}
-                    </div>) :
-                    (<div className="error">
-                        {language[13]}
-                    </div>)
-                }
-            </FadeIn>
+            </div>
         );
     }
 }

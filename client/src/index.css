@@ -14,7 +14,7 @@ body {
   /* Normal State */
   padding: 4px 15px 7px 15px;
   width: auto;
-  height: auto;
+  height: 35px;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
@@ -108,6 +108,10 @@ body {
 }
 .chunkyW120 {
   width: 120px;
+}
+.chunkyM25 {
+  margin-right: 25px;
+  margin-left: 25px;
 }
 
 .button{
@@ -286,7 +290,10 @@ body {
   padding: 0;
   margin: 0;
   z-index: 50;
-  background-color: rgb(223, 215, 215);
+  background-color: rgba(223, 215, 215, .8);
+  -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 
 div.dropdown svg {
@@ -415,14 +422,40 @@ th:nth-child(2) {
 .recipeButton {
   width: 120px;
   margin: 0 !important;
+  border: 0 !important;
 }
 
+svg.filterButton {
+font-size: 2rem;
+text-align: start !important;
+border: 0;
+padding: 0;
+z-index: 100;
+}
 .filterButton {
-  margin-bottom: 2px;
+  margin: 0 50px 0 50px !important;
+  padding: 0;
 }
 
+.bottomMenu {
+  background-color: rgba(216, 216, 241, .8) !important;
+  position: absolute;
+  border-radius: 5px;
+  border: 1px solid  rgb(117, 117, 130) !important;
+  -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
+}
 .filterFields {
-  background-color: rgb(216, 216, 241) !important;
+  transform: translate3d(-27px, -250px, 0);
+  width: 189px;
+}
+.sortFields {
+  transform: translate3d(-146px, -188px, 0);
+  width: 159px;
+}
+.sortFields > p:hover {
+  cursor: pointer;
 }
 
 span {
@@ -446,6 +479,23 @@ a.nav-link {
   box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 
+.footbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    height: 45px;
+    width:100%;
+    justify-content: center;
+    padding: 5px;
+    margin: 0;
+    z-index: 50;
+    background-color: rgba(223, 215, 215, .8);
+    -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
+}
+
 .pictureSmall {
   width: 100%;
   border-radius: 20px;
@@ -457,25 +507,8 @@ a.nav-link {
 
 .jumbotron {
   padding: 0.5rem !important;
-  margin-bottom: 0 !important;
   margin-top: 45px !important;
   overflow: hidden;
-}
-/* .container {
-  background-color: rgb(216, 216, 241);
-  margin: 0;
-  padding: 5px !important;
-} */
-
-.filters {
-  border-radius: 10px;
-  padding: 5px;
-  background-color: rgb(216, 216, 241);
-  z-index: 20;
-  position: sticky;
-  -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 
 table {

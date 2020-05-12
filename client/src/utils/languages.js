@@ -132,7 +132,7 @@ export function languages() {
             recipecard: [
                 "Are you sure you want to delete the recipe ",
                 "A ",
-                " of: ",
+                " from: ",
                 "For ",
                 " people.",
                 "Ingredients",
