@@ -113,10 +113,56 @@ router.delete('/delete', passport.authenticate("jwt", { session: false }), (req,
             console.log("Successful deletion");
             res.send(result);
         } else {
-            console.log("NON TROVATA");
+            console.log("NOT FOUND");
             res.send(result);
         }
     });
 });
+
+// PUSH user inside recipe's likes
+router.put(
+    "/pushlike",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        recipeModel.findByIdAndUpdate(
+            req.body._id,
+            {
+                $push: { likes: req.body.chefId },
+                $inc: { nrOfLikes: 1 }
+            },
+            { multi: true },
+            function (err, doc) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("OK");
+                }
+            }
+        )
+    }
+);
+
+// PULL user inside recipe's likes
+router.put(
+    "/pulllike",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        recipeModel.findByIdAndUpdate(
+            req.body._id,
+            {
+                $pull: { likes: req.body.chefId },
+                $inc: { nrOfLikes: -1 }
+            },
+            { multi: true },
+            function (err, doc) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("OK");
+                }
+            }
+        );
+    }
+);
 
 module.exports = router

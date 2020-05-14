@@ -6,15 +6,17 @@ import {
     Card,
     CardBody,
     CardTitle, CardSubtitle, UncontrolledCarousel,
-    UncontrolledCollapse, Button
+    UncontrolledCollapse, Button, Badge
 } from 'reactstrap';
 
 import RecipeTable from './RecipeTable';
 
 import { FaPencilAlt } from 'react-icons/fa'
 import { TiDeleteOutline } from 'react-icons/ti'
+import { AiOutlineLike } from 'react-icons/ai'
+
 import Axios from 'axios';
-import { recipeDelete } from '../store/actions/mainActions';
+import { recipeDelete, addLike, removeLike } from '../store/actions/mainActions';
 
 class RecipeCard extends Component {
 
@@ -27,13 +29,34 @@ class RecipeCard extends Component {
                 headers: { authorization: `bearer ${token}` }
             })
             this.props.dispatch(recipeDelete(_id))
-            // window.open("/", "_self")
         }
     };
 
+    toggleLike = ({ _id, index }) => {
+        const { likes } = this.props.recipe
+        const chefId = this.props.user._id
+        const indexLike = likes.findIndex(likedIds => likedIds === chefId)
+        const likeId = "like" + index
+        const likeTag = document.getElementById(likeId)
+        const token = window.localStorage.token
+        if (indexLike === -1) {
+            this.props.dispatch(addLike({ chefId, _id, token, URL: this.props.user.database + "/pushlike" }))
+            likeTag.classList.add("blue")
+            likeTag.children[0].classList.add("whiteText")
+            likeTag.classList.remove("grey")
+            likeTag.children[0].classList.remove("blackText")
+        } else {
+            this.props.dispatch(removeLike({ chefId, indexLike, _id, token, URL: this.props.user.database + "/pulllike" }))
+            likeTag.classList.add("grey")
+            likeTag.children[0].classList.add("blackText")
+            likeTag.classList.remove("blue")
+            likeTag.children[0].classList.remove("whiteText")
+        }
+    }
+
     render() {
-        const { language, user } = this.props
-        const { _id, name, type, chef, pax, pictures, ingredients, preparation } = this.props.recipe
+        const { language, user, index, likeUpdated } = this.props
+        const { _id, name, type, chef, pax, pictures, ingredients, preparation, likes, nrOfLikes } = this.props.recipe
         const bwLink = pictures[0].src.replace("/upload/", "/upload/e_grayscale/")
         const cardStyle = {
             backgroundImage: "linear-gradient(rgba(250, 250, 250, 0.7), rgba(250, 250, 250, 0.7)), url(" + bwLink + ")",
@@ -75,15 +98,18 @@ class RecipeCard extends Component {
         const cardColor = {
             backgroundColor: "rgb(" + colorTable[color] + ")"
         }
+
+        let likeButtonClass = "button grey text-blanco text-shadow-negra float-right",
+            likeSvgClass = "likeSvg blackText"
+        if (likes.includes(user._id)) {
+            likeButtonClass = "button blue text-blanco text-shadow-negra float-right"
+            likeSvgClass = "likeSvg whiteText"
+        }
+
         return (
             <div style={cardColor} className="card">
-                <div style={cardStyle} className="card-header" id={"heading" + this.props.toggler}>
-                    {user.name === chef &&
-                        <div id="red" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
-                            <TiDeleteOutline className="deleteSvg" />
-                        </div>
-                    }
-                    <button className="btnFullWidth linkNoDecoration btn btn-link collapsed" data-toggle="collapse" data-target={"#collapse" + this.props.toggler} aria-expanded="false" aria-controls={"collapse" + this.props.toggler}>
+                <div style={cardStyle} className="card-header row" id={"heading" + index}>
+                    <button className="btnFullWidth linkNoDecoration btn btn-link collapsed col-10  noPadding" data-toggle="collapse" data-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index}>
                         <CardBody>
                             <CardTitle>{name}</CardTitle>
                             <CardSubtitle>{language[1] + type + language[2] + chef + "."}</CardSubtitle>
@@ -92,26 +118,39 @@ class RecipeCard extends Component {
                             )}
                         </CardBody>
                     </button>
-                    {user.name === chef &&
-                        <Link id="green" className="button green text-blanco text-shadow-negra float-right" to={{ pathname: "/editrecipe", state: this.props.recipe }}>
-                            <FaPencilAlt className="deleteSvg" style={{ fontSize: "1rem", margin: "3px" }} />
-                        </Link>
-                    }
+                    <div className="col-2 noPadding">
+                        {user.name === chef ?
+                            (<div className="flexButtons float-right">
+                                <div id="delete" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
+                                    <TiDeleteOutline className="deleteSvg" />
+                                </div>
+                                <Link id="edit" className="button green text-blanco text-shadow-negra float-right" to={{ pathname: "/editrecipe", state: this.props.recipe }}>
+                                    <FaPencilAlt className="editSvg" />
+                                </Link>
+                            </div>) :
+                            (<div id={"like" + index} className={likeButtonClass} onClick={() => this.toggleLike({ _id, index })}>
+                                <AiOutlineLike className={likeSvgClass} />
+                            </div>)
+                        }
+                    </div>
                 </div>
-                <div id={"collapse" + this.props.toggler} className="card-body collapse" aria-labelledby={"heading" + this.props.toggler} data-parent="#accordion">
+                {nrOfLikes > 0 && likeUpdated != undefined && (
+                    <Badge color="primary">{"This recipe likes to "}{nrOfLikes}</Badge>
+                )}
+                <div id={"collapse" + index} className="card-body collapse" aria-labelledby={"heading" + index} data-parent="#accordion">
                     <UncontrolledCarousel items={pictures} />
                     <CardBody>
-                        <Button color="primary" id={"ingredientToggler" + this.props.toggler} style={{ marginTop: "0.5rem", width: "113px" }}>
+                        <Button color="primary" id={"ingredientToggler" + index} style={{ marginTop: "0.5rem", width: "113px" }}>
                             {language[5]}
                         </Button>
-                        <UncontrolledCollapse toggler={"#ingredientToggler" + this.props.toggler}>
+                        <UncontrolledCollapse toggler={"#ingredientToggler" + index}>
                             <RecipeTable ingredients={ingredients} />
                         </UncontrolledCollapse>
                         <br></br>
-                        <Button color="primary" id={"preparationToggler" + this.props.toggler} style={{ marginTop: "0.5rem", width: "113px" }}>
+                        <Button color="primary" id={"preparationToggler" + index} style={{ marginTop: "0.5rem", width: "113px" }}>
                             {language[6]}
                         </Button>
-                        <UncontrolledCollapse toggler={"#preparationToggler" + this.props.toggler}>
+                        <UncontrolledCollapse toggler={"#preparationToggler" + index}>
                             <Card>
                                 <CardBody>
                                     <div className="preparationField" dangerouslySetInnerHTML={{ __html: preparation }}></div>
@@ -128,6 +167,7 @@ class RecipeCard extends Component {
 const mapStateToProps = state => ({
     language: state.main.language.recipecard,
     user: state.main.user,
+    likeUpdated: state.main.likeUpdated,
 });
 
 export default connect(mapStateToProps)(RecipeCard);

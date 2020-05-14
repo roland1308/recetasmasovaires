@@ -165,7 +165,8 @@ class AddRecipe extends Component {
                 pax: data.pax,
                 preparation,
                 pictures: data.pictures,
-                removingImg: data.removingImg
+                removingImg: data.removingImg,
+                likes: []
             }
             let submitTag = document.getElementById("submitForm")
             submitTag.classList.add("chunkyGrey")
@@ -199,7 +200,11 @@ class AddRecipe extends Component {
 
     cancelInput = () => {
         this.props.dispatch(recipeReset())
-        this.props.history.push("/");
+        if (this.props.recipeAction === "add") {
+            this.props.history.push("/")
+        } else {
+            this.props.history.push("/listall")
+        };
     }
 
     deleteImage = (index) => {
@@ -216,7 +221,7 @@ class AddRecipe extends Component {
 
     render() {
         const { name, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
-        const { nrOfIngredients, editRecipe, language } = this.props
+        const { nrOfIngredients, editRecipe, language, recipeAction } = this.props
         let ingredientClass = "chunky chunkyViolet"
         let pictureClass = "chunky chunkyViolet"
         if (ingredient === "" || qty === "") {
@@ -298,7 +303,6 @@ class AddRecipe extends Component {
                                 pictures.map((picture, index) => {
                                     return (
                                         <div className="col-sm-3" key={index}>
-                                            {/* {this.props.recipeAction !== "add" && */}
                                             <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[21])) this.deleteImage(index) }}>
                                                 <TiDeleteOutline className="deleteSvg" />
                                             </div>
@@ -314,7 +318,7 @@ class AddRecipe extends Component {
                 </Form>
                 <nav className="footbar">
                     <button className="chunky chunkyW101 chunkyM25" onClick={() => this.sendData(this.state)} id="submitForm">
-                        {this.props.recipeAction === "add" ? language[22] : language[23]}
+                        {recipeAction === "add" ? language[22] : language[23]}
                     </button>
                     <button className="chunky chunkyYellow chunkyW101 chunkyM25" onClick={this.cancelInput} id="submitForm">{language[24]}</button>
                 </nav>

@@ -20,12 +20,15 @@ Ingredient and foto removing.
 - Register new user:
 ```
 Need a "BOOK CODE" to access to proper recipes' database!
+```
+- Sorting recipes' list.
+- Likes' management
 
 ## Work In Progress:
 - Comments' management.
 - Favorites' management.
 - Recipes' short list.
-- Edit ingredient.
 - Re-arrange recipe list card.
-- Sorting recipes' list.
+- Photo manipulation.
+- Share recipe
 

@@ -384,7 +384,7 @@ td {
     font-size: 3rem;
   }}
   
-  .linkNoDecoration {
+.linkNoDecoration {
   color: white;
   cursor: pointer;
   text-decoration: none !important;
@@ -561,6 +561,22 @@ table {
   font-size: 1.5rem;
   vertical-align: text-top;
 }
+.editSvg {
+  font-size: 1rem;
+  vertical-align: text-top;
+  margin: 3px;
+}
+.likeSvg {
+  font-size: 1.3rem;
+  vertical-align: text-top;
+}
+.whiteText {
+  color: white !important;
+}
+.blackText {
+  color: black !important;
+}
+
 .deleteSvgBack {
   font-size: 1.5rem;
   color: white;
@@ -586,6 +602,16 @@ table {
 .card-header {
   margin: 12px 20px !important;
   padding: 0 !important;
+}
+
+.noPadding {
+  padding: 0 !important;
+}
+
+.flexButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 h2, h3 {

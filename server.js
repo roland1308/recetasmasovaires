@@ -16,6 +16,7 @@ app.use(passport.initialize());
 require("./config/passport");
 
 const mongoose = require("mongoose");
+mongoose.set('useFindAndModify', false)
 mongoose
     .connect(db, { useNewUrlParser: true, useCreateIndex: true })
     .then(() => console.log("Connection to Mongo DB established"))

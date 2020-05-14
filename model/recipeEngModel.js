@@ -21,6 +21,12 @@ const recipeEngSchema = new mongoose.Schema({
     },
     pax: {
         type: Number
+    },
+    likes: {
+        type: Array
+    },
+    nrOfLikes: {
+        type: Number
     }
 })
 

@@ -166,6 +166,52 @@ router.post("/addphoto", upload.single("picture"), async (req, res) => {
     }
 });
 
+// PUSH user inside recipe's likes
+router.put(
+    "/pushlike",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        recipeModel.findByIdAndUpdate(
+            req.body._id,
+            {
+                $push: { likes: req.body.chefId },
+                $inc: { nrOfLikes: 1 }
+            },
+            { multi: true },
+            function (err, doc) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("OK");
+                }
+            }
+        )
+    }
+);
+
+// PULL user inside recipe's likes
+router.put(
+    "/pulllike",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        recipeModel.findByIdAndUpdate(
+            req.body._id,
+            {
+                $pull: { likes: req.body.chefId },
+                $inc: { nrOfLikes: -1 }
+            },
+            { multi: true },
+            function (err, doc) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("OK");
+                }
+            }
+        );
+    }
+);
+
 // router.post("/clear", (req, res) => {
 //     removeOldFiles(req.body.directory)
 //     res.send("ok")

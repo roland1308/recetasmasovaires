@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Input } from 'reactstrap';
+import { FormGroup, Input, Badge } from 'reactstrap';
 import { connect } from "react-redux";
 
 import FadeIn from "react-fade-in";
@@ -119,18 +119,17 @@ class ListAll extends Component {
             filteredRecipes: sortRecipe,
             orderName: -this.state.orderName
         })
-        console.log(this.state.orderName)
     }
 
     sortType = () => {
         let sortRecipe = this.state.filteredRecipes
         sortRecipe.sort((a, b) => {
-            let nameA = a.type.toUpperCase()
-            let nameB = b.type.toUpperCase()
-            if (nameA < nameB) {
+            let A = this.props.language.findIndex(c => c === a.type.toString())
+            let B = this.props.language.findIndex(c => c === b.type.toString())
+            if (A < B) {
                 return -this.state.orderType;
             }
-            if (nameA > nameB) {
+            if (A > B) {
                 return this.state.orderType;
             }
         })
@@ -151,7 +150,7 @@ class ListAll extends Component {
                             {this.state.filteredRecipes.map((recipe, index) => {
                                 return (
                                     <div className="col-sm-6" key={index}>
-                                        <RecipeCard recipe={recipe} toggler={index.toString()}></RecipeCard>
+                                        <RecipeCard recipe={recipe} index={index.toString()} />
                                     </div>
                                 );
                             })}

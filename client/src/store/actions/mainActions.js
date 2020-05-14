@@ -24,6 +24,9 @@ export const INGREDIENT_REMOVE = "INGREDIENT_REMOVE";
 export const SET_NR_OF_INGS = "SET_NR_OF_INGS";
 export const SET_LOADING = "SET_LOADING";
 
+export const ADD_LIKE = "ADD_LIKE"
+export const REMOVE_LIKE = "REMOVE_LIKE"
+
 const axios = require("axios");
 
 export const setLanguage = (payload) => ({
@@ -89,6 +92,53 @@ export const setNrOfIngs = (nrOfIngs) => ({
 export const setLoading = (state) => ({
     type: SET_LOADING,
     payload: state
+})
+
+export const addLike = (payload) => {
+    const { chefId, _id, token, URL } = payload
+    return async dispatch => {
+        try {
+            const response = await axios.put(URL, { chefId, _id }, {
+                headers: { authorization: `bearer ${token}` }
+            })
+            if (response.data.name === "MongoError") {
+                return response.data.errmsg
+            } else {
+                dispatch(likePushSuccess({ chefId, _id }))
+            }
+        } catch (error) {
+            return error.message
+        }
+        return "done";
+    }
+}
+export const likePushSuccess = (payload) => ({
+    type: ADD_LIKE,
+    payload: payload
+})
+export const removeLike = (payload) => {
+    const { chefId, indexLike, _id, token, URL } = payload
+    return async dispatch => {
+        try {
+            const response = await axios.put(URL, { chefId, _id }, {
+                headers: {
+                    authorization: `bearer ${token}`
+                }
+            })
+            if (response.data.name === "MongoError") {
+                return response.data.errmsg
+            } else {
+                dispatch(likeRemoveSuccess({ indexLike, _id }));
+            }
+        } catch (error) {
+            return error.message
+        }
+        return "done";
+    };
+}
+export const likeRemoveSuccess = (payload) => ({
+    type: REMOVE_LIKE,
+    payload: payload
 })
 
 export const checkToken = token => {
