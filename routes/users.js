@@ -141,4 +141,48 @@ router.get(
     }
 );
 
+// PUSH recipe inside user's favorites
+router.put(
+    "/pushfav",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        userModel.findByIdAndUpdate(
+            req.body.chefId,
+            {
+                $push: { favorites: req.body._id },
+            },
+            { multi: true },
+            function (err, doc) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("OK");
+                }
+            }
+        )
+    }
+);
+
+// PULL recipe inside user's favorites
+router.put(
+    "/pullfav",
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        userModel.findByIdAndUpdate(
+            req.body.chefId,
+            {
+                $pull: { favorites: req.body._id },
+            },
+            { multi: true },
+            function (err, doc) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send("OK");
+                }
+            }
+        );
+    }
+);
+
 module.exports = router

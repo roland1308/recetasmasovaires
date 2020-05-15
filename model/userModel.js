@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     book: {
         type: String,
         required: true,
+    },
+    favorites: {
+        type: Array
     }
 })
 

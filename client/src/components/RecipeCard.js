@@ -14,9 +14,10 @@ import RecipeTable from './RecipeTable';
 import { FaPencilAlt } from 'react-icons/fa'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { AiOutlineLike } from 'react-icons/ai'
+import { MdFavoriteBorder } from 'react-icons/md'
 
 import Axios from 'axios';
-import { recipeDelete, addLike, removeLike } from '../store/actions/mainActions';
+import { recipeDelete, addLike, removeLike, addFav, removeFav } from '../store/actions/mainActions';
 
 class RecipeCard extends Component {
     constructor(props) {
@@ -24,16 +25,22 @@ class RecipeCard extends Component {
 
         this.state = {
             isLiked: [],
+            isFaved: [],
         }
     }
 
     componentDidMount() {
         const { user, index } = this.props
-        const { likes } = this.props.recipe
+        const { likes, _id } = this.props.recipe
         if (likes.filter(userLiked => userLiked === user._id).length !== 0) {
             let momIsLiked = this.state.isLiked
             momIsLiked[index] = true
             this.setState({ isLiked: momIsLiked })
+        }
+        if (user.favorites.filter(userFaved => userFaved === _id).length !== 0) {
+            let momIsFaved = this.state.isFaved
+            momIsFaved[index] = true
+            this.setState({ isFaved: momIsFaved })
         }
     }
 
@@ -63,6 +70,22 @@ class RecipeCard extends Component {
             this.props.dispatch(removeLike({ chefId, _id, token, URL: this.props.user.database + "/pulllike" }))
         } else {
             this.props.dispatch(addLike({ chefId, _id, token, URL: this.props.user.database + "/pushlike" }))
+        }
+    }
+
+    toggleFav = ({ _id, index }) => {
+        const { user } = this.props
+        const chefId = user._id
+        const token = window.localStorage.token
+        let momIsFaved = this.state.isFaved
+        momIsFaved[index] = !momIsFaved[index]
+        this.setState({
+            isFaved: momIsFaved,
+        })
+        if (user.favorites.filter(userFaved => userFaved === _id).length !== 0) {
+            this.props.dispatch(removeFav({ chefId, _id, token, URL: "/users/pullfav" }))
+        } else {
+            this.props.dispatch(addFav({ chefId, _id, token, URL: "/users/pushfav" }))
         }
     }
 
@@ -114,7 +137,10 @@ class RecipeCard extends Component {
             NOlikeSvgClass = "likeSvg blackText",
             likeButtonClass = "button blue text-blanco text-shadow-negra float-right",
             likeSvgClass = "likeSvg whiteText"
-
+        const NOfavButtonClass = "button grey text-blanco text-shadow-negra float-right",
+            NOfavSvgClass = "favSvg blackText",
+            favButtonClass = "button redStrong text-blanco text-shadow-negra float-right",
+            favSvgClass = "favSvg whiteText"
         return (
             <div style={cardColor} className="card">
                 <div style={cardStyle} className="card-header row" id={"heading" + index}>
@@ -137,8 +163,13 @@ class RecipeCard extends Component {
                                     <FaPencilAlt className="editSvg" />
                                 </Link>
                             </div>) :
-                            (<div id={"like" + index} className={this.state.isLiked[index] ? likeButtonClass : NOlikeButtonClass} onClick={() => this.toggleLike({ _id, index })}>
-                                <AiOutlineLike className={this.state.isLiked[index] ? likeSvgClass : NOlikeSvgClass} />
+                            (<div className="flexButtons float-right">
+                                <div id={"like" + index} className={this.state.isLiked[index] ? likeButtonClass : NOlikeButtonClass} onClick={() => this.toggleLike({ _id, index })}>
+                                    <AiOutlineLike className={this.state.isLiked[index] ? likeSvgClass : NOlikeSvgClass} />
+                                </div>
+                                <div id={"fav" + index} className={this.state.isFaved[index] ? favButtonClass : NOfavButtonClass} onClick={() => this.toggleFav({ _id, index })}>
+                                    <MdFavoriteBorder className={this.state.isFaved[index] ? favSvgClass : NOfavSvgClass} />
+                                </div>
                             </div>)
                         }
                     </div>

@@ -16,6 +16,8 @@ import {
     LOG_OUT,
     ADD_LIKE,
     REMOVE_LIKE,
+    ADD_FAV,
+    REMOVE_FAV,
 } from '../actions/mainActions';
 
 
@@ -158,6 +160,22 @@ export default function mainReducer(state = initialState, action) {
             let copyRecipeForRemoveLike = state.recipes
             const indexRemoveLike = copyRecipeForRemoveLike.findIndex(recipe => recipe._id === action.payload._id)
             copyRecipeForRemoveLike[indexRemoveLike].likes = copyRecipeForRemoveLike[indexRemoveLike].likes.filter(userLiked => userLiked !== action.payload.chefId)
+            return {
+                ...state,
+                recipes: copyRecipeForRemoveLike,
+                renderToggle: state.renderToggle - 1
+            }
+        case ADD_FAV:
+            const copyUserForAddFav = state.user
+            copyUserForAddFav.favorites.push(action.payload)
+            return {
+                ...state,
+                user: copyUserForAddFav,
+                renderToggle: state.renderToggle + 1
+            }
+        case REMOVE_FAV:
+            let copyRecipeForRemoveFav = state.user
+            copyRecipeForRemoveFav.favorites = copyRecipeForRemoveFav.favorites.filter(userFaved => userFaved !== action.payload)
             return {
                 ...state,
                 recipes: copyRecipeForRemoveLike,

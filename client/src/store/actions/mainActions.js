@@ -27,6 +27,9 @@ export const SET_LOADING = "SET_LOADING";
 export const ADD_LIKE = "ADD_LIKE"
 export const REMOVE_LIKE = "REMOVE_LIKE"
 
+export const ADD_FAV = "ADD_FAV"
+export const REMOVE_FAV = "REMOVE_FAV"
+
 const axios = require("axios");
 
 export const setLanguage = (payload) => ({
@@ -117,7 +120,7 @@ export const likePushSuccess = (payload) => ({
     payload: payload
 })
 export const removeLike = (payload) => {
-    const { chefId, indexLike, _id, token, URL } = payload
+    const { chefId, _id, token, URL } = payload
     return async dispatch => {
         try {
             const response = await axios.put(URL, { chefId, _id }, {
@@ -138,6 +141,53 @@ export const removeLike = (payload) => {
 }
 export const likeRemoveSuccess = (payload) => ({
     type: REMOVE_LIKE,
+    payload: payload
+})
+
+export const addFav = (payload) => {
+    const { chefId, _id, token, URL } = payload
+    return async dispatch => {
+        try {
+            const response = await axios.put(URL, { chefId, _id }, {
+                headers: { authorization: `bearer ${token}` }
+            })
+            if (response.data.name === "MongoError") {
+                return response.data.errmsg
+            } else {
+                dispatch(favPushSuccess(_id))
+            }
+        } catch (error) {
+            return error.message
+        }
+        return "done";
+    }
+}
+export const favPushSuccess = (payload) => ({
+    type: ADD_FAV,
+    payload: payload
+})
+export const removeFav = (payload) => {
+    const { chefId, _id, token, URL } = payload
+    return async dispatch => {
+        try {
+            const response = await axios.put(URL, { chefId, _id }, {
+                headers: {
+                    authorization: `bearer ${token}`
+                }
+            })
+            if (response.data.name === "MongoError") {
+                return response.data.errmsg
+            } else {
+                dispatch(favRemoveSuccess(_id));
+            }
+        } catch (error) {
+            return error.message
+        }
+        return "done";
+    };
+}
+export const favRemoveSuccess = (payload) => ({
+    type: REMOVE_FAV,
     payload: payload
 })
 

@@ -160,7 +160,7 @@ class ListAll extends Component {
                         </div>)
                     }
                 </FadeIn>
-                <div className="footbar">
+                <footer className="footbar">
                     <div className="dropup">
                         <FcSearch
                             className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"
@@ -205,15 +205,13 @@ class ListAll extends Component {
                         />
                         <div className="collapse" id="collapseFilter2">
                             <div className="card-body bottomMenu sortFields">
-
                                 <p onClick={this.sortChef} className="form-control">{language[1]}{" "}{orderChef === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
                                 <p onClick={this.sortName} className="form-control">{language[3]}{" "}{orderName === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
                                 <p onClick={this.sortType} className="form-control">{language[5]}{" "}{orderType === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
-
                             </div>
                         </div>
                     </div>
-                </div>
+                </footer>
             </div>
         );
     }

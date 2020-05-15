@@ -219,6 +219,13 @@ body {
 	border-right-color:#AF5757;
 	border-top-color:#C66767;
 }
+.redStrong{
+	background-color:#FF0A0A;
+	border-bottom-color:#FF0D0D;
+	border-left-color:#FF0707;
+	border-right-color:#FF0707;
+	border-top-color:#FF1717;
+}
 .green{
 	background-color:#82C43A;
 	border-color:#578720;
@@ -508,6 +515,7 @@ a.nav-link {
 .jumbotron {
   padding: 0.5rem !important;
   margin-top: 45px !important;
+  margin-bottom: 45px !important;
   overflow: hidden;
 }
 
@@ -570,11 +578,19 @@ table {
   font-size: 1.3rem;
   vertical-align: text-top;
 }
+.favSvg {
+  font-size: 1.5rem;
+  vertical-align: text-top;
+  transform: translateY(2px);
+}
 .whiteText {
   color: white !important;
 }
 .blackText {
   color: black !important;
+}
+.redText {
+  color: red !important;
 }
 
 .deleteSvgBack {
