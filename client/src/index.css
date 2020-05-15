@@ -465,11 +465,11 @@ z-index: 100;
   box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 .filterFields {
-  transform: translate3d(-27px, -267px, 0);
+  transform: translate3d(26px, -267px, 0);
   width: 189px;
 }
 .sortFields {
-  transform: translate3d(-146px, -188px, 0);
+  transform: translate3d(-105px, -188px, 0);
   width: 162px;
 }
 .sortFields > p:hover {
