@@ -25,9 +25,6 @@ const recipeItaSchema = new mongoose.Schema({
     likes: {
         type: Array
     },
-    nrOfLikes: {
-        type: Number
-    }
 })
 
 module.exports = mongoose.model('recipeita', recipeItaSchema)

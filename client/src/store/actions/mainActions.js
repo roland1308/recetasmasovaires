@@ -128,7 +128,7 @@ export const removeLike = (payload) => {
             if (response.data.name === "MongoError") {
                 return response.data.errmsg
             } else {
-                dispatch(likeRemoveSuccess({ indexLike, _id }));
+                dispatch(likeRemoveSuccess({ chefId, _id }));
             }
         } catch (error) {
             return error.message

@@ -128,7 +128,6 @@ router.put(
             req.body._id,
             {
                 $push: { likes: req.body.chefId },
-                $inc: { nrOfLikes: 1 }
             },
             { multi: true },
             function (err, doc) {
@@ -151,7 +150,6 @@ router.put(
             req.body._id,
             {
                 $pull: { likes: req.body.chefId },
-                $inc: { nrOfLikes: -1 }
             },
             { multi: true },
             function (err, doc) {

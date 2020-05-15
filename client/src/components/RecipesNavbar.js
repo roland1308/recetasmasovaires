@@ -36,7 +36,7 @@ class RecipesNavbar extends Component {
                         {/* <div className="dropdown-item" href="#">Commenti</div>
                         <div className="dropdown-item" href="#">Preferiti</div> */}
                         <button type="button" className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Language
+                            {this.props.language.recipesnavbar[0]}
                         </button>
                         <div className="dropdown-menu languageMenu">
                             <div onClick={() => this.setLanguage("English")}>English</div>

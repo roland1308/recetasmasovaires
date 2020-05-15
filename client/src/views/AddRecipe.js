@@ -8,7 +8,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 
 import { connect } from "react-redux";
 import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading } from '../store/actions/mainActions';
-import QuillProva from '../components/QuillProva';
+import QuillText from '../components/QuillText';
 
 const axios = require("axios");
 
@@ -294,7 +294,7 @@ class AddRecipe extends Component {
                     <FormGroup className="underline">
                         <Label for="preparation">{language[17]}</Label>
                         <br></br>
-                        <QuillProva placeholder={language[18]} value={preparation} />
+                        <QuillText placeholder={language[18]} value={preparation} />
                     </FormGroup>
                     <FormGroup className="underline">
                         <Label for="picture">{language[20]}</Label>

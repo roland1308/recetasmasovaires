@@ -31,7 +31,7 @@ const initialState = {
     nrOfIngredients: 0,
     isLoading: false,
     isLogged: false,
-    likeUpdated: 0
+    renderToggle: 0
 };
 
 export default function mainReducer(state = initialState, action) {
@@ -42,7 +42,6 @@ export default function mainReducer(state = initialState, action) {
                 language: action.payload
             }
         case SET_RECIPES:
-            action.payload.map(recipe => recipe.nrOfLikes = recipe.likes.length)
             return {
                 ...state,
                 recipes: action.payload,
@@ -150,21 +149,19 @@ export default function mainReducer(state = initialState, action) {
             const copyRecipeForAddLike = state.recipes
             const indexAddLike = copyRecipeForAddLike.findIndex(recipe => recipe._id === action.payload._id)
             copyRecipeForAddLike[indexAddLike].likes.push(action.payload.chefId)
-            copyRecipeForAddLike[indexAddLike].nrOfLikes = copyRecipeForAddLike[indexAddLike].likes.length
             return {
                 ...state,
                 recipes: copyRecipeForAddLike,
-                likeUpdated: state.likeUpdated + 1
+                renderToggle: state.renderToggle + 1
             }
         case REMOVE_LIKE:
-            const copyRecipeForRemoveLike = state.recipes
+            let copyRecipeForRemoveLike = state.recipes
             const indexRemoveLike = copyRecipeForRemoveLike.findIndex(recipe => recipe._id === action.payload._id)
-            copyRecipeForRemoveLike[indexRemoveLike].likes.splice(action.payload.indexLike, 1)
-            copyRecipeForRemoveLike[indexRemoveLike].nrOfLikes = copyRecipeForRemoveLike[indexRemoveLike].likes.length
+            copyRecipeForRemoveLike[indexRemoveLike].likes = copyRecipeForRemoveLike[indexRemoveLike].likes.filter(userLiked => userLiked !== action.payload.chefId)
             return {
                 ...state,
                 recipes: copyRecipeForRemoveLike,
-                likeUpdated: state.likeUpdated - 1
+                renderToggle: state.renderToggle - 1
             }
         default:
             // ALWAYS have a default case in a reducer

@@ -2,6 +2,9 @@ export function languages() {
     return {
         // SPANISH
         esp: {
+            recipesnavbar: [
+                "Idioma:"
+            ],
             homepage: [
                 "Recetas de los Masovaires",
                 "¡Bienvenid@s a nuestro",
@@ -67,7 +70,9 @@ export function languages() {
                 "segundo",
                 "acompañamiento",
                 "postre",
-                "plato único"
+                "plato único",
+                "Esta receta gusta a ",
+                " persona."
             ],
             recipetable: [
                 "Ingrediente",
@@ -77,6 +82,9 @@ export function languages() {
         },
         //ENGLISH
         eng: {
+            recipesnavbar: [
+                "Language:"
+            ],
             homepage: [
                 "Family's Recipes",
                 "Welcome to our",
@@ -142,7 +150,9 @@ export function languages() {
                 "second course",
                 "accompaniment",
                 "dessert",
-                "single plate"
+                "single plate",
+                "This recipe likes to ",
+                " people."
             ],
             recipetable: [
                 "Ingredient",
@@ -152,6 +162,9 @@ export function languages() {
         },
         //ITALIAN
         ita: {
+            recipesnavbar: [
+                "Lingua:"
+            ],
             homepage: [
                 "Ricette di famiglia",
                 "Benvenut@ nel nostro",
@@ -217,7 +230,9 @@ export function languages() {
                 "secondo",
                 "contorno",
                 "dolce",
-                "piatto unico"
+                "piatto unico",
+                "Questa ricetta piace a ",
+                " persona."
             ],
             recipetable: [
                 "Ingrediente",
@@ -226,6 +241,9 @@ export function languages() {
             ],
         },
         cat: {
+            recipesnavbar: [
+                "Idioma:"
+            ],
             homepage: [
                 "Receptes dels Masovaires",
                 "Benvinguts al nostre",
@@ -291,7 +309,9 @@ export function languages() {
                 "segon",
                 "acompanyament",
                 "postres",
-                "plat únic"
+                "plat únic",
+                "Aquesta recepta agrada a ",
+                " persona."
             ],
             recipetable: [
                 "Ingredient",
