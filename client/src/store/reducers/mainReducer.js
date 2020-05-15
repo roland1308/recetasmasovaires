@@ -57,7 +57,18 @@ export default function mainReducer(state = initialState, action) {
             }
         case LOG_OUT:
             return {
-                initialState
+                user: undefined,
+                recipes: [],
+                nrOfRecipes: 0,
+                language: undefined,
+                recipeAction: undefined,
+                editRecipe: {
+                    editIngredients: []
+                },
+                nrOfIngredients: 0,
+                isLoading: false,
+                isLogged: false,
+                renderToggle: 0
             }
         case RECIPE_ADD:
             return {
