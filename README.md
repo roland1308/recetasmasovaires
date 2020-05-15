@@ -23,12 +23,12 @@ Need a "BOOK CODE" to access to proper recipes' database!
 ```
 - Sorting recipes' list.
 - Likes' management
+- Favorites' management.
+- Favorites list
 
 ## Work In Progress:
 - Comments' management.
-- Favorites' management.
 - Recipes' short list.
 - Re-arrange recipe list card.
 - Photo manipulation.
 - Share recipe
-

@@ -11,6 +11,7 @@ import { FcSearch } from 'react-icons/fc';
 import { FcGenericSortingAsc } from 'react-icons/fc';
 import { FcAlphabeticalSortingAz } from 'react-icons/fc';
 import { FcAlphabeticalSortingZa } from 'react-icons/fc';
+import { GiShiningHeart } from 'react-icons/gi';
 
 class ListAll extends Component {
     constructor(props) {
@@ -25,7 +26,8 @@ class ListAll extends Component {
             type: props.language[5],
             orderChef: 1,
             orderName: 1,
-            orderType: 1
+            orderType: 1,
+            filterFav: false
         };
     }
 
@@ -139,9 +141,20 @@ class ListAll extends Component {
         })
     }
 
+    filterFav = () => {
+        let favRecipes = this.props.recipes
+        if (!this.state.filterFav) {
+            favRecipes = favRecipes.filter(recipe => this.props.user.favorites.includes(recipe._id))
+        }
+        this.setState({
+            filteredRecipes: favRecipes,
+            filterFav: !this.state.filterFav
+        })
+    }
+
     render() {
         const { language, nrOfRecipes } = this.props
-        const { orderName, orderChef, orderType } = this.state
+        const { orderName, orderChef, orderType, filterFav } = this.state
         return (
             <div>
                 <FadeIn>
@@ -210,6 +223,9 @@ class ListAll extends Component {
                                 <p onClick={this.sortType} className="form-control">{language[5]}{" "}{orderType === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
                             </div>
                         </div>
+                    </div>
+                    <div className="dropup">
+                        <GiShiningHeart className={filterFav ? "filterButton redFilter" : "filterButton blueFilter"} type="button" onClick={this.filterFav} />
                     </div>
                 </footer>
             </div>

@@ -148,7 +148,7 @@ export default function mainReducer(state = initialState, action) {
                 isLoading: action.payload
             }
         case ADD_LIKE:
-            const copyRecipeForAddLike = state.recipes
+            let copyRecipeForAddLike = state.recipes
             const indexAddLike = copyRecipeForAddLike.findIndex(recipe => recipe._id === action.payload._id)
             copyRecipeForAddLike[indexAddLike].likes.push(action.payload.chefId)
             return {
@@ -166,7 +166,7 @@ export default function mainReducer(state = initialState, action) {
                 renderToggle: state.renderToggle - 1
             }
         case ADD_FAV:
-            const copyUserForAddFav = state.user
+            let copyUserForAddFav = state.user
             copyUserForAddFav.favorites.push(action.payload)
             return {
                 ...state,
@@ -174,11 +174,11 @@ export default function mainReducer(state = initialState, action) {
                 renderToggle: state.renderToggle + 1
             }
         case REMOVE_FAV:
-            let copyRecipeForRemoveFav = state.user
-            copyRecipeForRemoveFav.favorites = copyRecipeForRemoveFav.favorites.filter(userFaved => userFaved !== action.payload)
+            let copyUserForRemoveFav = state.user
+            copyUserForRemoveFav.favorites = copyUserForRemoveFav.favorites.filter(userFaved => userFaved !== action.payload)
             return {
                 ...state,
-                recipes: copyRecipeForRemoveLike,
+                user: copyUserForRemoveFav,
                 renderToggle: state.renderToggle - 1
             }
         default:

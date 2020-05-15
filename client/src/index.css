@@ -221,10 +221,10 @@ body {
 }
 .redStrong{
 	background-color:#FF0A0A;
-	border-bottom-color:#FF0D0D;
+	border-bottom-color:#CC0D0D;
 	border-left-color:#FF0707;
 	border-right-color:#FF0707;
-	border-top-color:#FF1717;
+	border-top-color:#FF6666;
 }
 .green{
 	background-color:#82C43A;
@@ -411,6 +411,11 @@ div.card-subtitle {
   font-size: 1rem !important;
 }
 
+div.carousel-item.active > img {
+  border-radius: 5px !important;
+  border: 1px grey solid;
+}
+
 td:nth-child(2),
 th:nth-child(2) {
   text-align: right;
@@ -442,6 +447,12 @@ z-index: 100;
 .filterButton {
   margin: 0 50px 0 50px !important;
   padding: 0;
+}
+.blueFilter {
+  color: rgb(49, 134, 245);
+}
+.redFilter {
+  color: rgb(245, 49, 49);
 }
 
 .bottomMenu {
