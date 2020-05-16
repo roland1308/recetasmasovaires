@@ -10,9 +10,9 @@ export function languages() {
                 "¡Bienvenid@s a nuestro",
                 "Libro de Recetas!",
                 "Buscar",
-                "Busca entre las recetas.",
+                "Busca entre las recetas",
                 "Añadir",
-                "Añade tu receta de familia."
+                "Añade tu receta de familia"
             ],
             addrecipe: [
                 "Nombre receta*:",
@@ -90,9 +90,9 @@ export function languages() {
                 "Welcome to our",
                 "Recipes' book!",
                 "Search",
-                "Search among the recipes.",
+                "Search among the recipes",
                 "Add",
-                "Add your family's recipe."
+                "Add your family's recipe"
             ],
             addrecipe: [
                 "Recipe name*:",
@@ -170,9 +170,9 @@ export function languages() {
                 "Benvenut@ nel nostro",
                 "Ricettario!",
                 "Cerca",
-                "Cerca tra le ricette presenti.",
+                "Cerca tra le ricette presenti",
                 "Aggiungi",
-                "Aggiungi la tua ricetta di famiglia."
+                "Aggiungi la tua ricetta di famiglia"
             ],
             addrecipe: [
                 "Nome ricetta*:",
@@ -249,9 +249,9 @@ export function languages() {
                 "Benvinguts al nostre",
                 "Llibre de Receptes!",
                 "Cerca",
-                "Cerca entre les receptes.",
+                "Cerca entre les receptes",
                 "Afegeix",
-                "Afegeix la teva recepta de família."
+                "Afegeix la teva recepta de família"
             ],
             addrecipe: [
                 "Nom recepta*:",

@@ -187,7 +187,9 @@ class LogIn extends Component {
                 ) : (
                         <div>
                             <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][3]}</button>
-                            <button onClick={this.toggleIsRegister} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][4]}</button>
+                            <hr></hr>
+                            <h4>Don't have an account?</h4>
+                            <button onClick={this.toggleIsRegister} className="chunky chunkyBlue chunkyW107">{welcomeText[languagePos][4]}</button>
                         </div>
                     )}
             </div>

@@ -10,6 +10,11 @@ body {
 
 /* ===[ Begin Chunky Button ]=== */
 
+input,
+select {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
 .chunky {
   /* Normal State */
   padding: 4px 15px 7px 15px;
@@ -98,6 +103,9 @@ body {
 }
 .chunkyViolet {
   background-color: #663399;
+}
+.chunkyBlue {
+  background-color: #285b9e;
 }
 .chunkyW101 {
   width: 101px;
@@ -331,15 +339,6 @@ div.dropdown-menu.show {
   transform: translate3d(-120px, 40px, 0px) !important;
 }
 
-.preparationField {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif !important;
-  font-weight: 400;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-}
-
 .preparationField>p,
 .preparationField>ul {
   margin: 0;
@@ -347,7 +346,7 @@ div.dropdown-menu.show {
 
 .App {
   font-family: 'Indie Flower', cursive !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
 }
 
 .logIn {
@@ -592,13 +591,13 @@ table {
 .favSvg {
   font-size: 1.5rem;
   vertical-align: text-top;
-  transform: translateY(2px);
+  transform: translateY(1px);
 }
 .whiteText {
   color: white !important;
 }
 .blackText {
-  color: black !important;
+  color: rgb(107, 105, 105) !important;
 }
 .redText {
   color: red !important;
@@ -648,4 +647,6 @@ h2, h3 {
 .ql-editor,
 .ql-blank {
   font-size: 1rem;
+  background-color: white !important;
+  border-radius: 2px !important;
 }

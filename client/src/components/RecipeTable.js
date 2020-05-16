@@ -29,8 +29,8 @@ class RecipeTable extends Component {
     }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (prevProps.nrOfIngredients !== this.props.nrOfIngredients) {
-            const { recipeAction, editRecipe, ingredients } = this.props
+        const { recipeAction, editRecipe, nrOfIngredients, ingredients } = this.props
+        if (prevProps.nrOfIngredients !== nrOfIngredients || prevProps.ingredients !== ingredients) {
             if ((recipeAction === "edit") && (editRecipe.editIngredients.length > 0)) {
                 this.setState({ editedIngredients: editRecipe.editIngredients })
             } else {
