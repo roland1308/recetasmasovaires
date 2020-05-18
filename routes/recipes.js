@@ -43,7 +43,7 @@ router.get('/all',
     (req, res) => {
         // removeOldFiles("./uploads/resized")
         // removeOldFiles("./uploads")
-        recipeModel.find({})
+        recipeModel.find({}, null, { sort: { _id: -1 } })
             .then(files => {
                 res.send(files)
             })

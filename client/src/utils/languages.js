@@ -12,7 +12,8 @@ export function languages() {
                 "Buscar",
                 "Busca entre las recetas",
                 "Añadir",
-                "Añade tu receta de familia"
+                "Añade tu receta de familia",
+                "Últimas recetas añadidas:"
             ],
             addrecipe: [
                 "Nombre receta*:",
@@ -92,7 +93,8 @@ export function languages() {
                 "Search",
                 "Search among the recipes",
                 "Add",
-                "Add your family's recipe"
+                "Add your family's recipe",
+                "Last added recipes:"
             ],
             addrecipe: [
                 "Recipe name*:",
@@ -172,7 +174,8 @@ export function languages() {
                 "Cerca",
                 "Cerca tra le ricette presenti",
                 "Aggiungi",
-                "Aggiungi la tua ricetta di famiglia"
+                "Aggiungi la tua ricetta di famiglia",
+                "Ultime ricette aggiunte:"
             ],
             addrecipe: [
                 "Nome ricetta*:",
@@ -251,7 +254,8 @@ export function languages() {
                 "Cerca",
                 "Cerca entre les receptes",
                 "Afegeix",
-                "Afegeix la teva recepta de família"
+                "Afegeix la teva recepta de família",
+                "Últimes receptes afegides:"
             ],
             addrecipe: [
                 "Nom recepta*:",

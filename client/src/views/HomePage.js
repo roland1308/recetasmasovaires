@@ -4,19 +4,21 @@ import { Spinner } from 'reactstrap';
 
 import { checkToken, recipeReset } from "../store/actions/mainActions";
 import { connect } from "react-redux";
+import RecipeCarousel from '../components/RecipeCarousel';
 
 class HomePage extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.state = {
-            isOpen: false
+            isOpen: false,
         };
     }
 
     componentDidMount() {
         const token = window.localStorage.token;
-        if (token && this.props.isLogged === false) {
+        const { isLogged } = this.props
+        if (token && isLogged === false) {
             console.log(token);
             this.props.dispatch(checkToken(token));
         }
@@ -41,7 +43,14 @@ class HomePage extends Component {
                 </div>
             )
         }
-        const { language } = this.props
+        const { language, recipes } = this.props
+        const recipesForCarousel = recipes.slice(0, 4)
+        let picsForCarousel = [],
+            nameForCarousel = []
+        recipesForCarousel.map(recipe => {
+            picsForCarousel.push(recipe.pictures[0])
+            nameForCarousel.push(recipe.name)
+        })
         return (
             <div>
                 <br></br>
@@ -62,6 +71,8 @@ class HomePage extends Component {
                     <span>{language[6]}</span>
                     <hr></hr>
                 </div>
+                <h4>{language[7]}</h4>
+                <RecipeCarousel picsForCarousel={picsForCarousel} nameForCarousel={nameForCarousel} />
             </div>
         );
     }
@@ -71,6 +82,7 @@ const mapStateToProps = state => ({
     language: state.main.language.homepage,
     user: state.main.user,
     isLoading: state.main.isLoading,
+    recipes: state.main.recipes,
 });
 
 export default connect(mapStateToProps)(HomePage);

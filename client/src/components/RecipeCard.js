@@ -136,7 +136,7 @@ class RecipeCard extends Component {
         return (
             <div style={cardColor} className="card">
                 <div style={cardStyle} className="card-header row" id={"heading" + index}>
-                    <button className="btnFullWidth linkNoDecoration btn btn-link collapsed col-10  noPadding" data-toggle="collapse" data-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index}>
+                    <button className="btnFullWidth linkNoDecoration btn btn-link collapsed col-10 noPadding" data-toggle="collapse" data-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index}>
                         <CardBody>
                             <CardTitle>{name}</CardTitle>
                             <CardSubtitle>{language[1] + type + language[2] + chef + "."}</CardSubtitle>
@@ -175,14 +175,14 @@ class RecipeCard extends Component {
                 <div id={"collapse" + index} className="card-body collapse" aria-labelledby={"heading" + index} data-parent="#accordion">
                     <UncontrolledCarousel items={pictures} />
                     <CardBody>
-                        <Button color="primary" id={"ingredientToggler" + index} style={{ marginTop: "0.5rem", width: "113px" }}>
+                        <Button color="primary" id={"ingredientToggler" + index} className="cardButton">
                             {language[5]}
                         </Button>
                         <UncontrolledCollapse toggler={"#ingredientToggler" + index}>
                             <RecipeTable ingredients={ingredients} />
                         </UncontrolledCollapse>
                         <br></br>
-                        <Button color="primary" id={"preparationToggler" + index} style={{ marginTop: "0.5rem", width: "113px" }}>
+                        <Button color="primary" id={"preparationToggler" + index} className="cardButton">
                             {language[6]}
                         </Button>
                         <UncontrolledCollapse toggler={"#preparationToggler" + index}>

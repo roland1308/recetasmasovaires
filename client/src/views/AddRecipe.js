@@ -306,7 +306,6 @@ class AddRecipe extends Component {
                                             <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[21])) this.deleteImage(index) }}>
                                                 <TiDeleteOutline className="deleteSvg" />
                                             </div>
-                                            {/* } */}
                                             <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
                                     )

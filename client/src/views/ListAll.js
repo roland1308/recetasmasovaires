@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Input, Badge } from 'reactstrap';
+import { FormGroup, Input } from 'reactstrap';
 import { connect } from "react-redux";
 
 import FadeIn from "react-fade-in";
@@ -89,15 +89,17 @@ class ListAll extends Component {
 
     sortChef = () => {
         let sortRecipe = this.state.filteredRecipes
+        let result = null
         sortRecipe.sort((a, b) => {
             let nameA = a.chef.toUpperCase()
             let nameB = b.chef.toUpperCase()
             if (nameA < nameB) {
-                return -this.state.orderChef;
+                result = -this.state.orderChef;
             }
             if (nameA > nameB) {
-                return this.state.orderChef;
+                result = this.state.orderChef;
             }
+            return result
         })
         this.setState({
             filteredRecipes: sortRecipe,
@@ -107,15 +109,17 @@ class ListAll extends Component {
 
     sortName = () => {
         let sortRecipe = this.state.filteredRecipes
+        let result = null
         sortRecipe.sort((a, b) => {
             let nameA = a.name.toUpperCase()
             let nameB = b.name.toUpperCase()
             if (nameA < nameB) {
-                return -this.state.orderName;
+                result = -this.state.orderName;
             }
             if (nameA > nameB) {
-                return this.state.orderName;
+                result = this.state.orderName;
             }
+            return result
         })
         this.setState({
             filteredRecipes: sortRecipe,
@@ -125,15 +129,17 @@ class ListAll extends Component {
 
     sortType = () => {
         let sortRecipe = this.state.filteredRecipes
+        let result = null
         sortRecipe.sort((a, b) => {
             let A = this.props.language.findIndex(c => c === a.type.toString())
             let B = this.props.language.findIndex(c => c === b.type.toString())
             if (A < B) {
-                return -this.state.orderType;
+                result = -this.state.orderType;
             }
             if (A > B) {
-                return this.state.orderType;
+                result = this.state.orderType;
             }
+            return result
         })
         this.setState({
             filteredRecipes: sortRecipe,

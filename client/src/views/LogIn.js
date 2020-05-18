@@ -23,7 +23,8 @@ class LogIn extends Component {
                     "Sign!",
                     "Cancel!",
                     "Repeat password",
-                    "Book code?"],
+                    "Book code?",
+                    "Don't you have an account?"],
                 ["Ciao!",
                     "Come ti chiami?",
                     "Password?",
@@ -33,7 +34,9 @@ class LogIn extends Component {
                     "Registra!",
                     "Annulla!",
                     "Ripeti la password!",
-                    "Codice del libro?"],
+                    "Codice del libro?",
+                    "Non hai un account?"
+                ],
                 ["¡Hola!",
                     "¿Como te llamas?",
                     "¿Contraseña?",
@@ -43,7 +46,9 @@ class LogIn extends Component {
                     "¡Registra!",
                     "¡Anula!",
                     "¡Repite la contraseña!",
-                    "¿Código de libro?"],
+                    "¿Código de libro?",
+                    "¿No tienes una cuenta?"
+                ],
                 ["¡Hola!",
                     "¿Com es diu?",
                     "¿Contrasenya?",
@@ -54,6 +59,7 @@ class LogIn extends Component {
                     "¡Anul·la!",
                     "¡Repeteix la ¿Contrasenya!",
                     "¿Codi de llibre?",
+                    "¿No tens un compte?"
                 ]
             ],
             languagePos: 2,
@@ -188,7 +194,7 @@ class LogIn extends Component {
                         <div>
                             <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][3]}</button>
                             <hr></hr>
-                            <h4>Don't have an account?</h4>
+                            <h4>{welcomeText[languagePos][10]}</h4>
                             <button onClick={this.toggleIsRegister} className="chunky chunkyBlue chunkyW107">{welcomeText[languagePos][4]}</button>
                         </div>
                     )}
