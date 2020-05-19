@@ -18,7 +18,9 @@ import {
     REMOVE_LIKE,
     ADD_FAV,
     REMOVE_FAV,
-    SET_PAGE
+    SET_PAGE,
+    SET_LONGLIST,
+    SET_FILTERFAV
 } from '../actions/mainActions';
 
 
@@ -35,11 +37,23 @@ const initialState = {
     isLoading: false,
     isLogged: false,
     renderToggle: 0,
-    page: "home"
+    page: "home",
+    isLongList: true,
+    filterFav: false
 };
 
 export default function mainReducer(state = initialState, action) {
     switch (action.type) {
+        case SET_LONGLIST:
+            return {
+                ...state,
+                isLongList: !state.isLongList
+            }
+        case SET_FILTERFAV:
+            return {
+                ...state,
+                filterFav: !state.filterFav
+            }
         case SET_PAGE:
             return {
                 ...state,

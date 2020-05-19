@@ -419,10 +419,6 @@ div.card-body {
   padding: 5px !important;
 }
 
-div.card-title {
-  font-size: 2rem !important;
-}
-
 div.card-subtitle {
   font-size: 1rem !important;
 }
@@ -457,21 +453,19 @@ th:nth-child(2) {
   margin: 0 !important;
   border: 0 !important;
 }
-div.dropdown svg.filterButton {
-font-size: 1.5rem !important;
-}
 svg.filterButton {
 text-align: start !important;
 border: 0;
 padding: 0;
 z-index: 100;
+font-size: 1.5rem !important;
 }
 .filterButton {
-  margin: 0 50px 0 50px !important;
   padding: 0;
 }
 .blueFilter {
-  color: rgb(49, 134, 245);
+  color: rgb(0, 0, 255);
+  
 }
 .redFilter {
   color: rgb(245, 49, 49);
@@ -525,7 +519,7 @@ a.nav-link {
     display: flex;
     height: 35px;
     width:100%;
-    justify-content: center;
+    justify-content: space-evenly;
     padding: 5px;
     margin: 0;
     z-index: 40;
@@ -658,9 +652,16 @@ svg.sortingSvg {
   white-space: normal;
   line-height: 2rem;
 }
+.cardTitleNormal {
+  font-size: 2rem !important;
+}
+.cardTitleShort {
+  font-size: 21px !important;
+  margin-bottom: 0 !important;
+}
 
 .card-header {
-  margin: 12px 20px !important;
+  margin: 5px 10px !important;
   padding: 0 !important;
 }
 

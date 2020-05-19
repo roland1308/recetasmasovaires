@@ -34,10 +34,11 @@ Need a "BOOK CODE" to access to proper recipes' database!
     - favorites
     - sorting order (change icon a-z z-a) and filtering (move to navbar?)
 - search and sort windows toggles
+- Recipes' short list.
+- remove favorite when filtered if deselected
 
 ## Work In Progress:
 - Comments' management.
-- Recipes' short list.
 - Photo manipulation.
 - Share recipe
 - Burger menu:
@@ -47,4 +48,3 @@ Need a "BOOK CODE" to access to proper recipes' database!
 - color to connect all pages
 - background for like/fav/delete and modify buttons (change order of delete/edit)
 - visit other recipe's books
-- remove favorite when filtered if deselected

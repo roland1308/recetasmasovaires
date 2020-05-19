@@ -31,8 +31,18 @@ export const ADD_FAV = "ADD_FAV"
 export const REMOVE_FAV = "REMOVE_FAV"
 
 export const SET_PAGE = "SET_PAGE"
+export const SET_LONGLIST = "SET_LONGLIST"
+export const SET_FILTERFAV = "SET_FILTERFAV"
 
 const axios = require("axios");
+
+export const setLongList = () => ({
+    type: SET_LONGLIST
+})
+
+export const setFilterFav = () => ({
+    type: SET_FILTERFAV
+})
 
 export const setPage = (payload) => ({
     type: SET_PAGE,

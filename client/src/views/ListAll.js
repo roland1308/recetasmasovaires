@@ -7,15 +7,16 @@ import SortByAlphaRoundedIcon from '@material-ui/icons/SortByAlphaRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
-import { Container, Button, Link } from 'react-floating-action-button'
+import { Container, Button } from 'react-floating-action-button'
 
 import FadeIn from "react-fade-in";
 
 import RecipeCard from "../components/RecipeCard";
-import { recipeList, setPage } from '../store/actions/mainActions';
+import { recipeList, setPage, setLongList, setFilterFav } from '../store/actions/mainActions';
 
 import { FaSortAmountDown } from 'react-icons/fa';
 import { FaSortAmountDownAlt } from 'react-icons/fa';
+import { MdViewHeadline } from 'react-icons/md';
 
 class ListAll extends Component {
     constructor(props) {
@@ -31,7 +32,6 @@ class ListAll extends Component {
             orderChef: 1,
             orderName: 1,
             orderType: 1,
-            filterFav: false
         };
     }
 
@@ -47,6 +47,8 @@ class ListAll extends Component {
         })
         this.props.dispatch(setPage("basic"))
     }
+
+    componen
 
     changeFilter = event => {
         event.preventDefault()
@@ -154,18 +156,19 @@ class ListAll extends Component {
 
     filterFav = () => {
         let favRecipes = this.props.recipes
-        if (!this.state.filterFav) {
+        if (!this.props.filterFav) {
             favRecipes = favRecipes.filter(recipe => this.props.user.favorites.includes(recipe._id))
         }
-        this.setState({
-            filteredRecipes: favRecipes,
-            filterFav: !this.state.filterFav
-        })
+        this.props.dispatch(setFilterFav())
+    }
+
+    toggleList = () => {
+        this.props.dispatch(setLongList())
     }
 
     render() {
-        const { language, nrOfRecipes } = this.props
-        const { orderName, orderChef, orderType, filterFav } = this.state
+        const { language, nrOfRecipes, isLongList, filterFav } = this.props
+        const { orderName, orderChef, orderType } = this.state
         return (
             <div className="jumboTop">
                 <div
@@ -205,6 +208,9 @@ class ListAll extends Component {
                             </div>
                         </div>
                     </div>
+                    <div onClick={this.toggleList}>
+                        <MdViewHeadline className={isLongList ? "filterButton" : "filterButton blueFilter"} />
+                    </div>
                     <div className="dropup">
                         <FavoriteBorderRoundedIcon className={filterFav ? "filterButton redFilter" : "filterButton"} type="button" onClick={this.filterFav} />
                     </div>
@@ -215,7 +221,7 @@ class ListAll extends Component {
                             {this.state.filteredRecipes.map((recipe, index) => {
                                 return (
                                     <div className="col-sm-6" key={index}>
-                                        <RecipeCard recipe={recipe} index={index.toString()} />
+                                        <RecipeCard recipe={recipe} isLongList={isLongList} filterFav={filterFav} index={index.toString()} />
                                     </div>
                                 );
                             })}
@@ -241,6 +247,8 @@ const mapStateToProps = state => ({
     language: state.main.language.listall,
     recipes: state.main.recipes,
     nrOfRecipes: state.main.nrOfRecipes,
+    isLongList: state.main.isLongList,
+    filterFav: state.main.filterFav,
 });
 
 export default connect(mapStateToProps)(ListAll);

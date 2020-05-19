@@ -6,7 +6,7 @@ import {
     Card,
     CardBody,
     CardTitle, CardSubtitle, UncontrolledCarousel,
-    UncontrolledCollapse, Button, Badge
+    UncontrolledCollapse, Badge
 } from 'reactstrap';
 
 import RecipeTable from './RecipeTable';
@@ -80,7 +80,7 @@ class RecipeCard extends Component {
     }
 
     render() {
-        const { language, user, index, renderToggle } = this.props
+        const { language, user, index, renderToggle, isLongList, filterFav } = this.props
         const { _id, name, type, chef, pax, pictures, ingredients, preparation, likes } = this.props.recipe
         const bwLink = pictures[0].src.replace("/upload/", "/upload/e_grayscale/")
         const cardStyle = {
@@ -133,69 +133,85 @@ class RecipeCard extends Component {
             NOfavSvgClass = "favSvg blackText",
             favButtonClass = "button redStrong text-blanco text-shadow-negra float-right",
             favSvgClass = "favSvg whiteText"
-        return (
-            <div style={cardColor} className="card">
-                <div style={cardStyle} className="card-header row" id={"heading" + index}>
-                    <button className="btnFullWidth linkNoDecoration btn btn-link collapsed col-10 noPadding" data-toggle="collapse" data-target={"#collapse" + index} aria-expanded="false" aria-controls={"collapse" + index}>
-                        <CardBody>
-                            <CardTitle>{name}</CardTitle>
-                            <CardSubtitle>{language[1] + type + language[2] + chef + "."}</CardSubtitle>
-                            {pax > 0 && (
-                                <CardSubtitle>{language[3] + pax + language[4]}</CardSubtitle>
-                            )}
-                        </CardBody>
-                    </button>
-                    <div className="col-2 noPadding">
-                        {user.name === chef ?
-                            (<div className="flexButtons float-right">
-                                <div id="delete" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
-                                    <TiDeleteOutline className="deleteSvg" />
-                                </div>
-                                <Link id="edit" className="button green text-blanco text-shadow-negra float-right" to={{ pathname: "/editrecipe", state: this.props.recipe }}>
-                                    <FaPencilAlt className="editSvg" />
-                                </Link>
-                            </div>) :
-                            (<div className="flexButtons float-right">
-                                <div id={"like" + index} className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeButtonClass : NOlikeButtonClass} onClick={() => this.toggleLike({ _id, index })}>
-                                    <AiOutlineLike className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeSvgClass : NOlikeSvgClass} />
-                                </div>
-                                <div id={"fav" + index} className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favButtonClass : NOfavButtonClass} onClick={() => this.toggleFav({ _id, index })}>
-                                    <MdFavoriteBorder className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favSvgClass : NOfavSvgClass} />
-                                </div>
-                            </div>)
+        const isFavRecipe = user.favorites.filter(userFaved => userFaved === _id).length
+        if (!filterFav || (filterFav && (isFavRecipe !== 0))) {
+            return (
+                <div style={cardColor} className="card">
+                    <div style={cardStyle} className="card-header row" id={"heading" + index}>
+                        <button className={isLongList ?
+                            "btnFullWidth linkNoDecoration btn btn-link collapsed col-10 noPadding"
+                            :
+                            "btnFullWidth linkNoDecoration btn btn-link collapsed noPadding"}
+                            data-toggle="collapse"
+                            data-target={"#collapse" + index}
+                            aria-expanded="false"
+                            aria-controls={"collapse" + index}>
+                            <CardBody>
+                                <CardTitle className={isLongList ? "cardTitleNormal" : "cardTitleShort"}>{name}</CardTitle>
+                                {isLongList &&
+                                    <div>
+                                        <CardSubtitle>{language[1] + type + language[2] + chef + "."}</CardSubtitle>
+                                        {pax > 0 && <CardSubtitle>{language[3] + pax + language[4]}</CardSubtitle>}
+                                    </div>
+                                }
+                            </CardBody>
+                        </button>
+                        {isLongList &&
+                            <div className="col-2 noPadding">
+                                {user.name === chef ?
+                                    (<div className="flexButtons float-right">
+                                        <div id="delete" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
+                                            <TiDeleteOutline className="deleteSvg" />
+                                        </div>
+                                        <Link id="edit" className="button green text-blanco text-shadow-negra float-right" to={{ pathname: "/editrecipe", state: this.props.recipe }}>
+                                            <FaPencilAlt className="editSvg" />
+                                        </Link>
+                                    </div>) :
+                                    (<div className="flexButtons float-right">
+                                        <div id={"like" + index} className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeButtonClass : NOlikeButtonClass} onClick={() => this.toggleLike({ _id, index })}>
+                                            <AiOutlineLike className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeSvgClass : NOlikeSvgClass} />
+                                        </div>
+                                        <div id={"fav" + index} className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favButtonClass : NOfavButtonClass} onClick={() => this.toggleFav({ _id, index })}>
+                                            <MdFavoriteBorder className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favSvgClass : NOfavSvgClass} />
+                                        </div>
+                                    </div>)
+                                }
+                            </div>
                         }
+                        {likes.length > 0 && renderToggle !== undefined && isLongList && (
+                            <Badge color="primary">
+                                {language[13]}
+                                {likes.length}
+                                {likes.length === 1 ? language[14] : language[4]}</Badge>
+                        )}
                     </div>
-                    {likes.length > 0 && renderToggle !== undefined && (
-                        <Badge color="primary">
-                            {language[13]}
-                            {likes.length}
-                            {likes.length === 1 ? language[14] : language[4]}</Badge>
-                    )}
+                    <div id={"collapse" + index} className="card-body collapse" aria-labelledby={"heading" + index} data-parent="#accordion">
+                        <UncontrolledCarousel items={pictures} />
+                        <CardBody>
+                            <button id={"ingredientToggler" + index} className="chunky chunkyBlue chunkyW133">
+                                {language[5]}
+                            </button>
+                            <UncontrolledCollapse toggler={"#ingredientToggler" + index}>
+                                <RecipeTable ingredients={ingredients} />
+                            </UncontrolledCollapse>
+                            <br></br>
+                            <button id={"preparationToggler" + index} className="chunky chunkyBlue chunkyW133">
+                                {language[6]}
+                            </button>
+                            <UncontrolledCollapse toggler={"#preparationToggler" + index}>
+                                <Card>
+                                    <CardBody>
+                                        <div className="preparationField" dangerouslySetInnerHTML={{ __html: preparation }}></div>
+                                    </CardBody>
+                                </Card>
+                            </UncontrolledCollapse>
+                        </CardBody>
+                    </div>
                 </div>
-                <div id={"collapse" + index} className="card-body collapse" aria-labelledby={"heading" + index} data-parent="#accordion">
-                    <UncontrolledCarousel items={pictures} />
-                    <CardBody>
-                        <button id={"ingredientToggler" + index} className="chunky chunkyBlue chunkyW133">
-                            {language[5]}
-                        </button>
-                        <UncontrolledCollapse toggler={"#ingredientToggler" + index}>
-                            <RecipeTable ingredients={ingredients} />
-                        </UncontrolledCollapse>
-                        <br></br>
-                        <button id={"preparationToggler" + index} className="chunky chunkyBlue chunkyW133">
-                            {language[6]}
-                        </button>
-                        <UncontrolledCollapse toggler={"#preparationToggler" + index}>
-                            <Card>
-                                <CardBody>
-                                    <div className="preparationField" dangerouslySetInnerHTML={{ __html: preparation }}></div>
-                                </CardBody>
-                            </Card>
-                        </UncontrolledCollapse>
-                    </CardBody>
-                </div>
-            </div>
-        );
+            );
+        } else {
+            return <></>
+        }
     };
 }
 
@@ -204,6 +220,7 @@ const mapStateToProps = state => ({
     user: state.main.user,
     recipes: state.main.recipes,
     renderToggle: state.main.renderToggle,
+    filterFav: state.main.filterFav,
 });
 
 export default connect(mapStateToProps)(RecipeCard);
