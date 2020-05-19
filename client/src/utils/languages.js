@@ -13,7 +13,8 @@ export function languages() {
                 "Busca entre las recetas",
                 "Añadir",
                 "Añade tu receta de familia",
-                "Últimas recetas añadidas:"
+                "Últimas recetas añadidas:",
+                "Copyright 2020 Renato"
             ],
             addrecipe: [
                 "Nombre receta*:",
@@ -44,11 +45,11 @@ export function languages() {
             ],
             listall: [
                 "Busca receta por:",
-                "cocinero:",
+                "Cocinero:",
                 "todos los cocineros",
-                "nombre receta:",
-                "ingredientes:",
-                "típo de plato:",
+                "Nombre receta:",
+                "Ingredientes:",
+                "Típo de plato:",
                 "todos los platos",
                 "entrante",
                 "primero",
@@ -56,7 +57,8 @@ export function languages() {
                 "acompañamiento",
                 "postre",
                 "plato único",
-                "NINGUN RESULTADO"
+                "NINGUN RESULTADO",
+                "Ordena por:"
             ],
             recipecard: [
                 "¿Estás seguro que quieres eliminar la receta ",
@@ -94,7 +96,8 @@ export function languages() {
                 "Search among the recipes",
                 "Add",
                 "Add your family's recipe",
-                "Last added recipes:"
+                "Last added recipes:",
+                "Copyright 2020 Renato"
             ],
             addrecipe: [
                 "Recipe name*:",
@@ -122,14 +125,14 @@ export function languages() {
                 "Add!",
                 "Change!",
                 "Cancel!"
-            ], // {language [31]}
+            ],
             listall: [
                 "Search recipe by:",
-                "cooker:",
+                "Cooker:",
                 "all cookers",
-                "recipe's name:",
-                "ingredients:",
-                "type of dish:",
+                "Recipe's name:",
+                "Ingredients:",
+                "Type of dish:",
                 "all dishes",
                 "starter",
                 "first course",
@@ -137,7 +140,8 @@ export function languages() {
                 "accompaniment",
                 "dessert",
                 "single plate",
-                "NO RESULT"
+                "NO RESULT",
+                "Sort by:"
             ],
             recipecard: [
                 "Are you sure you want to delete the recipe ",
@@ -175,7 +179,8 @@ export function languages() {
                 "Cerca tra le ricette presenti",
                 "Aggiungi",
                 "Aggiungi la tua ricetta di famiglia",
-                "Ultime ricette aggiunte:"
+                "Ultime ricette aggiunte:",
+                "Copyright 2020 Renato"
             ],
             addrecipe: [
                 "Nome ricetta*:",
@@ -206,11 +211,11 @@ export function languages() {
             ],
             listall: [
                 "Cerca ricetta per:",
-                "cuoco",
+                "Cuoco:",
                 "tutti i cuochi",
-                "nome ricetta:",
-                "ingredienti",
-                "tipo di piatto:",
+                "Nome ricetta:",
+                "Ingredienti:",
+                "Tipo di piatto:",
                 "tutti i piatti",
                 "antipasto",
                 "primo",
@@ -218,7 +223,8 @@ export function languages() {
                 "contorno",
                 "dolce",
                 "piatto unico",
-                "NESSUN RISULTATO"
+                "NESSUN RISULTATO",
+                "Ordina per:"
             ],
             recipecard: [
                 "Sei sicuro di voler eliminare la ricetta ",
@@ -255,7 +261,8 @@ export function languages() {
                 "Cerca entre les receptes",
                 "Afegeix",
                 "Afegeix la teva recepta de família",
-                "Últimes receptes afegides:"
+                "Últimes receptes afegides:",
+                "Copyright 2020 Renato"
             ],
             addrecipe: [
                 "Nom recepta*:",
@@ -286,11 +293,11 @@ export function languages() {
             ],
             listall: [
                 "Cerca recepta per:",
-                "cuiner:",
+                "Cuiner:",
                 "tots els cuiners",
-                "nom recepta:",
-                "ingredients:",
-                "típus de plat:",
+                "Nom recepta:",
+                "Ingredients:",
+                "Típus de plat:",
                 "tots els plats",
                 "entrant",
                 "primer",
@@ -298,7 +305,8 @@ export function languages() {
                 "acompanyament",
                 "postres",
                 "plat únic",
-                "CAP RESULTAT"
+                "CAP RESULTAT",
+                "Ordena por:"
             ],
             recipecard: [
                 "Estàs segur que vols eliminar la recepta ",

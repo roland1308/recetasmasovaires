@@ -117,6 +117,9 @@ select {
 .chunkyW120 {
   width: 120px;
 }
+.chunkyW133 {
+  width: 133px;
+}
 .chunkyM25 {
   margin-right: 25px;
   margin-left: 25px;
@@ -301,7 +304,7 @@ select {
   display: flex;
   height: 45px;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0;
   margin: 0;
   z-index: 50;
@@ -311,8 +314,23 @@ select {
   box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 
-div.dropdown svg {
-  font-size: 45px !important;
+svg.menuSvg {
+  font-size: 40px !important;
+  padding: 10px 0 0 0 !important;
+}
+
+svg.homeSvg {
+  font-size: 2.5rem !important;
+  margin-top: 3px !important;
+  padding: 0 !important;
+}
+
+svg.shareSvg {
+  font-size: 40px !important;
+  padding: 10px 0 0 0 !important;
+}
+svg.addSvg {
+  font-size: 3rem !important;
 }
 
 div.dropdown-menu.show {
@@ -321,13 +339,12 @@ div.dropdown-menu.show {
 }
 
 .languageMenu {
-  padding: 10px !important;
-  min-width: 5rem !important;
-  text-align: center !important;
+  padding: 10px 0 !important;
 }
-
-.hamburger {
-  padding: 0 !important;
+.filterMenu {
+  padding: 5px 5px 0 5px !important;
+  margin: 0 !important;
+  width: 166px;
 }
 
 .menuText {
@@ -415,6 +432,11 @@ div.carousel-item > img {
   border: 1px grey solid;
 }
 
+#carouselWithIndicators {
+  max-width: 500px !important;
+  margin: auto !important;
+}
+
 td:nth-child(2),
 th:nth-child(2) {
   text-align: right;
@@ -435,9 +457,10 @@ th:nth-child(2) {
   margin: 0 !important;
   border: 0 !important;
 }
-
+div.dropdown svg.filterButton {
+font-size: 1.5rem !important;
+}
 svg.filterButton {
-font-size: 2rem;
 text-align: start !important;
 border: 0;
 padding: 0;
@@ -490,24 +513,23 @@ a.nav-link {
   background-color: white;
   position: sticky !important;
   top: 0;
-  z-index: 20;
   -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
 }
 
-.footbar {
+.headBar {
     position: fixed;
-    bottom: 0;
+    top: 50px;
     left: 0;
     display: flex;
-    height: 45px;
+    height: 35px;
     width:100%;
     justify-content: center;
     padding: 5px;
     margin: 0;
-    z-index: 50;
-    background-color: rgba(223, 215, 215, .8);
+    z-index: 40;
+    background-color: rgba(177, 210, 248, 0.8);
     -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
@@ -525,8 +547,14 @@ a.nav-link {
 .jumbotron {
   padding: 0.5rem !important;
   margin-top: 45px !important;
-  margin-bottom: 45px !important;
+  margin-bottom: 0 !important;
   overflow: hidden;
+}
+.jumboTop {
+  margin-top: 38px !important;
+}
+.jumboBottom {
+  margin-bottom: 38px !important;
 }
 
 table {
@@ -593,6 +621,9 @@ table {
   vertical-align: text-top;
   transform: translateY(1px);
 }
+svg.sortingSvg {
+   font-size: 20px !important;
+}
 .whiteText {
   color: white !important;
 }
@@ -601,6 +632,9 @@ table {
 }
 .redText {
   color: red !important;
+}
+.centerText {
+  text-align: center;
 }
 
 .deleteSvgBack {
@@ -663,4 +697,27 @@ h2, h3 {
   text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18;
   color: #FFFFFF;
   background: transparent;
+}
+
+.footbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  height: 45px;
+  width:100%;
+  justify-content: center;
+  padding: 5px;
+  margin: 0;
+  z-index: 50;
+  background-color: rgba(223, 215, 215, .8);
+  -webkit-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 14px 12px -6px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.75);
+}
+
+.addButton {
+  margin: 5px !important;
+  bottom: 0 !important;
+  right: 0 !important;
 }

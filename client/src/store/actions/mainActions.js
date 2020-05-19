@@ -30,7 +30,14 @@ export const REMOVE_LIKE = "REMOVE_LIKE"
 export const ADD_FAV = "ADD_FAV"
 export const REMOVE_FAV = "REMOVE_FAV"
 
+export const SET_PAGE = "SET_PAGE"
+
 const axios = require("axios");
+
+export const setPage = (payload) => ({
+    type: SET_PAGE,
+    payload
+})
 
 export const setLanguage = (payload) => ({
     type: SET_LANGUAGE,

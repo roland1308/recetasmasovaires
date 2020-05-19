@@ -18,6 +18,7 @@ import {
     REMOVE_LIKE,
     ADD_FAV,
     REMOVE_FAV,
+    SET_PAGE
 } from '../actions/mainActions';
 
 
@@ -33,11 +34,17 @@ const initialState = {
     nrOfIngredients: 0,
     isLoading: false,
     isLogged: false,
-    renderToggle: 0
+    renderToggle: 0,
+    page: "home"
 };
 
 export default function mainReducer(state = initialState, action) {
     switch (action.type) {
+        case SET_PAGE:
+            return {
+                ...state,
+                page: action.payload
+            }
         case SET_LANGUAGE:
             return {
                 ...state,

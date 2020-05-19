@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import { FormGroup, Input } from 'reactstrap';
 import { connect } from "react-redux";
 
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import SortByAlphaRoundedIcon from '@material-ui/icons/SortByAlphaRounded';
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+
+import { Container, Button, Link } from 'react-floating-action-button'
+
 import FadeIn from "react-fade-in";
 
 import RecipeCard from "../components/RecipeCard";
-import { recipeList } from '../store/actions/mainActions';
+import { recipeList, setPage } from '../store/actions/mainActions';
 
-import { FcSearch } from 'react-icons/fc';
-import { FcGenericSortingAsc } from 'react-icons/fc';
-import { FcAlphabeticalSortingAz } from 'react-icons/fc';
-import { FcAlphabeticalSortingZa } from 'react-icons/fc';
-import { GiShiningHeart } from 'react-icons/gi';
+import { FaSortAmountDown } from 'react-icons/fa';
+import { FaSortAmountDownAlt } from 'react-icons/fa';
 
 class ListAll extends Component {
     constructor(props) {
@@ -41,6 +45,7 @@ class ListAll extends Component {
                 new Set(recipes.map(recipe => recipe.chef))
             )
         })
+        this.props.dispatch(setPage("basic"))
     }
 
     changeFilter = event => {
@@ -162,7 +167,48 @@ class ListAll extends Component {
         const { language, nrOfRecipes } = this.props
         const { orderName, orderChef, orderType, filterFav } = this.state
         return (
-            <div>
+            <div className="jumboTop">
+                <div
+                    className="headBar">
+                    <div className="dropdown">
+                        <SearchRoundedIcon
+                            className="dropdown-toggle filterButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        />
+                        <div className="dropdown-menu menu-right dropright filterMenu">
+                            {language[0]}
+                            <div className="dropdown-items">
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="text" name="chef" id="chef" placeholder={language[1]} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[3]} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Input onChange={this.changeFilter} type="text" name="type" id="type" placeholder={language[5]} />
+                                </FormGroup>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="dropdown">
+                        <SortByAlphaRoundedIcon
+                            className="dropdown-toggle filterButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        />
+                        <div className="dropdown-menu menu-right dropright filterMenu">
+                            <div className="dropdown-items">
+                                {language[14]}
+                                <p onClick={this.sortChef} className="form-control">{language[1]}{" "}{orderChef === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
+                                <p onClick={this.sortName} className="form-control">{language[3]}{" "}{orderName === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
+                                <p onClick={this.sortType} className="form-control">{language[5]}{" "}{orderType === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="dropup">
+                        <FavoriteBorderRoundedIcon className={filterFav ? "filterButton redFilter" : "filterButton"} type="button" onClick={this.filterFav} />
+                    </div>
+                </div>
                 <FadeIn>
                     {(this.state.filteredRecipes.length > 0) && (nrOfRecipes > 0) ?
                         (<div className="row" id="accordion">
@@ -179,61 +225,12 @@ class ListAll extends Component {
                         </div>)
                     }
                 </FadeIn>
-                <footer className="footbar">
-                    <div className="dropup">
-                        <FcSearch
-                            className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter"
-                        />
-                        <div className="collapse" id="collapseFilter">
-                            <div className="card-body bottomMenu filterFields">
-                                <FormGroup>
-                                    <Input onChange={this.changeFilter} type="select" name="chef" id="chef" value={this.state.chef}>
-                                        <option disabled hidden>{language[1]}</option>
-                                        <option>{language[2]}</option>
-                                        {this.state.chefsList.map((chef, index) => {
-                                            return (<option key={index}>{chef}</option>)
-                                        }
-                                        )}
-                                    </Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[3]} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Input onChange={this.changeFilter} type="select" name="type" id="type" value={this.state.type}>
-                                        <option disabled hidden>{language[5]}</option>
-                                        <option>{language[6]}</option>
-                                        <option>{language[7]}</option>
-                                        <option>{language[8]}</option>
-                                        <option>{language[9]}</option>
-                                        <option>{language[10]}</option>
-                                        <option>{language[11]}</option>
-                                        <option>{language[12]}</option>
-                                    )}
-                                </Input>
-                                </FormGroup>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="btn-group dropup">
-                        <FcGenericSortingAsc
-                            className="btn filterButton" type="button" data-toggle="collapse" data-target="#collapseFilter2" aria-expanded="false" aria-controls="collapseFilter2"
-                        />
-                        <div className="collapse" id="collapseFilter2">
-                            <div className="card-body bottomMenu sortFields">
-                                <p onClick={this.sortChef} className="form-control">{language[1]}{" "}{orderChef === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
-                                <p onClick={this.sortName} className="form-control">{language[3]}{" "}{orderName === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
-                                <p onClick={this.sortType} className="form-control">{language[5]}{" "}{orderType === 1 ? <FcAlphabeticalSortingZa /> : <FcAlphabeticalSortingAz />}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="dropup">
-                        <GiShiningHeart className={filterFav ? "filterButton redFilter" : "filterButton blueFilter"} type="button" onClick={this.filterFav} />
-                    </div>
-                </footer>
+                <Container className="addButton">
+                    <Button
+                        tooltip="The big plus button!"
+                        rotate={false}
+                        onClick={() => this.props.history.push("/addrecipe")}> <AddRoundedIcon className="addSvg" /> </Button>
+                </Container>
             </div>
         );
     }

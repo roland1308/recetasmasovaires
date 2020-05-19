@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import { TiDeleteOutline } from 'react-icons/ti';
 
 import { connect } from "react-redux";
-import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading } from '../store/actions/mainActions';
+import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading, setPage } from '../store/actions/mainActions';
 import QuillText from '../components/QuillText';
 
 const axios = require("axios");
@@ -33,6 +33,7 @@ class AddRecipe extends Component {
     }
 
     componentDidMount = () => {
+        this.props.dispatch(setPage("basic"))
         this.setState({
             type: this.props.language[5],
             chef: this.props.user.name
@@ -63,7 +64,7 @@ class AddRecipe extends Component {
             })
             submitTag.classList.add("chunkyGreen")
         }
-        if (recipeAction === "add") { document.getElementById("name").focus() };
+        document.getElementById("name").focus()
     }
 
     componentDidUpdate = (prevProps, prevState) => {
@@ -230,7 +231,7 @@ class AddRecipe extends Component {
         if (picture === "") {
             pictureClass = "chunky chunkyGrey"
         } return (
-            <div>
+            <div className="jumboBottom">
                 <Form className="container">
                     <FormGroup className="underline">
                         <Label for="name">{language[0]}</Label>

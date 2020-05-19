@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Spinner } from 'reactstrap';
 
-import { checkToken, recipeReset } from "../store/actions/mainActions";
+import { checkToken, recipeReset, setPage } from "../store/actions/mainActions";
 import { connect } from "react-redux";
 import RecipeCarousel from '../components/RecipeCarousel';
 
 class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.toggle = this.toggle.bind(this);
         this.state = {
             isOpen: false,
         };
@@ -19,15 +18,9 @@ class HomePage extends Component {
         const token = window.localStorage.token;
         const { isLogged } = this.props
         if (token && isLogged === false) {
-            console.log(token);
             this.props.dispatch(checkToken(token));
         }
-    }
-
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
+        this.props.dispatch(setPage("home"))
     }
 
     isAddRecipe() {
@@ -43,35 +36,68 @@ class HomePage extends Component {
                 </div>
             )
         }
-        const { language, recipes } = this.props
+        const { language, user, recipes } = this.props
+        let result = null
+        recipes.sort((a, b) => {
+            if (a._id > b._id) {
+                result = -1;
+            }
+            if (a._id > b._id) {
+                result = 1;
+            }
+            return result
+        })
         const recipesForCarousel = recipes.slice(0, 4)
         let picsForCarousel = [],
             nameForCarousel = []
         recipesForCarousel.map(recipe => {
             picsForCarousel.push(recipe.pictures[0])
             nameForCarousel.push(recipe.name)
+            return picsForCarousel
         })
         return (
             <div>
-                <br></br>
+                <div type="button" className="pumpkin-flat-button" data-toggle="modal" data-target="#exampleModal">
+                    {user.book}
+                </div>
+                <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">{"Family's recipes"}</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                {language[8]}
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-primary" data-dismiss="modal">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                <br></br>
                 <h3>{language[1]}</h3>
                 <h2>{language[2]}</h2>
                 <hr></hr>
                 <Link to="listall" className="linkNoDecoration">
-                    <button className="chunky chunkyGreen chunkyW101">
+                    <button className="chunky chunkyBlue chunkyW101">
                         {language[3]}
                     </button>
                     <span>{language[4]}</span>
                 </Link>
                 <hr></hr>
                 <div onClick={() => { this.isAddRecipe() }}>
-                    <button className="chunky chunkyGreen chunkyW101">
+                    <button className="chunky chunkyBlue chunkyW101">
                         {language[5]}
                     </button>
                     <span>{language[6]}</span>
                     <hr></hr>
                 </div>
-                <h4>{language[7]}</h4>
+                {recipesForCarousel.length > 0 &&
+                    <h4 className="centerText">{language[7]}</h4>
+                }
                 <RecipeCarousel picsForCarousel={picsForCarousel} nameForCarousel={nameForCarousel} />
             </div>
         );

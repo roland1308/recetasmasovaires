@@ -71,8 +71,6 @@ class RecipeCard extends Component {
     toggleFav = ({ _id, index }) => {
         const { user } = this.props
         const chefId = user._id
-        console.log(user.favorites.filter(userFaved => userFaved === _id).length);
-
         const token = window.localStorage.token
         if (user.favorites.filter(userFaved => userFaved === _id).length !== 0) {
             this.props.dispatch(removeFav({ chefId, _id, token, URL: "/users/pullfav" }))
@@ -96,7 +94,8 @@ class RecipeCard extends Component {
             "153,153,204",
             "179,153,204",
             "153,204,179",
-            "113,183,183"
+            "113,183,183",
+            "153,204,179"
         ]
         let color = undefined
         switch (type) {
@@ -119,6 +118,7 @@ class RecipeCard extends Component {
                 color = 5
                 break;
             default:
+                color = 6
                 break;
         }
         const cardColor = {
@@ -175,16 +175,16 @@ class RecipeCard extends Component {
                 <div id={"collapse" + index} className="card-body collapse" aria-labelledby={"heading" + index} data-parent="#accordion">
                     <UncontrolledCarousel items={pictures} />
                     <CardBody>
-                        <Button color="primary" id={"ingredientToggler" + index} className="cardButton">
+                        <button id={"ingredientToggler" + index} className="chunky chunkyBlue chunkyW133">
                             {language[5]}
-                        </Button>
+                        </button>
                         <UncontrolledCollapse toggler={"#ingredientToggler" + index}>
                             <RecipeTable ingredients={ingredients} />
                         </UncontrolledCollapse>
                         <br></br>
-                        <Button color="primary" id={"preparationToggler" + index} className="cardButton">
+                        <button id={"preparationToggler" + index} className="chunky chunkyBlue chunkyW133">
                             {language[6]}
-                        </Button>
+                        </button>
                         <UncontrolledCollapse toggler={"#preparationToggler" + index}>
                             <Card>
                                 <CardBody>
