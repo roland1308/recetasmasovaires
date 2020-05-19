@@ -67,7 +67,7 @@ class ListAll extends Component {
             (type === this.props.language[6]) ? "" : type
         let copyRecipes = this.state.recipes.filter(recipe => {
             return (
-                recipe.chef.includes(chef)
+                recipe.chef.toLowerCase().includes(chef.toLowerCase())
             )
         })
         copyRecipes = copyRecipes.filter(recipe => {
