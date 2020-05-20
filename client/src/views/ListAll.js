@@ -12,7 +12,7 @@ import { Container, Button } from 'react-floating-action-button'
 import FadeIn from "react-fade-in";
 
 import RecipeCard from "../components/RecipeCard";
-import { recipeList, setPage, setLongList, setFilterFav } from '../store/actions/mainActions';
+import { recipeList, setPage, setLongList, setFilterFav, recipeReset } from '../store/actions/mainActions';
 
 import { FaSortAmountDown } from 'react-icons/fa';
 import { FaSortAmountDownAlt } from 'react-icons/fa';
@@ -47,8 +47,6 @@ class ListAll extends Component {
         })
         this.props.dispatch(setPage("basic"))
     }
-
-    componen
 
     changeFilter = event => {
         event.preventDefault()
@@ -166,6 +164,11 @@ class ListAll extends Component {
         this.props.dispatch(setLongList())
     }
 
+    isAddRecipe() {
+        this.props.dispatch(recipeReset());
+        this.props.history.push("/addrecipe");
+    }
+
     render() {
         const { language, nrOfRecipes, isLongList, filterFav } = this.props
         const { orderName, orderChef, orderType } = this.state
@@ -235,7 +238,7 @@ class ListAll extends Component {
                     <Button
                         tooltip="The big plus button!"
                         rotate={false}
-                        onClick={() => this.props.history.push("/addrecipe")}> <AddRoundedIcon className="addSvg" /> </Button>
+                        onClick={() => { this.isAddRecipe() }}> <AddRoundedIcon className="addSvg" /> </Button>
                 </Container>
             </div>
         );
