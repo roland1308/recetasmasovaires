@@ -5,6 +5,7 @@ import RecipeTable from '../components/RecipeTable';
 import 'react-quill/dist/quill.snow.css';
 
 import { TiDeleteOutline } from 'react-icons/ti';
+// import { GrRotateRight } from 'react-icons/gr';
 
 import { connect } from "react-redux";
 import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading, setPage } from '../store/actions/mainActions';
@@ -220,6 +221,25 @@ class AddRecipe extends Component {
         })
     }
 
+    rotateImage = (index) => {
+        let imgArray = this.state.pictures
+        // let rotation = 0
+        imgArray[index].src = imgArray[index].src.replace("/upload/", `/upload/w_300,h_200,c_fit/`)
+        // let position = imgArray[index].src.indexOf("/a_")
+        // console.log(position);
+        // if (position !== -1) {
+        //     rotation = parseInt(imgArray[index].src.substr(position + 3, 3))
+        //     console.log(rotation);
+        // }
+        // rotation = rotation + 90
+        imgArray[index].src = imgArray[index].src.replace("/upload/", `/upload/a_90/`)
+        this.setState({
+            pictures: imgArray
+        })
+        console.log(this.state.pictures[index].src);
+
+    }
+
     render() {
         const { name, type, pax, ingredient, qty, preparation, nrOfPictures, picture, pictures } = this.state
         const { nrOfIngredients, editRecipe, language, recipeAction } = this.props
@@ -307,6 +327,9 @@ class AddRecipe extends Component {
                                             <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[21])) this.deleteImage(index) }}>
                                                 <TiDeleteOutline className="deleteSvg" />
                                             </div>
+                                            {/* <div id="blue" className="button blue text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => this.rotateImage(index)}>
+                                                <GrRotateRight className="deleteSvg" />
+                                            </div> */}
                                             <img className="pictureSmall" src={picture.src} alt={index} />
                                         </div>
                                     )

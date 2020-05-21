@@ -39,7 +39,6 @@ Need a "BOOK CODE" to access to proper recipes' database!
 
 ## Work In Progress:
 - Comments' management.
-- Photo manipulation.
 - Share recipe
 - Burger menu:
     - Info cuochi
@@ -48,3 +47,4 @@ Need a "BOOK CODE" to access to proper recipes' database!
 - color to connect all pages
 - background for like/fav/delete and modify buttons (change order of delete/edit)
 - visit other recipe's books
+- Photo manipulation.

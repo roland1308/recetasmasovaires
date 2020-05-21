@@ -153,10 +153,10 @@ class ListAll extends Component {
     }
 
     filterFav = () => {
-        let favRecipes = this.props.recipes
-        if (!this.props.filterFav) {
-            favRecipes = favRecipes.filter(recipe => this.props.user.favorites.includes(recipe._id))
-        }
+        // let favRecipes = this.props.recipes
+        // if (!this.props.filterFav) {
+        //     favRecipes = favRecipes.filter(recipe => this.props.user.favorites.includes(recipe._id))
+        // }
         this.props.dispatch(setFilterFav())
     }
 
@@ -170,7 +170,7 @@ class ListAll extends Component {
     }
 
     render() {
-        const { language, nrOfRecipes, isLongList, filterFav } = this.props
+        const { language, nrOfRecipes, isLongList, filterFav, renderToggle } = this.props
         const { orderName, orderChef, orderType } = this.state
         return (
             <div className="jumboTop">
@@ -219,14 +219,16 @@ class ListAll extends Component {
                     </div>
                 </div>
                 <FadeIn>
-                    {(this.state.filteredRecipes.length > 0) && (nrOfRecipes > 0) ?
+                    {(this.state.filteredRecipes.length > 0) && (nrOfRecipes > 0) && (renderToggle !== undefined) ?
                         (<div className="row" id="accordion">
                             {this.state.filteredRecipes.map((recipe, index) => {
-                                return (
-                                    <div className="col-sm-6" key={index}>
-                                        <RecipeCard recipe={recipe} isLongList={isLongList} filterFav={filterFav} index={index.toString()} />
-                                    </div>
-                                );
+                                if (!filterFav || (this.props.user.favorites.includes(recipe._id) && filterFav)) {
+                                    return (
+                                        <div className="col-sm-6" key={index}>
+                                            <RecipeCard recipe={recipe} isLongList={isLongList} filterFav={filterFav} index={index.toString()} />
+                                        </div>
+                                    );
+                                }
                             })}
                         </div>) :
                         (<div className="error">
@@ -236,7 +238,7 @@ class ListAll extends Component {
                 </FadeIn>
                 <Container className="addButton">
                     <Button
-                        tooltip="The big plus button!"
+                        tooltip="Add a new recipe!"
                         rotate={false}
                         onClick={() => { this.isAddRecipe() }}> <AddRoundedIcon className="addSvg" /> </Button>
                 </Container>
@@ -252,6 +254,7 @@ const mapStateToProps = state => ({
     nrOfRecipes: state.main.nrOfRecipes,
     isLongList: state.main.isLongList,
     filterFav: state.main.filterFav,
+    renderToggle: state.main.renderToggle,
 });
 
 export default connect(mapStateToProps)(ListAll);

@@ -80,7 +80,7 @@ class RecipeCard extends Component {
     }
 
     render() {
-        const { language, user, index, renderToggle, isLongList, filterFav } = this.props
+        const { language, user, index, isLongList, filterFav } = this.props
         const { _id, name, type, chef, pax, pictures, ingredients, preparation, likes } = this.props.recipe
         const bwLink = pictures[0].src.replace("/upload/", "/upload/e_grayscale/")
         const cardStyle = {
@@ -178,7 +178,7 @@ class RecipeCard extends Component {
                                 }
                             </div>
                         }
-                        {likes.length > 0 && renderToggle !== undefined && isLongList && (
+                        {likes.length > 0 && isLongList && (
                             <Badge color="primary">
                                 {language[13]}
                                 {likes.length}

@@ -52,7 +52,8 @@ export default function mainReducer(state = initialState, action) {
         case SET_FILTERFAV:
             return {
                 ...state,
-                filterFav: !state.filterFav
+                filterFav: !state.filterFav,
+                renderToggle: !state.renderToggle
             }
         case SET_PAGE:
             return {
