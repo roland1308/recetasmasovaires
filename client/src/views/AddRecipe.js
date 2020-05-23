@@ -29,7 +29,8 @@ class AddRecipe extends Component {
             nrOfPictures: 0,
             picture: "",
             pictures: [],
-            removingImg: []
+            removingImg: [],
+            avatarImg: ""
         }
     }
 
@@ -37,7 +38,8 @@ class AddRecipe extends Component {
         this.props.dispatch(setPage("basic"))
         this.setState({
             type: this.props.language[5],
-            chef: this.props.user.name
+            chef: this.props.user.name,
+            avatarImg: this.props.user.avatarimg
         })
         let submitTag = document.getElementById("submitForm")
         const { recipeAction, editRecipe } = this.props
@@ -49,7 +51,8 @@ class AddRecipe extends Component {
                 type,
                 pax,
                 preparation,
-                pictures
+                pictures,
+                avatarImg
             } = editRecipe
             this.props.dispatch(setNrOfIngs(editRecipe.editIngredients.length))
             const nrOfPictures = pictures.length
@@ -61,7 +64,8 @@ class AddRecipe extends Component {
                 pax,
                 preparation,
                 nrOfPictures,
-                pictures
+                pictures,
+                avatarImg
             })
             submitTag.classList.add("chunkyGreen")
         }
@@ -168,7 +172,8 @@ class AddRecipe extends Component {
                 preparation,
                 pictures: data.pictures,
                 removingImg: data.removingImg,
-                likes: []
+                likes: [],
+                avatarimg: data.avatarImg
             }
             let submitTag = document.getElementById("submitForm")
             submitTag.classList.add("chunkyGrey")
@@ -336,7 +341,7 @@ class AddRecipe extends Component {
                                 })}
                         </div>
                         <Input onChange={this.changeField} type="file" name="picture" id="picture" />
-                        <button className={pictureClass} onClick={this.addPhoto} disabled={picture === "" ? true : false}>{language[20]}<Badge color="info" pill>+</Badge></button>
+                        <button className={pictureClass} onClick={this.addPhoto} disabled={picture === ""}>{language[20]}<Badge color="info" pill>+</Badge></button>
                     </FormGroup>
                 </Form>
                 <nav className="footbar">

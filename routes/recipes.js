@@ -52,7 +52,7 @@ router.get('/all',
 
 /*add new recipe*/
 router.post('/add', passport.authenticate("jwt", { session: false }), (req, res) => {
-    const { name, chef, type, ingredients, pax, preparation, pictures } = req.body
+    const { name, chef, type, ingredients, pax, preparation, pictures, avatarimg } = req.body
     const newRecipe = new recipeModel({
         name,
         chef,
@@ -60,7 +60,8 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
         ingredients,
         pax,
         preparation,
-        pictures
+        pictures,
+        avatarimg
     });
     input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just added the recipe: ' + name
@@ -141,7 +142,7 @@ router.delete('/delete', passport.authenticate("jwt", { session: false }), (req,
     });
 });
 
-/*add photo to uploads folder*/
+/*add photo to uploads folder and to Cloudinary*/
 router.post("/addphoto", upload.single("picture"), async (req, res) => {
     const type = req.file.mimetype;
     if (IMAGE_TYPES.indexOf(type) == -1) {

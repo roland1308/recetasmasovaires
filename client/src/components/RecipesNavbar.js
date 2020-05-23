@@ -29,7 +29,7 @@ class RecipesNavbar extends Component {
             <div>
                 {page === "home" &&
                     <div className="flexNavbar">
-                        <img src={require("../images/United-Kingdom(Great-Britain).png")} height="45" onClick={() => this.setLanguage("English")} alt="English" />
+                        <img src={require("../images/uk.png")} height="45" onClick={() => this.setLanguage("English")} alt="English" />
                         <img src={require("../images/Italy.png")} height="45" onClick={() => this.setLanguage("Italiano")} alt="Italiano" />
                         <img src={require("../images/Spain.png")} height="45" onClick={() => this.setLanguage("Español")} alt="Español" />
                         <img src={require("../images/Catalonia.png")} height="45" onClick={() => this.setLanguage("Català")} alt="Català" />

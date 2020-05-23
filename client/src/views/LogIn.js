@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { logUser } from '../store/actions/mainActions'
 
 import { Input } from 'reactstrap';
-
+import { Avatar } from '@material-ui/core';
 
 const axios = require("axios");
 
@@ -14,7 +14,8 @@ class LogIn extends Component {
 
         this.state = {
             welcomeText: [
-                ["Hello!",
+                [
+                    "Hello!",
                     "What's your name?",
                     "Password?",
                     "Log In",
@@ -24,8 +25,11 @@ class LogIn extends Component {
                     "Cancel!",
                     "Repeat password",
                     "Book code?",
-                    "Don't you have an account?"],
-                ["Ciao!",
+                    "Don't you have an account?",
+                    "Do you wanna add a photo to your profile?"
+                ],
+                [
+                    "Ciao!",
                     "Come ti chiami?",
                     "Password?",
                     "Entra",
@@ -35,9 +39,11 @@ class LogIn extends Component {
                     "Annulla!",
                     "Ripeti la password!",
                     "Codice del libro?",
-                    "Non hai un account?"
+                    "Non hai un account?",
+                    "Vuoi aggiungere una foto al tuo profilo?"
                 ],
-                ["¡Hola!",
+                [
+                    "¡Hola!",
                     "¿Como te llamas?",
                     "¿Contraseña?",
                     "Accede",
@@ -47,9 +53,11 @@ class LogIn extends Component {
                     "¡Anula!",
                     "¡Repite la contraseña!",
                     "¿Código de libro?",
-                    "¿No tienes una cuenta?"
+                    "¿No tienes una cuenta?",
+                    "¿Quieres añadir una foto a tu perfil?"
                 ],
-                ["¡Hola!",
+                [
+                    "¡Hola!",
                     "¿Com es diu?",
                     "¿Contrasenya?",
                     "Accés",
@@ -59,7 +67,8 @@ class LogIn extends Component {
                     "¡Anul·la!",
                     "¡Repeteix la ¿Contrasenya!",
                     "¿Codi de llibre?",
-                    "¿No tens un compte?"
+                    "¿No tens un compte?",
+                    "¿Vols afegir una foto al teu perfil?"
                 ]
             ],
             languagePos: 2,
@@ -71,7 +80,8 @@ class LogIn extends Component {
             database: "",
             language: "",
             setLanguage: "",
-            isRegister: false
+            isRegister: false,
+            avatarImg: ""
         }
     }
 
@@ -98,6 +108,31 @@ class LogIn extends Component {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                 });
                 this.setState({ name: capitalize });
+                break;
+            case "avatarImg":
+                let formPicture = new FormData();
+                formPicture.append("picture", event.target.files[0]);
+                axios.post("/users/addavatar", formPicture)
+                    .then(
+                        (response, error) => {
+                            if (!response.data.error) {
+                                const avatarImgLink = response.data.replace("upload", "upload/w_150,h_150,c_thumb,g_faces")
+                                console.log(avatarImgLink);
+
+                                this.setState({
+                                    avatarImg: avatarImgLink
+                                });
+                            } else {
+                                alert(response.data.error)
+                                this.setState({
+                                    avatarImg: ""
+                                });
+                                // document.getElementById('picture').value = ''
+                            }
+                        })
+                    .catch(error => {
+                        console.log(error)
+                    });
                 break;
             default:
                 this.setState({ [event.target.name]: event.target.value })
@@ -143,7 +178,7 @@ class LogIn extends Component {
     }
 
     async registerUser(data) {
-        const { name, password, passwordCheck, bookCode } = data
+        const { name, password, passwordCheck, bookCode, avatarImg } = data
         if (!name || !password || !passwordCheck || !bookCode) {
             alert("Please fill all fields")
             return
@@ -155,7 +190,7 @@ class LogIn extends Component {
         const response = await axios.get("/users/book/" + bookCode)
         const { status, book, database, language } = response.data
         if (status) {
-            const payload = { name, password, database, language, book }
+            const payload = { name, password, database, language, book, avatarImg }
             try {
                 const responseAdd = await axios.post("/users/add", payload)
                 const errorAdd = responseAdd.data.errmsg
@@ -175,30 +210,40 @@ class LogIn extends Component {
     }
 
     render() {
-        const { welcomeText, languagePos, name, password, passwordCheck, isRegister, bookCode } = this.state
+        const { welcomeText, languagePos, name, password, passwordCheck, isRegister, bookCode, avatarImg } = this.state
         return (
             <div className="logIn">
-                <div className="welcomeText">
-                    {welcomeText[languagePos][0]}
-                </div>
+                {!isRegister && (
+                    < div className="welcomeText">
+                        {welcomeText[languagePos][0]}
+                    </div>)
+                }
                 <Input onChange={this.changeField} type="text" value={name} name="name" id="name" placeholder={welcomeText[languagePos][1]} />
                 <Input onChange={this.changeField} type="password" name="password" id="password" placeholder={welcomeText[languagePos][2]} />
-                {isRegister ? (
-                    <div>
-                        <Input onChange={this.changeField} type="password" name="passwordCheck" id="passwordCheck" placeholder={welcomeText[languagePos][8]} />
-                        <Input onChange={this.changeField} type="text" value={bookCode} name="bookCode" id="bookCode" placeholder={welcomeText[languagePos][9]} />
-                        <button onClick={() => this.registerUser({ name, password, passwordCheck, bookCode })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][6]}</button>
-                        <button onClick={this.toggleIsRegister} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][7]}</button>
-                    </div>
-                ) : (
+                {
+                    isRegister ? (
                         <div>
-                            <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][3]}</button>
+                            <Input onChange={this.changeField} type="password" name="passwordCheck" id="passwordCheck" placeholder={welcomeText[languagePos][8]} />
+                            <Input onChange={this.changeField} type="text" value={bookCode} name="bookCode" id="bookCode" placeholder={welcomeText[languagePos][9]} />
                             <hr></hr>
-                            <h4>{welcomeText[languagePos][10]}</h4>
-                            <button onClick={this.toggleIsRegister} className="chunky chunkyBlue chunkyW107">{welcomeText[languagePos][4]}</button>
+                            {welcomeText[languagePos][11]}
+                            {avatarImg !== "" && <Avatar alt={name} src={avatarImg} className="avatarBig" />}
+                            <p></p>
+                            {avatarImg === "" && <Input onChange={this.changeField} type="file" name="avatarImg" id="avatarImg" />}
+                            <hr></hr>
+                            <button onClick={() => this.registerUser({ name, password, passwordCheck, bookCode, avatarImg })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][6]}</button>
+                            <button onClick={this.toggleIsRegister} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][7]}</button>
                         </div>
-                    )}
-            </div>
+                    ) : (
+                            <div>
+                                <button onClick={() => this.logIn({ name, password })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][3]}</button>
+                                <hr></hr>
+                                <h4>{welcomeText[languagePos][10]}</h4>
+                                <button onClick={this.toggleIsRegister} className="chunky chunkyBlue chunkyW107">{welcomeText[languagePos][4]}</button>
+                            </div>
+                        )
+                }
+            </div >
         )
     }
 }

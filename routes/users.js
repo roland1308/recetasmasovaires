@@ -20,6 +20,25 @@ const sendinObj = new sendinblue(parameters);
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+const multer = require("multer")
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./uploads");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
+
+const IMAGE_TYPES = ['image/jpeg', 'image/png']
+const cloudinary = require('cloudinary')
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 let input = {
     'to': { 'a.renato@gmail.com': 'to whom!' },
     'from': ['recetasmasovaires@gmail.com', 'Family Recipes'],
@@ -51,7 +70,7 @@ router.get("/book/:bookCode", (req, res) => {
 
 /*add a User if not existing already: CREATE*/
 router.post("/add", async (req, res) => {
-    const { name, password, database, language, book } = req.body;
+    const { name, password, database, language, book, avatarImg } = req.body;
     if (!name || !password || !database || !language || !book) {
         return res.status(400).json({ msg: "Please fill all fields" });
     }
@@ -62,6 +81,7 @@ router.post("/add", async (req, res) => {
             language,
             book,
             password: hash,
+            avatarimg: avatarImg
         });
         newUser
             .save()
@@ -184,5 +204,24 @@ router.put(
         );
     }
 );
+
+/*add Avatar to uploads folder and to Cloudinary*/
+router.post("/addavatar", upload.single("picture"), async (req, res) => {
+    const type = req.file.mimetype;
+    if (IMAGE_TYPES.indexOf(type) == -1) {
+        return res.send({ error: 'Only jpeg, jpg, jpe, o png are allowed' });
+    } else {
+        const { filename: image } = req.file
+        const resizedLink = req.file.destination + "/" + image
+        new Promise((resolve, reject) => {
+            cloudinary.v2.uploader.upload(resizedLink, { public_id: req.file.originalname }, (err, result) => {
+                if (err) {
+                    return res.send("err")
+                }
+                return res.send(result.secure_url)
+            })
+        })
+    }
+});
 
 module.exports = router

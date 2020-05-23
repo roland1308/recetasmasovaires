@@ -25,6 +25,9 @@ const recipeSchema = new mongoose.Schema({
     likes: {
         type: Array
     },
+    avatarimg: {
+        type: String
+    }
 })
 
 module.exports = mongoose.model('recipe', recipeSchema)

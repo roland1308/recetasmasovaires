@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
     },
     favorites: {
         type: Array
+    },
+    avatarimg: {
+        type: String
     }
 })
 

@@ -18,6 +18,7 @@ import { MdFavoriteBorder } from 'react-icons/md'
 
 import Axios from 'axios';
 import { recipeDelete, addLike, removeLike, addFav, removeFav } from '../store/actions/mainActions';
+import { Avatar } from '@material-ui/core';
 
 class RecipeCard extends Component {
     constructor(props) {
@@ -81,7 +82,7 @@ class RecipeCard extends Component {
 
     render() {
         const { language, user, index, isLongList, filterFav } = this.props
-        const { _id, name, type, chef, pax, pictures, ingredients, preparation, likes } = this.props.recipe
+        const { _id, name, type, chef, pax, pictures, ingredients, preparation, likes, avatarimg } = this.props.recipe
         const bwLink = pictures[0].src.replace("/upload/", "/upload/e_grayscale/")
         const cardStyle = {
             backgroundImage: "linear-gradient(rgba(250, 250, 250, 0.7), rgba(250, 250, 250, 0.7)), url(" + bwLink + ")",
@@ -173,6 +174,9 @@ class RecipeCard extends Component {
                                         </div>
                                         <div id={"fav" + index} className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favButtonClass : NOfavButtonClass} onClick={() => this.toggleFav({ _id, index })}>
                                             <MdFavoriteBorder className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favSvgClass : NOfavSvgClass} />
+                                        </div>
+                                        <div className="button grey text-blanco text-shadow-negra float-right">
+                                            <Avatar alt={chef} src={avatarimg} className="avatarSmall" style={cardColor}>{chef.substr(0, 1)}</Avatar>
                                         </div>
                                     </div>)
                                 }

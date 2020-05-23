@@ -229,6 +229,7 @@ class ListAll extends Component {
                                         </div>
                                     );
                                 }
+                                return null
                             })}
                         </div>) :
                         (<div className="error">

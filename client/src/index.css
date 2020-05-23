@@ -723,3 +723,15 @@ h2, h3 {
   bottom: 0 !important;
   right: 0 !important;
 }
+
+.avatarBig {
+  width: 100px !important;
+  height:100px !important;
+  margin: auto !important;
+}
+
+.avatarSmall {
+  width: 28px !important;
+  height:28px !important;
+  margin: auto !important;
+}
