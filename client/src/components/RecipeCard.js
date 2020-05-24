@@ -82,7 +82,7 @@ class RecipeCard extends Component {
 
     render() {
         const { language, user, index, isLongList, filterFav } = this.props
-        const { _id, name, type, chef, pax, pictures, ingredients, preparation, likes, avatarimg } = this.props.recipe
+        const { _id, name, type, pax, pictures, ingredients, preparation, likes, chefid } = this.props.recipe
         const bwLink = pictures[0].src.replace("/upload/", "/upload/e_grayscale/")
         const cardStyle = {
             backgroundImage: "linear-gradient(rgba(250, 250, 250, 0.7), rgba(250, 250, 250, 0.7)), url(" + bwLink + ")",
@@ -151,7 +151,7 @@ class RecipeCard extends Component {
                                 <CardTitle className={isLongList ? "cardTitleNormal" : "cardTitleShort"}>{name}</CardTitle>
                                 {isLongList &&
                                     <div>
-                                        <CardSubtitle>{language[1] + type + language[2] + chef + "."}</CardSubtitle>
+                                        <CardSubtitle>{language[1] + type + language[2] + chefid[0].name + "."}</CardSubtitle>
                                         {pax > 0 && <CardSubtitle>{language[3] + pax + language[4]}</CardSubtitle>}
                                     </div>
                                 }
@@ -159,7 +159,7 @@ class RecipeCard extends Component {
                         </button>
                         {isLongList &&
                             <div className="col-2 noPadding">
-                                {user.name === chef ?
+                                {user.name === chefid[0].name ?
                                     (<div className="flexButtons float-right">
                                         <div id="delete" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
                                             <TiDeleteOutline className="deleteSvg" />
@@ -176,7 +176,7 @@ class RecipeCard extends Component {
                                             <MdFavoriteBorder className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favSvgClass : NOfavSvgClass} />
                                         </div>
                                         <div className="button grey text-blanco text-shadow-negra float-right">
-                                            <Avatar alt={chef} src={avatarimg} className="avatarSmall" style={cardColor}>{chef.substr(0, 1)}</Avatar>
+                                            {chefid[0] && <Avatar alt={chefid[0].name} src={chefid[0].avatarimg} className="avatarSmall" style={cardColor}>{chefid[0].name.substr(0, 1)}</Avatar>}
                                         </div>
                                     </div>)
                                 }

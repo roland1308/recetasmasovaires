@@ -1,10 +1,8 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
 const recipeSchema = new mongoose.Schema({
     name: {
-        type: String
-    },
-    chef: {
         type: String
     },
     type: {
@@ -25,9 +23,9 @@ const recipeSchema = new mongoose.Schema({
     likes: {
         type: Array
     },
-    avatarimg: {
-        type: String
-    }
+    chefid: [{
+        type: Schema.Types.ObjectId, ref: 'user'
+    }]
 })
 
 module.exports = mongoose.model('recipe', recipeSchema)

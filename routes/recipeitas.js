@@ -22,6 +22,7 @@ router.get('/all',
         // removeOldFiles("./uploads/resized")
         // removeOldFiles("./uploads")
         recipeModel.find({}, null, { sort: { _id: -1 } })
+            .populate('chefid', 'name avatarimg')
             .then(files => {
                 res.send(files)
             })
@@ -33,12 +34,12 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
     const { name, chef, type, ingredients, pax, preparation, pictures } = req.body
     const newRecipe = new recipeModel({
         name,
-        chef,
         type,
         ingredients,
         pax,
         preparation,
-        pictures
+        pictures,
+        chefid
     });
     input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Italian"
     input.html = chef + ' just added the recipe: ' + name
@@ -77,12 +78,12 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
         {
             $set: {
                 name,
-                chef,
                 type,
                 ingredients,
                 pax,
                 preparation,
-                pictures
+                pictures,
+                chefid
             }
         },
         { new: true }

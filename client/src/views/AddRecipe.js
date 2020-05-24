@@ -8,7 +8,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 // import { GrRotateRight } from 'react-icons/gr';
 
 import { connect } from "react-redux";
-import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading, setPage } from '../store/actions/mainActions';
+import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading, setPage, checkToken } from '../store/actions/mainActions';
 import QuillText from '../components/QuillText';
 
 const axios = require("axios");
@@ -30,7 +30,7 @@ class AddRecipe extends Component {
             picture: "",
             pictures: [],
             removingImg: [],
-            avatarImg: ""
+            chefid: ""
         }
     }
 
@@ -39,7 +39,7 @@ class AddRecipe extends Component {
         this.setState({
             type: this.props.language[5],
             chef: this.props.user.name,
-            avatarImg: this.props.user.avatarimg
+            chefid: this.props.user._id
         })
         let submitTag = document.getElementById("submitForm")
         const { recipeAction, editRecipe } = this.props
@@ -47,25 +47,21 @@ class AddRecipe extends Component {
             const {
                 _id,
                 name,
-                chef,
                 type,
                 pax,
                 preparation,
                 pictures,
-                avatarImg
             } = editRecipe
             this.props.dispatch(setNrOfIngs(editRecipe.editIngredients.length))
             const nrOfPictures = pictures.length
             this.setState({
                 _id,
                 name,
-                chef,
                 type,
                 pax,
                 preparation,
                 nrOfPictures,
                 pictures,
-                avatarImg
             })
             submitTag.classList.add("chunkyGreen")
         }
@@ -173,7 +169,7 @@ class AddRecipe extends Component {
                 pictures: data.pictures,
                 removingImg: data.removingImg,
                 likes: [],
-                avatarimg: data.avatarImg
+                chefid: data.chefid
             }
             let submitTag = document.getElementById("submitForm")
             submitTag.classList.add("chunkyGrey")
@@ -200,8 +196,8 @@ class AddRecipe extends Component {
             }
             this.props.dispatch(recipePush(recipeComplete))
             this.props.dispatch(recipeReset())
+            this.props.dispatch(checkToken(token));
             this.props.history.push("/listall")
-            this.props.dispatch(setLoading(false))
         }
     };
 

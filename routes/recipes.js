@@ -44,6 +44,7 @@ router.get('/all',
         // removeOldFiles("./uploads/resized")
         // removeOldFiles("./uploads")
         recipeModel.find({}, null, { sort: { _id: -1 } })
+            .populate('chefid', 'name avatarimg')
             .then(files => {
                 res.send(files)
             })
@@ -52,16 +53,15 @@ router.get('/all',
 
 /*add new recipe*/
 router.post('/add', passport.authenticate("jwt", { session: false }), (req, res) => {
-    const { name, chef, type, ingredients, pax, preparation, pictures, avatarimg } = req.body
+    const { name, type, ingredients, pax, preparation, pictures, chef, chefid } = req.body
     const newRecipe = new recipeModel({
         name,
-        chef,
         type,
         ingredients,
         pax,
         preparation,
         pictures,
-        avatarimg
+        chefid
     });
     input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just added the recipe: ' + name
@@ -85,7 +85,7 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
 
 /*update a recipe*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
-    const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg } = req.body
+    const { _id, name, type, ingredients, pax, preparation, pictures, removingImg, chef, chefid } = req.body
     input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just updated the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
@@ -100,12 +100,12 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
         {
             $set: {
                 name,
-                chef,
                 type,
                 ingredients,
                 pax,
                 preparation,
-                pictures
+                pictures,
+                chefid
             }
         },
         { new: true }

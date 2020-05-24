@@ -107,7 +107,8 @@ export default function mainReducer(state = initialState, action) {
                 type: action.payload.type,
                 pax: action.payload.pax,
                 preparation: action.payload.preparation,
-                avatarimg: action.payload.avatarimg
+                avatarimg: action.payload.avatarimg,
+                chefid: action.payload.chefid
             }
             return {
                 ...state,
