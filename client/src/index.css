@@ -616,6 +616,9 @@ table {
   vertical-align: text-top;
   transform: translateY(1px);
 }
+.avatarSvg {
+  top: 10px;
+}
 svg.sortingSvg {
    font-size: 20px !important;
 }

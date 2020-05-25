@@ -7,9 +7,11 @@ import { connect } from "react-redux";
 import MenuRoundedIcon from "@material-ui/icons/MenuRounded";
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
+import { Avatar } from '@material-ui/core';
 
 import { logOut } from '../store/actions/mainActions'
 import { Link } from 'react-router-dom';
+
 
 class RecipesNavbar extends Component {
 
@@ -24,7 +26,7 @@ class RecipesNavbar extends Component {
     }
 
     render() {
-        const { page, language } = this.props
+        const { page, language, user } = this.props
         return (
             <div>
                 {page === "home" &&
@@ -41,10 +43,20 @@ class RecipesNavbar extends Component {
                         <Link to="/">
                             <HomeRoundedIcon className="btn homeSvg" />
                         </Link>
-                        <div className="dropdown">
-                            <MenuRoundedIcon
+                        <div className="dropdown avatarSvg">
+                            <Avatar
+                                alt={user.name}
+                                src={user.avatarimg}
+                                className="avatarSmall"
+                                id="dropdownMenuButton"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                                {user.name.substr(0, 1)}
+                            </Avatar>
+                            {/* <MenuRoundedIcon
                                 className="btn dropdown-toggle menuSvg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            />
+                            /> */}
                             <div className="dropdown-menu menu-left dropleft languageMenu">
                                 <Link to="ChefProfile" className="dropdown-item" href="#">{language[1]}</Link>
                                 <div className="dropdown-divider"></div>
