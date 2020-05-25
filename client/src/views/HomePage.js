@@ -77,9 +77,9 @@ class HomePage extends Component {
                             </div>
                         </div>
                     </div>
-                </div>                <br></br>
+                </div>
                 <h3>{language[1]}</h3>
-                <h2>{language[2]}</h2>
+                {/* <h2>{language[2]}</h2> */}
                 <hr></hr>
                 <Link to="listall" className="linkNoDecoration">
                     <button className="chunky chunkyBlue chunkyW101">
@@ -93,9 +93,15 @@ class HomePage extends Component {
                         {language[5]}
                     </button>
                     <span>{language[6]}</span>
-                    <hr></hr>
                 </div>
-                {recipesForCarousel.length > 0 &&
+                <hr></hr>
+                <Link to="chefprofile" className="linkNoDecoration">
+                    <button className="chunky chunkyBlue chunkyW101">
+                        {language[9]}
+                    </button>
+                    <span>{language[10]}</span>
+                </Link>
+                <hr></hr>                {recipesForCarousel.length > 0 &&
                     <h4 className="centerText">{language[7]}</h4>
                 }
                 <RecipeCarousel picsForCarousel={picsForCarousel} nameForCarousel={nameForCarousel} />

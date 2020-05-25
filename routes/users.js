@@ -104,6 +104,37 @@ router.post("/add", async (req, res) => {
     });
 });
 
+/*update a user*/
+router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
+    const { chef, _id, avatarImg } = req.body
+    input.subject = chef + ' just updated his/her profile.'
+    input.html = chef + ' just updated his/her profile.'
+    sendinObj.send_email(input, function (err, response) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(response);
+        }
+    });
+    userModel.findOneAndUpdate(
+        { _id },
+        {
+            $set: {
+                avatarimg: avatarImg
+            }
+        },
+        { new: true }
+    ).then(old => {
+        if (old !== null) {
+            res.json(old);
+            console.log("Profile updated");
+        } else {
+            console.log("UPDATE ERROR");
+            res.json(old);
+        }
+    });
+});
+
 // Login user
 router.post("/login", (req, res) => {
     const { name, password } = req.body;
@@ -146,6 +177,7 @@ router.post("/token", (req, res) => {
         language: req.body.language,
         password: req.body.password,
         book: req.body.book,
+        avatarimg: req.body.avatarimg,
     };
     const options = { expiresIn: 86400 };
     const token = jwt.sign(payload, secretOrKey, options);

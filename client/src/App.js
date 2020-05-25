@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Spinner, Jumbotron } from 'reactstrap';
+import { connect } from "react-redux";
+
 import HomePage from './views/HomePage';
 import ListAll from './views/ListAll';
 import AddRecipe from './views/AddRecipe';
 import EditRecipe from './components/EditRecipe';
-import { Spinner } from 'reactstrap';
-
-import { checkToken } from "./store/actions/mainActions";
-import { connect } from "react-redux";
-
-import {
-  Jumbotron
-} from 'reactstrap';
 import LogIn from './views/LogIn';
 import RecipesNavbar from './components/RecipesNavbar';
+import ChefProfile from './views/ChefProfile';
+
+import { checkToken } from "./store/actions/mainActions";
 
 class App extends Component {
 
@@ -46,6 +44,7 @@ class App extends Component {
                   <Route path="/addrecipe" component={AddRecipe} />
                   <Route path="/editrecipe" component={EditRecipe} />
                   <Route path="/login" component={LogIn} />
+                  <Route path="/chefprofile" component={ChefProfile} />
                 </Switch>
               </Jumbotron>
             </div>

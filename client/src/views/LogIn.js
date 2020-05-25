@@ -117,8 +117,6 @@ class LogIn extends Component {
                         (response, error) => {
                             if (!response.data.error) {
                                 const avatarImgLink = response.data.replace("upload", "upload/w_150,h_150,c_thumb,g_faces")
-                                console.log(avatarImgLink);
-
                                 this.setState({
                                     avatarImg: avatarImgLink
                                 });

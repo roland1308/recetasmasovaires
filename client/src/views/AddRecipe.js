@@ -204,7 +204,7 @@ class AddRecipe extends Component {
     cancelInput = () => {
         this.props.dispatch(recipeReset())
         if (this.props.recipeAction === "add") {
-            this.props.history.push("/")
+            this.props.history.goBack()
         } else {
             this.props.history.push("/listall")
         };

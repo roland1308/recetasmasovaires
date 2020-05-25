@@ -2,6 +2,7 @@ import {
     SET_LANGUAGE,
     SET_RECIPES,
     SET_USER,
+    UPDATE_USER,
     RECIPE_ADD,
     RECIPE_EDIT,
     RECIPE_RESET,
@@ -76,6 +77,13 @@ export default function mainReducer(state = initialState, action) {
                 ...state,
                 user: action.payload,
                 isLogged: true
+            }
+        case UPDATE_USER:
+            let userCopyForUpdate = state.user
+            userCopyForUpdate.avatarimg = action.payload
+            return {
+                ...state,
+                user: userCopyForUpdate
             }
         case LOG_OUT:
             return {

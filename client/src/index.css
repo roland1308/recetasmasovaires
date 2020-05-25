@@ -539,17 +539,17 @@ a.nav-link {
 }
 
 .jumbotron {
-  padding: 0.5rem !important;
+  padding: 0 0.5rem !important;
   margin-top: 45px !important;
   margin-bottom: 0 !important;
   overflow: hidden;
 }
 .jumboTop {
-  margin-top: 38px !important;
+  margin-top: 45px !important;
   margin-bottom: 50px !important;
 }
 .jumboBottom {
-  margin-bottom: 38px !important;
+  margin-bottom: 50px !important;
 }
 
 table {
@@ -728,6 +728,7 @@ h2, h3 {
   width: 100px !important;
   height:100px !important;
   margin: auto !important;
+  font-size: 4.5rem !important;
 }
 
 .avatarSmall {

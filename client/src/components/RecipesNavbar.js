@@ -24,7 +24,7 @@ class RecipesNavbar extends Component {
     }
 
     render() {
-        const { page } = this.props
+        const { page, language } = this.props
         return (
             <div>
                 {page === "home" &&
@@ -46,10 +46,9 @@ class RecipesNavbar extends Component {
                                 className="btn dropdown-toggle menuSvg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                             />
                             <div className="dropdown-menu menu-left dropleft languageMenu">
-                                <div className="dropdown-item" href="#">Commenti</div>
-                                <div className="dropdown-item" href="#">Preferiti</div>
+                                <Link to="ChefProfile" className="dropdown-item" href="#">{language[1]}</Link>
                                 <div className="dropdown-divider"></div>
-                                <button onClick={() => this.logOut()} className="dropdown-item">LogOut</button>
+                                <button onClick={() => this.logOut()} className="dropdown-item">{language[0]}</button>
                             </div>
                         </div>
                     </div>
@@ -60,7 +59,7 @@ class RecipesNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
-    language: state.main.language,
+    language: state.main.language.recipesnavbar,
     user: state.main.user,
     page: state.main.page,
 });

@@ -3,18 +3,27 @@ export function languages() {
         // SPANISH
         esp: {
             recipesnavbar: [
-                "Idioma:"
+                "Salir",
+                "Mi perfil"
+            ],
+            chefprofile: [
+                "Cambia/Añade tu imagen",
+                "¡Añade!",
+                "¡Cambia!",
+                "¡Anula!"
             ],
             homepage: [
                 "Recetas de los Masovaires",
-                "¡Bienvenid@s a nuestro",
+                "¡Bienvenid@!",
                 "Libro de Recetas!",
                 "Buscar",
                 "Busca entre las recetas",
                 "Añadir",
                 "Añade tu receta de familia",
                 "Últimas recetas añadidas:",
-                "Copyright 2020 Renato"
+                "Copyright 2020 Renato",
+                "Perfil",
+                "Cambia/Añade tu imagen",
             ],
             addrecipe: [
                 "Nombre receta*:",
@@ -86,18 +95,27 @@ export function languages() {
         //ENGLISH
         eng: {
             recipesnavbar: [
-                "Language:"
+                "Log Out",
+                "My profile"
+            ],
+            chefprofile: [
+                "Change/Add your image",
+                "Add!",
+                "Change!",
+                "Cancel!"
             ],
             homepage: [
                 "Family's Recipes",
-                "Welcome to our",
+                "Welcome!",
                 "Recipes' book!",
                 "Search",
                 "Search among the recipes",
                 "Add",
                 "Add your family's recipe",
                 "Last added recipes:",
-                "Copyright 2020 Renato"
+                "Copyright 2020 Renato",
+                "Profile",
+                "Change/Add your image",
             ],
             addrecipe: [
                 "Recipe name*:",
@@ -169,18 +187,27 @@ export function languages() {
         //ITALIAN
         ita: {
             recipesnavbar: [
-                "Lingua:"
+                "Esci",
+                "Mio profilo"
+            ],
+            chefprofile: [
+                "Cambia/Aggiungi foto",
+                "Aggiungi!",
+                "Aggiorna!",
+                "Annulla!"
             ],
             homepage: [
                 "Ricette di famiglia",
-                "Benvenut@ nel nostro",
+                "Benvenut@!",
                 "Ricettario!",
                 "Cerca",
                 "Cerca tra le ricette presenti",
                 "Aggiungi",
                 "Aggiungi la tua ricetta di famiglia",
                 "Ultime ricette aggiunte:",
-                "Copyright 2020 Renato"
+                "Copyright 2020 Renato",
+                "Profilo",
+                "Cambia/Aggiungi foto",
             ],
             addrecipe: [
                 "Nome ricetta*:",
@@ -251,18 +278,27 @@ export function languages() {
         },
         cat: {
             recipesnavbar: [
-                "Idioma:"
+                "Sortir",
+                "El meu perfil"
+            ],
+            chefprofile: [
+                "Canvia/Afegeix la teva imatge",
+                "¡Afegeix!",
+                "¡Canvia!",
+                "¡Anul·la!"
             ],
             homepage: [
                 "Receptes dels Masovaires",
-                "Benvinguts al nostre",
+                "Benvingut!",
                 "Llibre de Receptes!",
                 "Cerca",
                 "Cerca entre les receptes",
                 "Afegeix",
                 "Afegeix la teva recepta de família",
                 "Últimes receptes afegides:",
-                "Copyright 2020 Renato"
+                "Copyright 2020 Renato",
+                "Perfil",
+                "Canvia/Afegeix la teva imatge",
             ],
             addrecipe: [
                 "Nom recepta*:",

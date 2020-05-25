@@ -5,6 +5,7 @@ export const SET_LANGUAGE = "SET_LANGUAGE";
 export const SET_RECIPES = "SET_RECIPES";
 
 export const SET_USER = "SET_USER";
+export const UPDATE_USER = "UPDATE_USER";
 
 export const LOG_OUT = "LOG_OUT";
 
@@ -59,6 +60,10 @@ export const setRecipes = (recipes) => ({
 })
 export const setUser = (user) => ({
     type: SET_USER,
+    payload: user
+})
+export const updateUser = (user) => ({
+    type: UPDATE_USER,
     payload: user
 })
 export const logOut = () => ({
