@@ -4,7 +4,6 @@ import { setLanguage } from "../store/actions/mainActions";
 import changeLanguage from '../utils/changeLanguage';
 import { connect } from "react-redux";
 
-import MenuRoundedIcon from "@material-ui/icons/MenuRounded";
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar } from '@material-ui/core';
