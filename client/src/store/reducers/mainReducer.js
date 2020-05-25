@@ -90,7 +90,10 @@ export default function mainReducer(state = initialState, action) {
                 nrOfIngredients: 0,
                 isLoading: false,
                 isLogged: false,
-                renderToggle: 0
+                renderToggle: 0,
+                page: "home",
+                isLongList: true,
+                filterFav: false
             }
         case RECIPE_ADD:
             return {

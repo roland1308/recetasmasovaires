@@ -31,7 +31,7 @@ router.get('/all',
 
 /*add new recipe*/
 router.post('/add', passport.authenticate("jwt", { session: false }), (req, res) => {
-    const { name, chef, type, ingredients, pax, preparation, pictures } = req.body
+    const { name, chef, type, ingredients, pax, preparation, pictures, chefid } = req.body
     const newRecipe = new recipeModel({
         name,
         type,
@@ -63,7 +63,7 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
 
 /*update a recipe*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
-    const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg } = req.body
+    const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg, chefid } = req.body
     input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes Italian"
     input.html = chef + ' just updated the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
