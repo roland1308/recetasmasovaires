@@ -58,6 +58,15 @@ class ListAll extends Component {
         this.filterRecipes(filterParameters)
     }
 
+    handleKey = event => {
+        if (event.key === "Enter") {
+            const dropdownTitleDiv = document.getElementById("menuSearchTitle")
+            const dropdownDiv = document.getElementById("menuSearch")
+            dropdownTitleDiv.classList.remove("show")
+            dropdownDiv.classList.remove("show")
+        }
+    }
+
     filterRecipes = (filterParameters) => {
         let { chef, name, ingredient, type } = filterParameters
         const singleIngredient = ingredient.split(" ")
@@ -96,8 +105,8 @@ class ListAll extends Component {
         let sortRecipe = this.state.filteredRecipes
         let result = null
         sortRecipe.sort((a, b) => {
-            let nameA = a.chef.toUpperCase()
-            let nameB = b.chef.toUpperCase()
+            let nameA = a.chefid[0].name.toUpperCase()
+            let nameB = b.chefid[0].name.toUpperCase()
             if (nameA < nameB) {
                 result = -this.state.orderChef;
             }
@@ -110,6 +119,7 @@ class ListAll extends Component {
             filteredRecipes: sortRecipe,
             orderChef: -this.state.orderChef
         })
+        this.closeSortMenu()
     }
 
     sortName = () => {
@@ -130,6 +140,7 @@ class ListAll extends Component {
             filteredRecipes: sortRecipe,
             orderName: -this.state.orderName
         })
+        this.closeSortMenu()
     }
 
     sortType = () => {
@@ -150,6 +161,14 @@ class ListAll extends Component {
             filteredRecipes: sortRecipe,
             orderType: -this.state.orderType
         })
+        this.closeSortMenu()
+    }
+
+    closeSortMenu = () => {
+        const dropdownTitleDiv = document.getElementById("menuSortTitle")
+        const dropdownDiv = document.getElementById("menuSort")
+        dropdownTitleDiv.classList.remove("show")
+        dropdownDiv.classList.remove("show")
     }
 
     filterFav = () => {
@@ -176,33 +195,33 @@ class ListAll extends Component {
             <div className="jumboTop">
                 <div
                     className="headBar">
-                    <div className="dropdown">
+                    <div className="dropdown" id="menuSearchTitle">
                         <SearchRoundedIcon
                             className="dropdown-toggle filterButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         />
-                        <div className="dropdown-menu menu-right dropright filterMenu">
+                        <div className="dropdown-menu menu-right dropright filterMenu" id="menuSearch">
                             {language[0]}
                             <div className="dropdown-items">
                                 <FormGroup>
-                                    <Input onChange={this.changeFilter} type="text" name="chef" id="chef" placeholder={language[1]} />
+                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="chef" id="chef" placeholder={this.state.chef} />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input onChange={this.changeFilter} type="text" name="name" id="name" placeholder={language[3]} />
+                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="name" id="name" placeholder={language[3]} />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input onChange={this.changeFilter} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
+                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input onChange={this.changeFilter} type="text" name="type" id="type" placeholder={language[5]} />
+                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="type" id="type" placeholder={language[5]} />
                                 </FormGroup>
                             </div>
                         </div>
                     </div>
-                    <div className="dropdown">
+                    <div className="dropdown" id="menuSortTitle">
                         <SortByAlphaRoundedIcon
                             className="dropdown-toggle filterButton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         />
-                        <div className="dropdown-menu menu-right dropright filterMenu">
+                        <div className="dropdown-menu menu-right dropright filterMenu" id="menuSort">
                             <div className="dropdown-items">
                                 {language[14]}
                                 <p onClick={this.sortChef} className="form-control">{language[1]}{" "}{orderChef === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
