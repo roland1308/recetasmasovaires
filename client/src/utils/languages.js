@@ -67,7 +67,9 @@ export function languages() {
                 "postre",
                 "plato único",
                 "NINGUN RESULTADO",
-                "Ordena por:"
+                "Ordena por:",
+                "FILTRO ACTIVO",
+                "Actualización:"
             ],
             recipecard: [
                 "¿Estás seguro que quieres eliminar la receta ",
@@ -159,7 +161,9 @@ export function languages() {
                 "dessert",
                 "single plate",
                 "NO RESULT",
-                "Sort by:"
+                "Sort by:",
+                "ACTIVE FILTER",
+                "Update:"
             ],
             recipecard: [
                 "Are you sure you want to delete the recipe ",
@@ -251,7 +255,9 @@ export function languages() {
                 "dolce",
                 "piatto unico",
                 "NESSUN RISULTATO",
-                "Ordina per:"
+                "Ordina per:",
+                "FILTRO ATTIVO",
+                "Aggiornamento"
             ],
             recipecard: [
                 "Sei sicuro di voler eliminare la ricetta ",
@@ -342,7 +348,9 @@ export function languages() {
                 "postres",
                 "plat únic",
                 "CAP RESULTAT",
-                "Ordena por:"
+                "Ordena por:",
+                "FILTRE ACTIU",
+                "Actualització:"
             ],
             recipecard: [
                 "Estàs segur que vols eliminar la recepta ",

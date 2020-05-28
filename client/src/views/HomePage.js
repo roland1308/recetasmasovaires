@@ -85,7 +85,7 @@ class HomePage extends Component {
                     <button className="chunky chunkyBlue chunkyW101">
                         {language[3]}
                     </button>
-                    <span>{language[4]}</span>
+                    <span>{language[4]}{" "}({recipes.length})</span>
                 </Link>
                 <hr></hr>
                 <div onClick={() => { this.isAddRecipe() }}>

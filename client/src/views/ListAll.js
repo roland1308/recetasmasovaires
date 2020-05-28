@@ -17,6 +17,7 @@ import { recipeList, setPage, setLongList, setFilterFav, recipeReset } from '../
 import { FaSortAmountDown } from 'react-icons/fa';
 import { FaSortAmountDownAlt } from 'react-icons/fa';
 import { MdViewHeadline } from 'react-icons/md';
+import { TiDeleteOutline } from 'react-icons/ti'
 
 class ListAll extends Component {
     constructor(props) {
@@ -24,14 +25,15 @@ class ListAll extends Component {
         this.state = {
             recipes: {},
             filteredRecipes: {},
-            chef: props.language[1],
+            chef: "",
             chefsList: [],
             name: "",
             ingredient: "",
-            type: props.language[5],
+            type: "",
             orderChef: 1,
             orderName: 1,
             orderType: 1,
+            orderId: 1,
         };
     }
 
@@ -164,6 +166,25 @@ class ListAll extends Component {
         this.closeSortMenu()
     }
 
+    sortId = () => {
+        let sortRecipe = this.state.filteredRecipes
+        let result = null
+        sortRecipe.sort((a, b) => {
+            if (a._id < b._id) {
+                result = -this.state.orderId;
+            }
+            if (a._id > b._id) {
+                result = this.state.orderId;
+            }
+            return result
+        })
+        this.setState({
+            filteredRecipes: sortRecipe,
+            orderId: -this.state.orderId
+        })
+        this.closeSortMenu()
+    }
+
     closeSortMenu = () => {
         const dropdownTitleDiv = document.getElementById("menuSortTitle")
         const dropdownDiv = document.getElementById("menuSort")
@@ -171,11 +192,18 @@ class ListAll extends Component {
         dropdownDiv.classList.remove("show")
     }
 
+    removeFilter = (field) => {
+        const filterParameters = this.state
+        let inputToReset = document.getElementById(field)
+        inputToReset.value = ""
+        filterParameters[field] = ""
+        this.setState({
+            [field]: "",
+        })
+        this.filterRecipes(filterParameters)
+    }
+
     filterFav = () => {
-        // let favRecipes = this.props.recipes
-        // if (!this.props.filterFav) {
-        //     favRecipes = favRecipes.filter(recipe => this.props.user.favorites.includes(recipe._id))
-        // }
         this.props.dispatch(setFilterFav())
     }
 
@@ -189,8 +217,13 @@ class ListAll extends Component {
     }
 
     render() {
-        const { language, nrOfRecipes, isLongList, filterFav, renderToggle } = this.props
-        const { orderName, orderChef, orderType } = this.state
+        const { language, nrOfRecipes, isLongList, filterFav, renderToggle, recipes } = this.props
+        const { orderName, orderChef, orderType, orderId } = this.state
+        const { chef, name, ingredient, type, filteredRecipes } = this.state
+        const isChefFiltering = chef !== ""
+        const isNameFiltering = name !== ""
+        const isIngredientFiltering = ingredient !== ""
+        const isTypeFiltering = type !== ""
         return (
             <div className="jumboTop">
                 <div
@@ -203,7 +236,7 @@ class ListAll extends Component {
                             {language[0]}
                             <div className="dropdown-items">
                                 <FormGroup>
-                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="chef" id="chef" placeholder={this.state.chef} />
+                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="chef" id="chef" placeholder={language[1]} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="name" id="name" placeholder={language[3]} />
@@ -227,6 +260,7 @@ class ListAll extends Component {
                                 <p onClick={this.sortChef} className="form-control">{language[1]}{" "}{orderChef === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
                                 <p onClick={this.sortName} className="form-control">{language[3]}{" "}{orderName === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
                                 <p onClick={this.sortType} className="form-control">{language[5]}{" "}{orderType === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
+                                <p onClick={this.sortId} className="form-control">{language[16]}{" "}{orderId === 1 ? <FaSortAmountDownAlt className="sortingSvg" /> : <FaSortAmountDown className="sortingSvg" />}</p>
                             </div>
                         </div>
                     </div>
@@ -260,8 +294,40 @@ class ListAll extends Component {
                     <Button
                         tooltip="Add a new recipe!"
                         rotate={false}
-                        onClick={() => { this.isAddRecipe() }}> <AddRoundedIcon className="addSvg" /> </Button>
+                        onClick={() => { this.isAddRecipe() }}> <AddRoundedIcon className="addSvg" />
+                    </Button>
                 </Container>
+                {(isChefFiltering || isNameFiltering || isIngredientFiltering || isTypeFiltering) ?
+                    (
+                        <Container className="filterInfo active">
+                            <p>{language[15]} {filteredRecipes.length}/{recipes.length}</p>
+                            {isChefFiltering &&
+                                <div onClick={() => this.removeFilter("chef")}>
+                                    <TiDeleteOutline className="deleteSvgBack filtering" />
+                                    {language[1]}
+                                </div>
+                            }
+                            {isNameFiltering &&
+                                <div onClick={() => this.removeFilter("name")}>
+                                    <TiDeleteOutline className="deleteSvgBack filtering" />
+                                    {language[3]}
+                                </div>}
+                            {isIngredientFiltering &&
+                                <div onClick={() => this.removeFilter("ingredient")}>
+                                    <TiDeleteOutline className="deleteSvgBack filtering" />
+                                    {language[4]}
+                                </div>}
+                            {isTypeFiltering &&
+                                <div onClick={() => this.removeFilter("type")}>
+                                    <TiDeleteOutline className="deleteSvgBack filtering" />
+                                    {language[5]}
+                                </div>}
+                        </Container>)
+                    :
+                    (
+                        <Container className="filterInfo">
+                        </Container>)
+                }
             </div>
         );
     }

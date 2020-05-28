@@ -109,7 +109,7 @@ class RecipeTable extends Component {
                                                                     ><GrDrag />{" "}{ingredient.ingredient}</td>
                                                                     <td>{ingredient.qty}</td>
                                                                     <td onClick={() => { if (window.confirm(language[2])) this.deleteIngredient(index) }}>
-                                                                        <TiDeleteOutline className="deleteSvgBack" style={{ fontSize: "1rem", margin: "-5px" }} />
+                                                                        <TiDeleteOutline className="deleteSvgBack" />
                                                                     </td>
                                                                 </tr>
                                                             )}

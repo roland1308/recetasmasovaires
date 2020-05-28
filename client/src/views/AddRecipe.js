@@ -4,7 +4,8 @@ import RecipeTable from '../components/RecipeTable';
 
 import 'react-quill/dist/quill.snow.css';
 
-import { TiDeleteOutline } from 'react-icons/ti';
+import { BsTrash } from 'react-icons/bs'
+
 // import { GrRotateRight } from 'react-icons/gr';
 
 import { connect } from "react-redux";
@@ -326,7 +327,7 @@ class AddRecipe extends Component {
                                     return (
                                         <div className="col-sm-3" key={index}>
                                             <div id="red" className="button red text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => { if (window.confirm(language[21])) this.deleteImage(index) }}>
-                                                <TiDeleteOutline className="deleteSvg" />
+                                                <BsTrash className="deleteSvg" />
                                             </div>
                                             {/* <div id="blue" className="button blue text-blanco text-shadow-negra float-right" style={{ transform: "translate(-5px, 32px)" }} onClick={() => this.rotateImage(index)}>
                                                 <GrRotateRight className="deleteSvg" />

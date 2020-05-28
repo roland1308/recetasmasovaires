@@ -12,9 +12,9 @@ import {
 import RecipeTable from './RecipeTable';
 
 import { FaPencilAlt } from 'react-icons/fa'
-import { TiDeleteOutline } from 'react-icons/ti'
 import { AiOutlineLike } from 'react-icons/ai'
 import { MdFavoriteBorder } from 'react-icons/md'
+import { BsTrash } from 'react-icons/bs'
 
 import Axios from 'axios';
 import { recipeDelete, addLike, removeLike, addFav, removeFav } from '../store/actions/mainActions';
@@ -162,7 +162,7 @@ class RecipeCard extends Component {
                                 {user.name === chefid[0].name ?
                                     (<div className="flexButtons float-right">
                                         <div id="delete" className="button red text-blanco text-shadow-negra float-right" onClick={() => { if (window.confirm(language[0] + name + "?")) this.deleteRecipe(_id) }}>
-                                            <TiDeleteOutline className="deleteSvg" />
+                                            <BsTrash className="deleteSvg" />
                                         </div>
                                         <Link id="edit" className="button green text-blanco text-shadow-negra float-right" to={{ pathname: "/editrecipe", state: this.props.recipe }}>
                                             <FaPencilAlt className="editSvg" />
