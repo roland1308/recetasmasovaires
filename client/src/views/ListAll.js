@@ -87,11 +87,35 @@ class ListAll extends Component {
             )
         })
         for (let ing of singleIngredient) {
-            copyRecipes = copyRecipes.filter(recipe => {
-                return recipe.ingredients.some(checkIngredient => {
-                    return checkIngredient.ingredient.toLowerCase().includes(ing.toLowerCase())
-                })
-            })
+            let notPresent = false
+            if (ing.substr(0, 1) === "-") {
+                notPresent = true
+                ing = ing.substr(1, ing.length - 1)
+            }
+            if (ing.substr(0, 1) === "+") {
+                notPresent = false
+                ing = ing.substr(1, ing.length - 1)
+            }
+            if (ing.length > 0) {
+                switch (notPresent) {
+                    case false:
+                        copyRecipes = copyRecipes.filter(recipe => {
+                            return recipe.ingredients.some(checkIngredient => {
+                                return checkIngredient.ingredient.toLowerCase().includes(ing.toLowerCase())
+                            })
+                        })
+                        break;
+                    case true:
+                        copyRecipes = copyRecipes.filter(recipe => {
+                            return !recipe.ingredients.some(checkIngredient => {
+                                return checkIngredient.ingredient.toLowerCase().includes(ing.toLowerCase())
+                            })
+                        })
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         copyRecipes = copyRecipes.filter(recipe => {
             return (
@@ -242,7 +266,7 @@ class ListAll extends Component {
                                     <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="name" id="name" placeholder={language[3]} />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="ingredient" id="ingredient" placeholder={language[4]} />
+                                    <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="ingredient" id="ingredient" placeholder={"+/- " + language[4]} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Input onChange={this.changeFilter} onKeyDown={this.handleKey} type="text" name="type" id="type" placeholder={language[5]} />
@@ -324,9 +348,7 @@ class ListAll extends Component {
                                 </div>}
                         </Container>)
                     :
-                    (
-                        <Container className="filterInfo">
-                        </Container>)
+                    (<Container className="filterInfo" />)
                 }
             </div>
         );
