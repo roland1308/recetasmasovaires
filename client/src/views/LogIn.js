@@ -5,6 +5,7 @@ import { logUser } from '../store/actions/mainActions'
 
 import { Input } from 'reactstrap';
 import { Avatar } from '@material-ui/core';
+import EmailInsert from '../components/EmailInsert';
 
 const axios = require("axios");
 
@@ -26,7 +27,12 @@ class LogIn extends Component {
                     "Repeat password",
                     "Book code?",
                     "Don't you have an account?",
-                    "Do you wanna add a photo to your profile?"
+                    "Do you wanna add a photo to your profile?",
+                    "If you want to share recipes, please ..",
+                    ".. add your e-mail address",
+                    "Send email!",
+                    "Insert verification code",
+                    "Verify!"
                 ],
                 [
                     "Ciao!",
@@ -40,7 +46,12 @@ class LogIn extends Component {
                     "Ripeti la password!",
                     "Codice del libro?",
                     "Non hai un account?",
-                    "Vuoi aggiungere una foto al tuo profilo?"
+                    "Vuoi aggiungere una foto al tuo profilo?",
+                    "Se vuoi condividere ricette ..",
+                    ".. aggiungi la tua e-mail",
+                    "Invia email!",
+                    "Inserisci il codice di verifica",
+                    "Verifica!"
                 ],
                 [
                     "¡Hola!",
@@ -54,7 +65,12 @@ class LogIn extends Component {
                     "¡Repite la contraseña!",
                     "¿Código de libro?",
                     "¿No tienes una cuenta?",
-                    "¿Quieres añadir una foto a tu perfil?"
+                    "¿Quieres añadir una foto a tu perfil?",
+                    "Si quieres compartir recetas ..",
+                    ".. añade tu correo electronico",
+                    "¡Envia!",
+                    "Código de verificación",
+                    "¡Cheque!"
                 ],
                 [
                     "¡Hola!",
@@ -68,7 +84,12 @@ class LogIn extends Component {
                     "¡Repeteix la ¿Contrasenya!",
                     "¿Codi de llibre?",
                     "¿No tens un compte?",
-                    "¿Vols afegir una foto al teu perfil?"
+                    "¿Vols afegir una foto al teu perfil?",
+                    "Si vols compartir receptes ..",
+                    ".. afegeix el teu correu electrònic",
+                    "¡Envia!",
+                    "Introduïu el codi de verificació",
+                    "Comproveu!"
                 ]
             ],
             languagePos: 2,
@@ -81,7 +102,11 @@ class LogIn extends Component {
             language: "",
             setLanguage: "",
             isRegister: false,
-            avatarImg: ""
+            avatarImg: "",
+            email: "",
+            isEmailValid: null,
+            isEmailSent: false,
+            veriCode: ""
         }
     }
 
@@ -170,15 +195,59 @@ class LogIn extends Component {
 
     toggleIsRegister = () => {
         this.setState({
-            isRegister: !this.state.isRegister
+            isRegister: !this.state.isRegister,
+            isEmailSent: false
         })
         document.getElementById("name").focus()
     }
 
+    async checkEmail(payload) {
+        const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+        if (!re.test(payload.to)) {
+            alert("Invalid email address")
+            return
+        }
+        try {
+            const response = await axios.post("/users/sendemail", payload)
+            if (response.data.code !== "success") {
+                alert("Error!")
+                return
+            } else {
+                alert(response.data.message)
+            }
+        } catch (error) {
+            alert(error);
+            return
+        }
+        this.setState({ isEmailSent: true })
+    }
+
+    async checkCode(veriCode) {
+        const payload = {
+            veriCode,
+            to: this.state.email
+        }
+        try {
+            const response = await axios.post("/users/checkcode", payload)
+            if (response.data !== "verified") {
+                alert("Error!")
+                return
+            } else {
+                alert("Email verified, now you can enjoy sharing recipes!")
+                this.setState({ isEmailValid: true })
+            }
+        } catch (error) {
+            alert(error);
+            return
+        }
+    }
+
     async registerUser(data) {
         const { name, password, passwordCheck, bookCode, avatarImg } = data
+        const { user } = this.props
+        const email = user.email
         if (!name || !password || !passwordCheck || !bookCode) {
-            alert("Please fill all fields")
+            alert("Please fill all required fields")
             return
         }
         if (password !== passwordCheck) {
@@ -188,7 +257,8 @@ class LogIn extends Component {
         const response = await axios.get("/users/book/" + bookCode)
         const { status, book, database, language } = response.data
         if (status) {
-            const payload = { name, password, database, language, book, avatarImg }
+            // const verifiedEmail = this.state.isEmailValid ? email : ""
+            const payload = { name, password, database, language, book, avatarImg, email }
             try {
                 const responseAdd = await axios.post("/users/add", payload)
                 const errorAdd = responseAdd.data.errmsg
@@ -208,7 +278,22 @@ class LogIn extends Component {
     }
 
     render() {
-        const { welcomeText, languagePos, name, password, passwordCheck, isRegister, bookCode, avatarImg } = this.state
+        const englishText = [
+            "Invalid email address!",
+            "Email sent successfully.",
+            "Email verified, now you can enjoy sharing recipes!",
+            "<p>This message has been sent from <strong>My Recipes</strong>, to verify your email address.</p><p>If you didn't ask for this verification, please ignore it.</p><h2>Verification code is:</h2>"
+        ]
+        const { welcomeText, languagePos,
+            name, password, passwordCheck, isRegister, bookCode, avatarImg,
+            email, isEmailSent, isEmailValid, veriCode } = this.state
+        const emailInsertText = welcomeText[languagePos].slice(12, 17).concat(englishText)
+        let payload = {
+            from: 'recetasmasovaires@gmail.com',
+            to: email,
+            subject: 'My Recipes - email verification',
+            html: "<p>This message has been sent from Family Recipes, to verify your email address.</p><p>If you didn't ask for this verification, please ignore it.</p><h2>Verification code is:</h2>"
+        }
         return (
             <div className="logIn">
                 {!isRegister && (
@@ -223,13 +308,23 @@ class LogIn extends Component {
                         <div>
                             <Input onChange={this.changeField} type="password" name="passwordCheck" id="passwordCheck" placeholder={welcomeText[languagePos][8]} />
                             <Input onChange={this.changeField} type="text" value={bookCode} name="bookCode" id="bookCode" placeholder={welcomeText[languagePos][9]} />
-                            <hr></hr>
+                            <hr />
+                            <EmailInsert text={emailInsertText} email={""} />
+                            <hr />
                             {welcomeText[languagePos][11]}
                             {avatarImg !== "" && <Avatar alt={name} src={avatarImg} className="avatarBig" />}
-                            <p></p>
+                            <p />
                             {avatarImg === "" && <Input onChange={this.changeField} type="file" name="avatarImg" id="avatarImg" />}
-                            <hr></hr>
-                            <button onClick={() => this.registerUser({ name, password, passwordCheck, bookCode, avatarImg })} className="chunky chunkyGreen chunkyW107">{welcomeText[languagePos][6]}</button>
+                            <hr />
+                            <button
+                                onClick={() => this.registerUser({ name, password, passwordCheck, bookCode, avatarImg, email })}
+                                className={name === "" || password === "" || passwordCheck === "" || bookCode === "" ?
+                                    "chunky chunkyGrey chunkyW107" : "chunky chunkyGreen chunkyW107"}
+                                disabled={name === "" || password === "" || passwordCheck === "" || bookCode === "" ?
+                                    true : false
+                                }>
+                                {welcomeText[languagePos][6]}
+                            </button>
                             <button onClick={this.toggleIsRegister} className="chunky chunkyYellow chunkyW107 float-right">{welcomeText[languagePos][7]}</button>
                         </div>
                     ) : (

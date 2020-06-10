@@ -6,6 +6,7 @@ export const SET_RECIPES = "SET_RECIPES";
 
 export const SET_USER = "SET_USER";
 export const UPDATE_USER = "UPDATE_USER";
+export const EMAIL_SET = "EMAIL_SET";
 
 export const LOG_OUT = "LOG_OUT";
 
@@ -64,6 +65,10 @@ export const setUser = (user) => ({
 })
 export const updateUser = (user) => ({
     type: UPDATE_USER,
+    payload: user
+})
+export const emailSet = (user) => ({
+    type: EMAIL_SET,
     payload: user
 })
 export const logOut = () => ({

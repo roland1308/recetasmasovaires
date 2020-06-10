@@ -617,7 +617,7 @@ table {
   transform: translateY(1px);
 }
 .avatarSvg {
-  top: 10px;
+  top: 2px;
 }
 svg.sortingSvg {
    font-size: 20px !important;

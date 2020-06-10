@@ -5,6 +5,7 @@ import { Avatar } from '@material-ui/core';
 import { Input } from 'reactstrap';
 
 import { setPage, updateUser } from '../store/actions/mainActions';
+import EmailInsert from '../components/EmailInsert';
 
 const axios = require("axios");
 
@@ -57,7 +58,8 @@ export class ChefProfile extends Component {
                 {
                     chef: this.props.user.name,
                     _id: this.props.user._id,
-                    avatarImg: this.state.avatarImg
+                    avatarImg: this.state.avatarImg,
+                    email: this.props.user.email
                 },
                 {
                     headers: {
@@ -72,16 +74,18 @@ export class ChefProfile extends Component {
     }
 
     render() {
-        const { user, language } = this.props
+        const { user, language, emailinsert } = this.props
         const { avatarImg } = this.state
         return (
             <div className="logIn">
                 <h3>{language[0]}</h3>
-                <hr></hr>
+                <hr />
                 <Avatar alt={user.name} src={avatarImg} className="avatarBig" >{user.name.substr(0, 1)}</Avatar>
-                <p></p>
+                <p />
                 <Input onChange={this.changeField} type="file" name="avatarImg" id="avatarImg" />
-                <hr></hr>
+                <hr />
+                <EmailInsert text={emailinsert} email={user.email} />
+                <hr />
                 <button onClick={() => this.updateUser({ user, avatarImg })} className="chunky chunkyGreen chunkyW107">{user.avatarimg === "" ? language[1] : language[2]}</button>
                 <button onClick={() => this.props.history.goBack()} className="chunky chunkyYellow chunkyW107 float-right">{language[3]}</button>
             </div>
@@ -92,6 +96,7 @@ export class ChefProfile extends Component {
 const mapStateToProps = state => ({
     user: state.main.user,
     language: state.main.language.chefprofile,
+    emailinsert: state.main.language.emailinsert
 
 })
 

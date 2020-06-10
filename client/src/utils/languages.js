@@ -2,6 +2,17 @@ export function languages() {
     return {
         // SPANISH
         esp: {
+            emailinsert: [
+                "Si quieres compartir recetas ..",
+                ".. añade tu correo electronico",
+                "¡Envia!",
+                "Código de verificación",
+                "¡Cheque!",
+                "¡Dirección de correo electrónico no válida!",
+                "Correo electrónico enviado con éxito.",
+                "Correo electrónico verificado, ¡ahora puedes disfrutar compartiendo recetas!",
+                "<p> Este mensaje se ha enviado desde <strong> My Recipes </strong> para verificar su dirección de correo electrónico. </p> <p> Si no solicitó esta verificación, ignórela. </p> <h2> El código de verificación es: </h2> "
+            ],
             recipesnavbar: [
                 "Salir",
                 "Mi perfil"
@@ -96,6 +107,17 @@ export function languages() {
         },
         //ENGLISH
         eng: {
+            emailinsert: [
+                "If you want to share recipes, please ..",
+                ".. add your e-mail address",
+                "Send email!",
+                "Insert verification code",
+                "Verify!",
+                "Invalid email address!",
+                "Email sent successfully.",
+                "Email verified, now you can enjoy sharing recipes!",
+                "<p>This message has been sent from <strong>My Recipes</strong>, to verify your email address.</p><p>If you didn't ask for this verification, please ignore it.</p><h2>Verification code is:</h2>"
+            ],
             recipesnavbar: [
                 "Log Out",
                 "My profile"
@@ -190,6 +212,17 @@ export function languages() {
         },
         //ITALIAN
         ita: {
+            emailinsert: [
+                "Se vuoi condividere ricette ..",
+                ".. aggiungi la tua e-mail",
+                "Invia email!",
+                "Inserisci il codice di verifica",
+                "Verifica!",
+                "Indirizzo email non valido!",
+                "Email inviata correttamente.",
+                "Email verificata, ora puoi divertirti a condividere le ricette!",
+                "<p> Questo messaggio è stato inviato da <strong> My Recipes </strong>, per verificare il tuo indirizzo email. </p> <p> Se non hai richiesto questa verifica, per favore ignoralo. </p> <h2> Il codice di verifica è: </h2> "
+            ],
             recipesnavbar: [
                 "Esci",
                 "Mio profilo"
@@ -283,6 +316,17 @@ export function languages() {
             ],
         },
         cat: {
+            emailinsert: [
+                "Si vols compartir receptes ..",
+                ".. afegeix el teu correu electrònic",
+                "¡Envia!",
+                "Introduïu el codi de verificació",
+                "Comproveu!",
+                "¡Adreça de correu electrònic no vàlida!",
+                "S'ha enviat el correu electrònic correctament.",
+                "Verificat per correu electrònic, ara podeu gaudir de compartir receptes!",
+                "<p> Aquest missatge s'ha enviat des de <strong> My Recipes </strong>, per verificar la vostra adreça de correu electrònic. </p> <p> Si no heu sol·licitat aquesta verificació, ignora-la. </p> <h2> El codi de verificació és: </h2> "
+            ],
             recipesnavbar: [
                 "Sortir",
                 "El meu perfil"

@@ -36,16 +36,18 @@ Need a "BOOK CODE" to access to proper recipes' database!
 - search and sort windows toggles
 - Recipes' short list.
 - remove favorite when filtered if deselected
-
-## Work In Progress:
-- Comments' management.
-- Share recipe
+- User Avatar
+- filter for present or not-present ingredient
 - Burger menu:
-    - Info cuochi
     - User profile
     - Logout
+
+## Work In Progress:
+- Burger menu:
+    - Info cuochi
+- Comments' management.
+- Share recipe
 - color to connect all pages
 - background for like/fav/delete and modify buttons (change order of delete/edit)
 - visit other recipe's books
-- User Avatar
 - Photo manipulation.

@@ -38,6 +38,8 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
+const path = require('path')
+const sharp = require('sharp')
 
 let input = {
     'to': { 'a.renato@gmail.com': 'to whom!' },
@@ -70,9 +72,9 @@ router.get("/book/:bookCode", (req, res) => {
 
 /*add a User if not existing already: CREATE*/
 router.post("/add", async (req, res) => {
-    const { name, password, database, language, book, avatarImg } = req.body;
+    const { name, password, database, language, book, avatarImg, email } = req.body;
     if (!name || !password || !database || !language || !book) {
-        return res.status(400).json({ msg: "Please fill all fields" });
+        return res.status(400).json({ msg: "Please fill all required fields" });
     }
     bcrypt.hash(password, saltRounds).then(function (hash) {
         const newUser = new userModel({
@@ -81,7 +83,8 @@ router.post("/add", async (req, res) => {
             language,
             book,
             password: hash,
-            avatarimg: avatarImg
+            avatarimg: avatarImg,
+            email: email
         });
         newUser
             .save()
@@ -106,7 +109,7 @@ router.post("/add", async (req, res) => {
 
 /*update a user*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
-    const { chef, _id, avatarImg } = req.body
+    const { chef, _id, avatarImg, email } = req.body
     input.subject = chef + ' just updated his/her profile.'
     input.html = chef + ' just updated his/her profile.'
     sendinObj.send_email(input, function (err, response) {
@@ -120,7 +123,8 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
         { _id },
         {
             $set: {
-                avatarimg: avatarImg
+                avatarimg: avatarImg,
+                email
             }
         },
         { new: true }
@@ -216,26 +220,22 @@ router.put(
 );
 
 // PULL recipe inside user's favorites
-router.put(
-    "/pullfav",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-        userModel.findByIdAndUpdate(
-            req.body.chefId,
-            {
-                $pull: { favorites: req.body._id },
-            },
-            { multi: true },
-            function (err, doc) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.send("OK");
-                }
+router.put("/pullfav", passport.authenticate("jwt", { session: false }), (req, res) => {
+    userModel.findByIdAndUpdate(
+        req.body.chefId,
+        {
+            $pull: { favorites: req.body._id },
+        },
+        { multi: true },
+        function (err, doc) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send("OK");
             }
-        );
-    }
-);
+        }
+    );
+});
 
 /*add Avatar to uploads folder and to Cloudinary*/
 router.post("/addavatar", upload.single("picture"), async (req, res) => {
@@ -244,7 +244,13 @@ router.post("/addavatar", upload.single("picture"), async (req, res) => {
         return res.send({ error: 'Only jpeg, jpg, jpe, o png are allowed' });
     } else {
         const { filename: image } = req.file
-        const resizedLink = req.file.destination + "/" + image
+        await sharp(req.file.path)
+            .resize(300, 200, { fit: "cover" })
+            .jpeg({ quality: 80 })
+            .toFile(
+                path.resolve(req.file.destination, 'resized', image)
+            )
+        const resizedLink = req.file.destination + "/resized/" + image
         new Promise((resolve, reject) => {
             cloudinary.v2.uploader.upload(resizedLink, { public_id: req.file.originalname }, (err, result) => {
                 if (err) {
@@ -255,5 +261,34 @@ router.post("/addavatar", upload.single("picture"), async (req, res) => {
         })
     }
 });
+
+router.post("/sendemail", (req, res) => {
+    const { from, to, subject, html } = req.body;
+    bcrypt.hash(to, saltRounds).then(function (hash) {
+        let inputEmail = {
+            'from': [from, 'Family Recipes'],
+            'to': { [to]: 'to whom!' },
+            'subject': subject,
+            'html': html + "<h2>" + hash + "</h2>"
+        };
+        sendinObj.send_email(inputEmail, function (err, response) {
+            if (err) {
+                console.log(err);
+            }
+            return res.send(response)
+        })
+    })
+})
+
+router.post("/checkcode", (req, res) => {
+    const { to, veriCode } = req.body;
+    bcrypt.compare(to, veriCode, function (err, result) {
+        if (!result) {
+            res.send("error")
+        } else {
+            res.send("verified");
+        }
+    })
+})
 
 module.exports = router

@@ -76,16 +76,19 @@ class ListAll extends Component {
             (chef === this.props.language[2]) ? "" : chef
         type = (type === this.props.language[5]) ||
             (type === this.props.language[6]) ? "" : type
+
         let copyRecipes = this.state.recipes.filter(recipe => {
             return (
                 recipe.chefid[0].name.toLowerCase().includes(chef.toLowerCase())
             )
         })
+
         copyRecipes = copyRecipes.filter(recipe => {
             return (
                 recipe.name.toLowerCase().includes(name.toLowerCase())
             )
         })
+
         for (let ing of singleIngredient) {
             let notPresent = false
             if (ing.substr(0, 1) === "-") {
@@ -117,11 +120,13 @@ class ListAll extends Component {
                 }
             }
         }
+
         copyRecipes = copyRecipes.filter(recipe => {
             return (
                 recipe.type.includes(type)
             )
         })
+
         this.setState({
             filteredRecipes: copyRecipes
         })

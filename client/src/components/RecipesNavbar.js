@@ -42,7 +42,7 @@ class RecipesNavbar extends Component {
                         <Link to="/">
                             <HomeRoundedIcon className="btn homeSvg" />
                         </Link>
-                        <div className="dropdown avatarSvg">
+                        <div className="btn dropdown avatarSvg">
                             <Avatar
                                 alt={user.name}
                                 src={user.avatarimg}

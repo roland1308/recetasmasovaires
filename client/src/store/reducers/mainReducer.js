@@ -3,6 +3,7 @@ import {
     SET_RECIPES,
     SET_USER,
     UPDATE_USER,
+    EMAIL_SET,
     RECIPE_ADD,
     RECIPE_EDIT,
     RECIPE_RESET,
@@ -26,7 +27,7 @@ import {
 
 
 const initialState = {
-    user: undefined,
+    user: { email: "" },
     recipes: [],
     nrOfRecipes: 0,
     language: undefined,
@@ -85,9 +86,16 @@ export default function mainReducer(state = initialState, action) {
                 ...state,
                 user: userCopyForUpdate
             }
+        case EMAIL_SET:
+            let userCopyForEmail = state.user
+            userCopyForEmail.email = action.payload
+            return {
+                ...state,
+                user: userCopyForEmail
+            }
         case LOG_OUT:
             return {
-                user: undefined,
+                user: { email: "" },
                 recipes: [],
                 nrOfRecipes: 0,
                 language: undefined,
