@@ -104,9 +104,6 @@ class LogIn extends Component {
             isRegister: false,
             avatarImg: "",
             email: "",
-            isEmailValid: null,
-            isEmailSent: false,
-            veriCode: ""
         }
     }
 
@@ -201,47 +198,6 @@ class LogIn extends Component {
         document.getElementById("name").focus()
     }
 
-    async checkEmail(payload) {
-        const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
-        if (!re.test(payload.to)) {
-            alert("Invalid email address")
-            return
-        }
-        try {
-            const response = await axios.post("/users/sendemail", payload)
-            if (response.data.code !== "success") {
-                alert("Error!")
-                return
-            } else {
-                alert(response.data.message)
-            }
-        } catch (error) {
-            alert(error);
-            return
-        }
-        this.setState({ isEmailSent: true })
-    }
-
-    async checkCode(veriCode) {
-        const payload = {
-            veriCode,
-            to: this.state.email
-        }
-        try {
-            const response = await axios.post("/users/checkcode", payload)
-            if (response.data !== "verified") {
-                alert("Error!")
-                return
-            } else {
-                alert("Email verified, now you can enjoy sharing recipes!")
-                this.setState({ isEmailValid: true })
-            }
-        } catch (error) {
-            alert(error);
-            return
-        }
-    }
-
     async registerUser(data) {
         const { name, password, passwordCheck, bookCode, avatarImg } = data
         const { user } = this.props
@@ -284,16 +240,8 @@ class LogIn extends Component {
             "Email verified, now you can enjoy sharing recipes!",
             "<p>This message has been sent from <strong>My Recipes</strong>, to verify your email address.</p><p>If you didn't ask for this verification, please ignore it.</p><h2>Verification code is:</h2>"
         ]
-        const { welcomeText, languagePos,
-            name, password, passwordCheck, isRegister, bookCode, avatarImg,
-            email, isEmailSent, isEmailValid, veriCode } = this.state
+        const { welcomeText, languagePos, name, password, passwordCheck, isRegister, bookCode, avatarImg, email } = this.state
         const emailInsertText = welcomeText[languagePos].slice(12, 17).concat(englishText)
-        let payload = {
-            from: 'recetasmasovaires@gmail.com',
-            to: email,
-            subject: 'My Recipes - email verification',
-            html: "<p>This message has been sent from Family Recipes, to verify your email address.</p><p>If you didn't ask for this verification, please ignore it.</p><h2>Verification code is:</h2>"
-        }
         return (
             <div className="logIn">
                 {!isRegister && (
