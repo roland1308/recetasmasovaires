@@ -74,7 +74,7 @@ class HomePage extends Component {
                             <div className="modal-body">
                                 {language[8]}
                                 <ul class="icons">
-                                    <li><a href="https://github.com/Roland1308" target="_blank" class="icon"><AiOutlineGithub /></a></li>
+                                    <li><a href="https://github.com/roland1308?tab=repositories" target="_blank" class="icon"><AiOutlineGithub /></a></li>
                                     <li><a href="https://linkedin.com/in/renato-acciardi" target="_blank"
                                         class="icon"><AiOutlineLinkedin /></a></li>
                                     <li><a href="mailto:a.renato@gmail.com" class="icon"><AiOutlineMail /></a></li>
