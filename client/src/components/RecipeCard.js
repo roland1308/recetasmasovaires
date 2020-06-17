@@ -15,10 +15,12 @@ import { FaPencilAlt } from 'react-icons/fa'
 import { AiOutlineLike } from 'react-icons/ai'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { BsTrash } from 'react-icons/bs'
+import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 
-import Axios from 'axios';
 import { recipeDelete, addLike, removeLike, addFav, removeFav } from '../store/actions/mainActions';
 import { Avatar } from '@material-ui/core';
+
+const axios = require("axios");
 
 class RecipeCard extends Component {
     constructor(props) {
@@ -49,7 +51,7 @@ class RecipeCard extends Component {
         const token = window.localStorage.token;
         if (_id !== "") {
             let URL = this.props.user.database + "delete"
-            Axios.delete(URL, {
+            axios.delete(URL, {
                 data: { _id },
                 headers: { authorization: `bearer ${token}` }
             })
@@ -57,7 +59,7 @@ class RecipeCard extends Component {
         }
     };
 
-    toggleLike = ({ _id, index }) => {
+    toggleLike = (_id) => {
         const { user } = this.props
         const { likes } = this.props.recipe
         const chefId = user._id
@@ -69,7 +71,7 @@ class RecipeCard extends Component {
         }
     }
 
-    toggleFav = ({ _id, index }) => {
+    toggleFav = (_id) => {
         const { user } = this.props
         const chefId = user._id
         const token = window.localStorage.token
@@ -80,9 +82,27 @@ class RecipeCard extends Component {
         }
     }
 
+    async shareRecipe(payload) {
+        const { language } = this.props
+        const dest = prompt(language[17])
+        const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+        if (!re.test(dest)) {
+            alert(language[15])
+            return
+        }
+        payload.to = { [dest]: 'to whom!' }
+        const response = await axios.post("/users/sendrecipe", payload)
+        if (response.data.code !== "success") {
+            alert("Error!")
+            return
+        } else {
+            alert(language[16])
+        }
+    }
+
     render() {
         const { language, user, index, isLongList, filterFav } = this.props
-        const { _id, name, type, pax, pictures, ingredients, preparation, likes, chefid } = this.props.recipe
+        const { _id, name, type, pax, pictures, ingredients, preparation, likes, chefid, chef } = this.props.recipe
         const bwLink = pictures[0].src.replace("/upload/", "/upload/e_grayscale/")
         const cardStyle = {
             backgroundImage: "linear-gradient(rgba(250, 250, 250, 0.7), rgba(250, 250, 250, 0.7)), url(" + bwLink + ")",
@@ -135,6 +155,17 @@ class RecipeCard extends Component {
             favButtonClass = "button redStrong text-blanco text-shadow-negra float-right",
             favSvgClass = "favSvg whiteText"
         const isFavRecipe = user.favorites.filter(userFaved => userFaved === _id).length
+        let ingList = "<h2>" + language[20] + "</h2>"
+        for (let ing of ingredients) {
+            ingList = ingList + ing.ingredient + ", " + ing.qty + "<p />"
+        }
+        const subjectVar = (user.name === chef) ? user.name + language[21] : user.name + language[18] + chef + ":"
+        const payload = {
+            'from': [user.email, 'Family Recipes'],
+            'to': {},
+            'subject': subjectVar,
+            'html': "<h1>" + name + "</h1><hr />" + ingList + "<hr /><h2>" + language[19] + "</h2>" + preparation
+        }
         if (!filterFav || (filterFav && (isFavRecipe !== 0))) {
             return (
                 <div style={cardColor} className="card">
@@ -169,16 +200,21 @@ class RecipeCard extends Component {
                                         </Link>
                                     </div>) :
                                     (<div className="flexButtons float-right">
-                                        <div id={"like" + index} className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeButtonClass : NOlikeButtonClass} onClick={() => this.toggleLike({ _id, index })}>
+                                        <div id={"like" + index} className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeButtonClass : NOlikeButtonClass} onClick={() => this.toggleLike(_id)}>
                                             <AiOutlineLike className={(likes.filter(userLiked => userLiked === user._id).length !== 0) ? likeSvgClass : NOlikeSvgClass} />
                                         </div>
-                                        <div id={"fav" + index} className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favButtonClass : NOfavButtonClass} onClick={() => this.toggleFav({ _id, index })}>
+                                        <div id={"fav" + index} className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favButtonClass : NOfavButtonClass} onClick={() => this.toggleFav(_id)}>
                                             <MdFavoriteBorder className={(user.favorites.filter(userFaved => userFaved === _id).length !== 0) ? favSvgClass : NOfavSvgClass} />
                                         </div>
                                         <div className="button grey text-blanco text-shadow-negra float-right">
                                             {chefid[0] && <Avatar alt={chefid[0].name} src={chefid[0].avatarimg} className="avatarSmall" style={cardColor}>{chefid[0].name.substr(0, 1)}</Avatar>}
                                         </div>
                                     </div>)
+                                }
+                                {user.email !== "" &&
+                                    <div id="share" className="button orange text-blanco text-shadow-negra float-right" onClick={() => this.shareRecipe(payload)}>
+                                        <ShareRoundedIcon className="shareCardSvg whiteText" />
+                                    </div>
                                 }
                             </div>
                         }

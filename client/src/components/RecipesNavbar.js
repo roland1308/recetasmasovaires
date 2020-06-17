@@ -38,7 +38,7 @@ class RecipesNavbar extends Component {
                 }
                 {page === "basic" &&
                     <div className="flexNavbar">
-                        <ShareRoundedIcon className="btn shareSvg" />
+                        {/* <ShareRoundedIcon className="btn shareSvg" /> */}
                         <Link to="/">
                             <HomeRoundedIcon className="btn homeSvg" />
                         </Link>

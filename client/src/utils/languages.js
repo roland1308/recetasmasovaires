@@ -34,7 +34,7 @@ export function languages() {
                 "Últimas recetas añadidas:",
                 "Copyright 2020 Renato",
                 "Perfil",
-                "Cambia/Añade tu imagen",
+                "Cambia tu información",
             ],
             addrecipe: [
                 "Nombre receta*:",
@@ -97,7 +97,14 @@ export function languages() {
                 "postre",
                 "plato único",
                 "Esta receta gusta a ",
-                " persona."
+                " persona.",
+                "¡Dirección de correo electrónico no válida!",
+                "Correo electrónico enviado con éxito.",
+                "¿A quién quieres enviar?",
+                " quiere presentarte esta receta de ",
+                "Preparación",
+                "Ingredientes",
+                " quiere presentarte esta receta suya:",
             ],
             recipetable: [
                 "Ingrediente",
@@ -139,7 +146,7 @@ export function languages() {
                 "Last added recipes:",
                 "Copyright 2020 Renato",
                 "Profile",
-                "Change/Add your image",
+                "Change your information",
             ],
             addrecipe: [
                 "Recipe name*:",
@@ -202,7 +209,14 @@ export function languages() {
                 "dessert",
                 "single plate",
                 "This recipe likes to ",
-                " people."
+                " people.",
+                "Invalid email address!",
+                "Email sent successfully.",
+                "Who do you want to send to?",
+                " wants to introduce you this recipe from ",
+                "Preparation",
+                "Ingredients",
+                " wants to introduce you his/her recipe:",
             ],
             recipetable: [
                 "Ingredient",
@@ -244,7 +258,7 @@ export function languages() {
                 "Ultime ricette aggiunte:",
                 "Copyright 2020 Renato",
                 "Profilo",
-                "Cambia/Aggiungi foto",
+                "Cambia le tue informazioni",
             ],
             addrecipe: [
                 "Nome ricetta*:",
@@ -307,7 +321,14 @@ export function languages() {
                 "dolce",
                 "piatto unico",
                 "Questa ricetta piace a ",
-                " persona."
+                " persona.",
+                "Indirizzo email non valido!",
+                "Email inviata correttamente.",
+                "A chi vuoi inviare?",
+                " ti vuole far conoscere questa ricetta di ",
+                "Preparazione",
+                "Ingredienti",
+                " ti vuole far conoscere questa sua ricetta:",
             ],
             recipetable: [
                 "Ingrediente",
@@ -348,7 +369,7 @@ export function languages() {
                 "Últimes receptes afegides:",
                 "Copyright 2020 Renato",
                 "Perfil",
-                "Canvia/Afegeix la teva imatge",
+                "Canvieu la informació",
             ],
             addrecipe: [
                 "Nom recepta*:",
@@ -411,7 +432,14 @@ export function languages() {
                 "postres",
                 "plat únic",
                 "Aquesta recepta agrada a ",
-                " persona."
+                " persona.",
+                "Adreça de correu electrònic no vàlida!",
+                "Correu electrònic enviat amb èxit.",
+                "A qui vols enviar?",
+                " vol introduïu aquesta recepta de ",
+                "Preparació",
+                "Ingredients",
+                "vol presentar-te la seva recepta:",
             ],
             recipetable: [
                 "Ingredient",

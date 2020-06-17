@@ -280,6 +280,15 @@ router.post("/sendemail", (req, res) => {
     })
 })
 
+router.post("/sendrecipe", (req, res) => {
+    sendinObj.send_email(req.body, function (err, response) {
+        if (err) {
+            console.log(err);
+        }
+        return res.send(response)
+    })
+})
+
 router.post("/checkcode", (req, res) => {
     const { to, veriCode } = req.body;
     bcrypt.compare(to, veriCode, function (err, result) {
