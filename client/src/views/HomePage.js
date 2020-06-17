@@ -6,6 +6,8 @@ import { checkToken, recipeReset, setPage } from "../store/actions/mainActions";
 import { connect } from "react-redux";
 import RecipeCarousel from '../components/RecipeCarousel';
 
+import { AiOutlineLinkedin, AiOutlineGithub, AiOutlineMail } from 'react-icons/ai';
+
 class HomePage extends Component {
     constructor(props) {
         super(props);
@@ -71,6 +73,12 @@ class HomePage extends Component {
                             </div>
                             <div className="modal-body">
                                 {language[8]}
+                                <ul class="icons">
+                                    <li><a href="https://github.com/Roland1308" target="_blank" class="icon"><AiOutlineGithub /></a></li>
+                                    <li><a href="https://linkedin.com/in/renato-acciardi" target="_blank"
+                                        class="icon"><AiOutlineLinkedin /></a></li>
+                                    <li><a href="mailto:a.renato@gmail.com" class="icon"><AiOutlineMail /></a></li>
+                                </ul>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-primary" data-dismiss="modal">Ok</button>
@@ -80,28 +88,29 @@ class HomePage extends Component {
                 </div>
                 <h3>{language[1]}</h3>
                 {/* <h2>{language[2]}</h2> */}
-                <hr></hr>
+                <hr />
                 <Link to="listall" className="linkNoDecoration">
                     <button className="chunky chunkyBlue chunkyW101">
                         {language[3]}
                     </button>
                     <span>{language[4]}{" "}({recipes.length})</span>
                 </Link>
-                <hr></hr>
+                <hr />
                 <div onClick={() => { this.isAddRecipe() }}>
                     <button className="chunky chunkyBlue chunkyW101">
                         {language[5]}
                     </button>
                     <span>{language[6]}</span>
                 </div>
-                <hr></hr>
+                <hr />
                 <Link to="chefprofile" className="linkNoDecoration">
                     <button className="chunky chunkyBlue chunkyW101">
                         {language[9]}
                     </button>
                     <span>{language[10]}</span>
                 </Link>
-                <hr></hr>                {recipesForCarousel.length > 0 &&
+                <hr />
+                {recipesForCarousel.length > 0 &&
                     <h4 className="centerText">{language[7]}</h4>
                 }
                 <RecipeCarousel picsForCarousel={picsForCarousel} nameForCarousel={nameForCarousel} />
