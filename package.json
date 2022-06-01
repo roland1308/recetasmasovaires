@@ -42,7 +42,7 @@
     "redux-devtools-extension": "^2.13.8",
     "restler": "^3.4.0",
     "sendinblue-api": "^1.0.8",
-    "sharp": "^0.25.2"
+    "sharp": "^0.30.5"
   },
   "devDependencies": {
     "redux": "^4.0.5"
