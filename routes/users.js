@@ -13,9 +13,20 @@ const userModel = require('../model/userModel')
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-const sendinblue = require('sendinblue-api');
+/* const sendinblue = require('sendinblue-api');
 const parameters = { "apiKey": process.env.sendinblue, "timeout": 5000 };
 const sendinObj = new sendinblue(parameters);
+ */
+
+const SibApiV3Sdk = require('sib-api-v3-sdk');
+let defaultClient = SibApiV3Sdk.ApiClient.instance;
+
+let apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.sendinblue;
+
+let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -41,12 +52,18 @@ cloudinary.config({
 const path = require('path')
 const sharp = require('sharp')
 
-let input = {
+sendSmtpEmail.subject = "Test mail form V3";
+sendSmtpEmail.htmlContent = "This is the <h1>HTML</h1>";
+sendSmtpEmail.sender = {"name":"Family Recipes","email":"recetasmasovaires@gmail.com"};
+sendSmtpEmail.to = [{"email":"a.renato@gmail.com","name":"Renato"}];
+
+/* let input = {
     'to': { 'a.renato@gmail.com': 'to whom!' },
     'from': ['recetasmasovaires@gmail.com', 'Family Recipes'],
     'subject': 'Test mail form V2 codice corto',
     'html': 'This is the <h1>HTML</h1>'
 };
+ */
 
 /*check book code*/
 router.get("/book/:bookCode", (req, res) => {
@@ -110,7 +127,7 @@ router.post("/add", async (req, res) => {
 /*update a user*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { chef, _id, avatarImg, email } = req.body
-    input.subject = chef + ' just updated his/her profile.'
+/*     input.subject = chef + ' just updated his/her profile.'
     input.html = chef + ' just updated his/her profile.'
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -119,7 +136,8 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
             console.log(response);
         }
     });
-    userModel.findOneAndUpdate(
+ */ 
+   userModel.findOneAndUpdate(
         { _id },
         {
             $set: {
@@ -142,7 +160,19 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
 // Login user
 router.post("/login", (req, res) => {
     const { name, password } = req.body;
-    input.subject = name + ' just logged in!'
+
+    sendSmtpEmail.subject = name + ' just logged in!';
+sendSmtpEmail.htmlContent = name + ' just logged in!';
+
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+      }, function(error) {
+        console.error(error);
+      });
+      
+
+/*    
+ input.subject = name + ' just logged in!'
     input.html = name + ' just logged in!'
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -151,7 +181,8 @@ router.post("/login", (req, res) => {
             console.log(response);
         }
     });
-    userModel
+ */ 
+   userModel
         .findOne({
             name
         })

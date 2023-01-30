@@ -7,7 +7,7 @@ import { Input } from 'reactstrap';
 import { setPage, updateUser } from '../store/actions/mainActions';
 import EmailInsert from '../components/EmailInsert';
 
-const axios = require("axios");
+import axios from 'axios';
 
 export class ChefProfile extends Component {
     constructor(props) {

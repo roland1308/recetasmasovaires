@@ -5,7 +5,6 @@ import changeLanguage from '../utils/changeLanguage';
 import { connect } from "react-redux";
 
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
-import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar } from '@material-ui/core';
 
 import { logOut } from '../store/actions/mainActions'

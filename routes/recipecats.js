@@ -5,9 +5,9 @@ const recipeModel = require('../model/recipeCatModel')
 
 const passport = require("passport");
 
-const sendinblue = require('sendinblue-api');
-const parameters = { "apiKey": process.env.sendinblue, "timeout": 5000 };
-const sendinObj = new sendinblue(parameters);
+//const sendinblue = require('sendinblue-api');
+//const parameters = { "apiKey": process.env.sendinblue, "timeout": 5000 };
+//const sendinObj = new sendinblue(parameters);
 
 let input = {
     'to': { 'a.renato@gmail.com': 'to whom!' },

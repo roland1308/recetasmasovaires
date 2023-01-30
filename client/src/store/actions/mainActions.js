@@ -1,6 +1,8 @@
 // Action types
 import changeLanguage from '../../utils/changeLanguage';
 
+import axios from 'axios';
+
 export const SET_LANGUAGE = "SET_LANGUAGE";
 export const SET_RECIPES = "SET_RECIPES";
 
@@ -36,7 +38,7 @@ export const SET_PAGE = "SET_PAGE"
 export const SET_LONGLIST = "SET_LONGLIST"
 export const SET_FILTERFAV = "SET_FILTERFAV"
 
-const axios = require("axios");
+
 
 export const setLongList = () => ({
     type: SET_LONGLIST

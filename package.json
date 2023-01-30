@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "engines": {
-    "node": "13.6.0"
+    "node": ">=13.6.0"
   },
   "scripts": {
     "client-install": "npm install --prefix client",
@@ -41,8 +41,9 @@
     "react-icons": "^3.10.0",
     "redux-devtools-extension": "^2.13.8",
     "restler": "^3.4.0",
+    "sharp": "^0.25.2",
     "sendinblue-api": "^1.0.8",
-    "sharp": "^0.25.2"
+    "sib-api-v3-sdk": "^8.5.0"
   },
   "devDependencies": {
     "redux": "^4.0.5"

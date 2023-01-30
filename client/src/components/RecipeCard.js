@@ -20,7 +20,7 @@ import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { recipeDelete, addLike, removeLike, addFav, removeFav } from '../store/actions/mainActions';
 import { Avatar } from '@material-ui/core';
 
-const axios = require("axios");
+import axios from 'axios';
 
 class RecipeCard extends Component {
     constructor(props) {
@@ -67,7 +67,7 @@ class RecipeCard extends Component {
         if (likes.filter(userLiked => userLiked === chefId).length !== 0) {
             this.props.dispatch(removeLike({ chefId, _id, token, URL: this.props.user.database + "/pulllike" }))
         } else {
-            this.props.dispatch(addLike({ chefId, _id, token, URL: this.props.user.database + "/pushlike" }))
+            this.props.dispatch(addLike({ chefId, _id, token, URL: this.props.user.database + "pushlike" }))
         }
     }
 

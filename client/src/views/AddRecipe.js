@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setLoading, setPage, checkToken } from '../store/actions/mainActions';
 import QuillText from '../components/QuillText';
 
-const axios = require("axios");
+import axios from 'axios';
 
 class AddRecipe extends Component {
     constructor(props) {

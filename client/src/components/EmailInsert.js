@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Input } from 'reactstrap';
 import { emailSet } from '../store/actions/mainActions';
 
-const axios = require("axios");
+import axios from 'axios';
 
 class EmailInsert extends Component {
     constructor(props) {

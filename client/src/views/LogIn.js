@@ -7,7 +7,7 @@ import { Input } from 'reactstrap';
 import { Avatar } from '@material-ui/core';
 import EmailInsert from '../components/EmailInsert';
 
-const axios = require("axios");
+import axios from 'axios';
 
 class LogIn extends Component {
     constructor(props) {

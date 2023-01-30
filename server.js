@@ -18,7 +18,7 @@ require("./config/passport");
 const mongoose = require("mongoose");
 mongoose.set('useFindAndModify', false)
 mongoose
-    .connect(db, { useNewUrlParser: true, useCreateIndex: true })
+    .connect(db, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(() => console.log("Connection to Mongo DB established"))
     .catch(err => console.log(err));
 app.use("./uploads", express.static("uploads"));
