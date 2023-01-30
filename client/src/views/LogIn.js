@@ -9,6 +9,12 @@ import EmailInsert from '../components/EmailInsert';
 
 import axios from 'axios';
 
+const instance = axios.create({
+    baseURL: 'https://recipes-awpm.onrender.com',
+    timeout: 1000,
+    //headers: {'X-Custom-Header': 'foobar'}
+  });  
+
 class LogIn extends Component {
     constructor(props) {
         super(props)
@@ -134,7 +140,7 @@ class LogIn extends Component {
             case "avatarImg":
                 let formPicture = new FormData();
                 formPicture.append("picture", event.target.files[0]);
-                axios.post("/users/addavatar", formPicture)
+                instance.post("/users/addavatar", formPicture)
                     .then(
                         (response, error) => {
                             if (!response.data.error) {
@@ -178,7 +184,7 @@ class LogIn extends Component {
             this.props.dispatch(logUser(userGuest))
         } else {
             try {
-                const response = await axios.post("/users/login", data);
+                const response = await instance.post("/users/login", data);
                 if (response.data === "error") {
                     alert("Log In Error!")
                 } else {
@@ -210,13 +216,13 @@ class LogIn extends Component {
             alert("Both password must be the same")
             return
         }
-        const response = await axios.get("/users/book/" + bookCode)
+        const response = await instance.get("/users/book/" + bookCode)
         const { status, book, database, language } = response.data
         if (status) {
             // const verifiedEmail = this.state.isEmailValid ? email : ""
             const payload = { name, password, database, language, book, avatarImg, email }
             try {
-                const responseAdd = await axios.post("/users/add", payload)
+                const responseAdd = await instance.post("/users/add", payload)
                 const errorAdd = responseAdd.data.errmsg
                 if (errorAdd) {
                     if (errorAdd.includes("E11000 duplicate key error collection")) {
