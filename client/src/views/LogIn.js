@@ -9,11 +9,15 @@ import EmailInsert from '../components/EmailInsert';
 
 import axios from 'axios';
 
-const instance = axios.create({
-    baseURL: 'https://recipes-awpm.onrender.com',
-    timeout: 1000,
-    //headers: {'X-Custom-Header': 'foobar'}
-  });  
+let instance = axios.create()
+if(process.env.NODE_ENV === "production")
+{
+    instance = axios.create({
+        baseURL: 'https://recipes-awpm.onrender.com',
+        timeout: 1000,
+        //headers: {'X-Custom-Header': 'foobar'}
+    });
+}
 
 class LogIn extends Component {
     constructor(props) {

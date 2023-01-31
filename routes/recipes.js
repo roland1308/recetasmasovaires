@@ -27,17 +27,28 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const sendinblue = require('sendinblue-api');
+const SibApiV3Sdk = require('sib-api-v3-sdk');
+let defaultClient = SibApiV3Sdk.ApiClient.instance;
+let apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.sendinblue;
+let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+sendSmtpEmail.subject = "Test mail form V3";
+sendSmtpEmail.htmlContent = "This is the <h1>HTML</h1>";
+sendSmtpEmail.sender = {"name":"Family Recipes","email":"recetasmasovaires@gmail.com"};
+sendSmtpEmail.to = [{"email":"a.renato@gmail.com","name":"Renato"}];
+
+/* const sendinblue = require('sendinblue-api');
 const parameters = { "apiKey": process.env.sendinblue, "timeout": 5000 };
 const sendinObj = new sendinblue(parameters);
-
-let input = {
+ */
+/* let input = {
     'to': { 'a.renato@gmail.com': 'to whom!' },
     'from': ['recetasmasovaires@gmail.com', 'Family Recipes'],
     'subject': 'Test mail form V2 codice corto',
     'html': 'This is the <h1>HTML</h1>'
 };
-
+ */
 /*get all recipes*/
 router.get('/all',
     (req, res) => {
@@ -63,7 +74,17 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
         pictures,
         chefid
     });
-    input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish"
+
+    sendSmtpEmail.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish";
+    sendSmtpEmail.htmlContent = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish";
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+        console.error(error);
+    });
+
+
+/*     input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just added the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -72,7 +93,8 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
             console.log(response);
         }
     });
-    newRecipe
+ */ 
+   newRecipe
         .save()
         .then(recipe => {
             res.send(recipe);
@@ -86,7 +108,16 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
 /*update a recipe*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { _id, name, type, ingredients, pax, preparation, pictures, removingImg, chef, chefid } = req.body
-    input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes Spanish"
+
+    sendSmtpEmail.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes Spanish";
+    sendSmtpEmail.htmlContent = chef + ' just updated the recipe: ' + name + " in Family Recipes Spanish";
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+        console.error(error);
+    });
+
+    /*     input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes Spanish"
     input.html = chef + ' just updated the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -95,7 +126,7 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
             console.log(response);
         }
     });
-    recipeModel.findOneAndUpdate(
+ */    recipeModel.findOneAndUpdate(
         { _id },
         {
             $set: {

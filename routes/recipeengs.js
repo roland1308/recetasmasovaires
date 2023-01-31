@@ -39,7 +39,16 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
         pictures,
         chefid
     });
-    input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes English"
+
+    sendSmtpEmail.subject = chef + ' just added the recipe: ' + name + " in Family Recipes English";
+    sendSmtpEmail.htmlContent = chef + ' just added the recipe: ' + name + " in Family Recipes English";
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+        console.error(error);
+    });
+
+/*     input.subject = chef + ' just added the recipe: ' + name + " in Family Recipes English"
     input.html = chef + ' just added the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -48,6 +57,7 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
             console.log(response);
         }
     });
+ */
     newRecipe
         .save()
         .then(recipe => {
@@ -62,7 +72,16 @@ router.post('/add', passport.authenticate("jwt", { session: false }), (req, res)
 /*update a recipe*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { _id, name, chef, type, ingredients, pax, preparation, pictures, removingImg, chefid } = req.body
-    input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes English"
+
+    sendSmtpEmail.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes English";
+    sendSmtpEmail.htmlContent = chef + ' just updated the recipe: ' + name + " in Family Recipes English";
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+        console.error(error);
+    });
+
+    /*     input.subject = chef + ' just updated the recipe: ' + name + " in Family Recipes English"
     input.html = chef + ' just updated the recipe: ' + name
     sendinObj.send_email(input, function (err, response) {
         if (err) {
@@ -71,7 +90,8 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
             console.log(response);
         }
     });
-    recipeModel.findOneAndUpdate(
+ */  
+  recipeModel.findOneAndUpdate(
         { _id },
         {
             $set: {

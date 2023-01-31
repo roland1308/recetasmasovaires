@@ -2,6 +2,16 @@
 import changeLanguage from '../../utils/changeLanguage';
 
 import axios from 'axios';
+let instance = axios.create()
+if(process.env.NODE_ENV === "production")
+{
+    instance = axios.create({
+        baseURL: 'https://recipes-awpm.onrender.com',
+        timeout: 1000,
+        //headers: {'X-Custom-Header': 'foobar'}
+    });
+}
+
 
 export const SET_LANGUAGE = "SET_LANGUAGE";
 export const SET_RECIPES = "SET_RECIPES";
@@ -130,7 +140,7 @@ export const addLike = (payload) => {
     const { chefId, _id, token, URL } = payload
     return async dispatch => {
         try {
-            const response = await axios.put(URL, { chefId, _id }, {
+            const response = await instance.put(URL, { chefId, _id }, {
                 headers: { authorization: `bearer ${token}` }
             })
             if (response.data.name === "MongoError") {
@@ -152,7 +162,7 @@ export const removeLike = (payload) => {
     const { chefId, _id, token, URL } = payload
     return async dispatch => {
         try {
-            const response = await axios.put(URL, { chefId, _id }, {
+            const response = await instance.put(URL, { chefId, _id }, {
                 headers: {
                     authorization: `bearer ${token}`
                 }
@@ -177,7 +187,7 @@ export const addFav = (payload) => {
     const { chefId, _id, token, URL } = payload
     return async dispatch => {
         try {
-            const response = await axios.put(URL, { chefId, _id }, {
+            const response = await instance.put(URL, { chefId, _id }, {
                 headers: { authorization: `bearer ${token}` }
             })
             if (response.data.name === "MongoError") {
@@ -199,7 +209,7 @@ export const removeFav = (payload) => {
     const { chefId, _id, token, URL } = payload
     return async dispatch => {
         try {
-            const response = await axios.put(URL, { chefId, _id }, {
+            const response = await instance.put(URL, { chefId, _id }, {
                 headers: {
                     authorization: `bearer ${token}`
                 }
@@ -224,7 +234,7 @@ export const checkToken = token => {
     return async dispatch => {
         dispatch(setLoading(true))
         try {
-            const response1 = await axios.get("/users/check", {
+            const response1 = await instance.get("/users/check", {
                 headers: {
                     authorization: `bearer ${token}`
                 }
@@ -233,7 +243,7 @@ export const checkToken = token => {
             const payload = changeLanguage(response1.data.language)
             dispatch(setLanguage(payload))
             try {
-                const response2 = await axios.get(response1.data.database + "all");
+                const response2 = await instance.get(response1.data.database + "all");
                 dispatch(setRecipes(response2.data))
             } catch (error) {
                 console.log(error);
@@ -256,12 +266,12 @@ export const logUser = response => {
             const payload = changeLanguage(response.language)
             dispatch(setLanguage(payload))
             try {
-                const response2 = await axios.get(response.database + "all");
+                const response2 = await instance.get(response.database + "all");
                 dispatch(setRecipes(response2.data))
             } catch (error) {
                 console.log(error);
             }
-            const token = await axios.post("/users/token", response);
+            const token = await instance.post("/users/token", response);
             if (response.password !== "guest") { window.localStorage.setItem("token", token.data) }
             dispatch(setLoading(false))
             return "success"

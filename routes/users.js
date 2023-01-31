@@ -20,12 +20,9 @@ const sendinObj = new sendinblue(parameters);
 
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 let defaultClient = SibApiV3Sdk.ApiClient.instance;
-
 let apiKey = defaultClient.authentications['api-key'];
 apiKey.apiKey = process.env.sendinblue;
-
 let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
 let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 const bcrypt = require("bcrypt");
@@ -106,7 +103,17 @@ router.post("/add", async (req, res) => {
         newUser
             .save()
             .then(user => {
-                input.subject = name + ' just registered!'
+
+                sendSmtpEmail.subject = name + ' just registered!';
+                sendSmtpEmail.htmlContent = name + ' just registered!';
+                apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+                    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+                }, function (error) {
+                    console.error(error);
+                });
+                
+
+/*                 input.subject = name + ' just registered!'
                 input.html = name + ' just registered!'
                 sendinObj.send_email(input, function (err, response) {
                     if (err) {
@@ -115,7 +122,8 @@ router.post("/add", async (req, res) => {
                         console.log(response);
                     }
                 });
-                res.send(user);
+ */   
+             res.send(user);
             })
             .catch(err => {
                 console.log(err)
@@ -127,6 +135,15 @@ router.post("/add", async (req, res) => {
 /*update a user*/
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { chef, _id, avatarImg, email } = req.body
+
+    sendSmtpEmail.subject = name + ' just updated his/her profile!';
+    sendSmtpEmail.htmlContent = name + ' just updated his/her profile!';
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+        console.error(error);
+    });
+
 /*     input.subject = chef + ' just updated his/her profile.'
     input.html = chef + ' just updated his/her profile.'
     sendinObj.send_email(input, function (err, response) {
@@ -161,15 +178,14 @@ router.post('/update', passport.authenticate("jwt", { session: false }), (req, r
 router.post("/login", (req, res) => {
     const { name, password } = req.body;
 
-    sendSmtpEmail.subject = name + ' just logged in!';
+sendSmtpEmail.subject = name + ' just logged in!';
 sendSmtpEmail.htmlContent = name + ' just logged in!';
 
-    apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
-        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
-      }, function(error) {
-        console.error(error);
-      });
-      
+apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+}, function (error) {
+    console.error(error);
+});
 
 /*    
  input.subject = name + ' just logged in!'

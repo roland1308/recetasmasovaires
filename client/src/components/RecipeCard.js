@@ -21,6 +21,16 @@ import { recipeDelete, addLike, removeLike, addFav, removeFav } from '../store/a
 import { Avatar } from '@material-ui/core';
 
 import axios from 'axios';
+let instance = axios.create()
+if(process.env.NODE_ENV === "production")
+{
+    instance = axios.create({
+        baseURL: 'https://recipes-awpm.onrender.com',
+        timeout: 1000,
+        //headers: {'X-Custom-Header': 'foobar'}
+    });
+}
+
 
 class RecipeCard extends Component {
     constructor(props) {
@@ -51,7 +61,7 @@ class RecipeCard extends Component {
         const token = window.localStorage.token;
         if (_id !== "") {
             let URL = this.props.user.database + "delete"
-            axios.delete(URL, {
+            instance.delete(URL, {
                 data: { _id },
                 headers: { authorization: `bearer ${token}` }
             })
@@ -91,7 +101,7 @@ class RecipeCard extends Component {
             return
         }
         payload.to = { [dest]: 'to whom!' }
-        const response = await axios.post("/users/sendrecipe", payload)
+        const response = await instance.post("/users/sendrecipe", payload)
         if (response.data.code !== "success") {
             alert("Error!")
             return

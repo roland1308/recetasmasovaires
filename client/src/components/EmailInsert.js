@@ -5,6 +5,16 @@ import { emailSet } from '../store/actions/mainActions';
 
 import axios from 'axios';
 
+let instance = axios.create()
+if(process.env.NODE_ENV === "production")
+{
+    instance = axios.create({
+        baseURL: 'https://recipes-awpm.onrender.com',
+        timeout: 1000,
+        //headers: {'X-Custom-Header': 'foobar'}
+    });
+}
+
 class EmailInsert extends Component {
     constructor(props) {
         super(props)
@@ -39,7 +49,7 @@ class EmailInsert extends Component {
             return
         }
         try {
-            const response = await axios.post("/users/sendemail", payload)
+            const response = await instance.post("/users/sendemail", payload)
             if (response.data.code !== "success") {
                 alert("Error!")
                 return
@@ -59,7 +69,7 @@ class EmailInsert extends Component {
             to: this.state.email
         }
         try {
-            const response = await axios.post("/users/checkcode", payload)
+            const response = await instance.post("/users/checkcode", payload)
             if (response.data !== "verified") {
                 alert("Error!")
                 return

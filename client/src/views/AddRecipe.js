@@ -13,6 +13,15 @@ import { ingredientAdd, setNrOfIngs, recipeReset, recipePush, recipeDelete, setL
 import QuillText from '../components/QuillText';
 
 import axios from 'axios';
+let instance = axios.create()
+if(process.env.NODE_ENV === "production")
+{
+    instance = axios.create({
+        baseURL: 'https://recipes-awpm.onrender.com',
+        timeout: 1000,
+        //headers: {'X-Custom-Header': 'foobar'}
+    });
+}
 
 class AddRecipe extends Component {
     constructor(props) {
@@ -98,7 +107,7 @@ class AddRecipe extends Component {
             case "picture":
                 let formPicture = new FormData();
                 formPicture.append("picture", event.target.files[0]);
-                axios.post("/recipes/addphoto", formPicture)
+                instance.post("/recipes/addphoto", formPicture)
                     .then(
                         (response, error) => {
                             if (!response.data.error) {
@@ -182,7 +191,7 @@ class AddRecipe extends Component {
                 this.props.dispatch(recipeDelete(recipeComplete._id))
             }
             try {
-                const response = await axios.post(URL,
+                const response = await instance.post(URL,
                     recipeComplete,
                     {
                         headers: {

@@ -8,6 +8,16 @@ import { setPage, updateUser } from '../store/actions/mainActions';
 import EmailInsert from '../components/EmailInsert';
 
 import axios from 'axios';
+let instance = axios.create()
+if(process.env.NODE_ENV === "production")
+{
+    instance = axios.create({
+        baseURL: 'https://recipes-awpm.onrender.com',
+        timeout: 1000,
+        //headers: {'X-Custom-Header': 'foobar'}
+    });
+}
+
 
 export class ChefProfile extends Component {
     constructor(props) {
@@ -30,7 +40,7 @@ export class ChefProfile extends Component {
     changeField = (event) => {
         let formPicture = new FormData();
         formPicture.append("picture", event.target.files[0]);
-        axios.post("/users/addavatar", formPicture)
+        instance.post("/users/addavatar", formPicture)
             .then(
                 (response, error) => {
                     if (!response.data.error) {
@@ -54,7 +64,7 @@ export class ChefProfile extends Component {
     async updateUser() {
         const token = window.localStorage.token;
         try {
-            await axios.post("/users/update/",
+            await instance.post("/users/update/",
                 {
                     chef: this.props.user.name,
                     _id: this.props.user._id,
