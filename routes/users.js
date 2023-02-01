@@ -312,7 +312,18 @@ router.post("/addavatar", upload.single("picture"), async (req, res) => {
 router.post("/sendemail", (req, res) => {
     const { from, to, subject, html } = req.body;
     bcrypt.hash(to, saltRounds).then(function (hash) {
-        let inputEmail = {
+
+        sendSmtpEmail.sender = {"name":"Family Recipes","email": from};
+        sendSmtpEmail.to = [{"email": to,"name": "to whom!"}];
+                sendSmtpEmail.subject = subject;
+        sendSmtpEmail.htmlContent = html + "<h2>" + hash + "</h2>";
+        apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+            console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+        }, function (error) {
+            console.error(error);
+        });
+
+/*         let inputEmail = {
             'from': [from, 'Family Recipes'],
             'to': { [to]: 'to whom!' },
             'subject': subject,
@@ -324,7 +335,8 @@ router.post("/sendemail", (req, res) => {
             }
             return res.send(response)
         })
-    })
+ */   
+ })
 })
 
 router.post("/sendrecipe", (req, res) => {
