@@ -26,7 +26,8 @@ if(process.env.NODE_ENV === "production")
 {
     instance = axios.create({
         baseURL: 'https://recipes-awpm.onrender.com',
-                headers: {"Access-Control-Allow-Origin":"https://recipes2-9i2m.onrender.com/"}
+        headers: {"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept"}
         //timeout: 1000,
 
         //headers: {'X-Custom-Header': 'foobar'}
