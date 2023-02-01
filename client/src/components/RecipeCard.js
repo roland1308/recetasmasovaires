@@ -101,9 +101,9 @@ class RecipeCard extends Component {
             alert(language[15])
             return
         }
-        payload.to = { [dest]: 'to whom!' }
+        payload.to = [{"email": dest,"name": "to whom!"}];
         const response = await instance.post("/users/sendrecipe", payload)
-        if (response.data.code !== "success") {
+        if (!response.data) {
             alert("Error!")
             return
         } else {
@@ -173,8 +173,8 @@ class RecipeCard extends Component {
         }
         const subjectVar = (user.name === chef) ? user.name + language[21] : user.name + language[18] + chef + ":"
         const payload = {
-            'from': [user.email, 'Family Recipes'],
-            'to': {},
+            'from': {"name":"Family Recipes","email": user.email},
+            'to': [{}],
             'subject': subjectVar,
             'html': "<h1>" + name + "</h1><hr />" + ingList + "<hr /><h2>" + language[19] + "</h2>" + preparation
         }

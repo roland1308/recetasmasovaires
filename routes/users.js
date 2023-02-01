@@ -136,8 +136,8 @@ router.post("/add", async (req, res) => {
 router.post('/update', passport.authenticate("jwt", { session: false }), (req, res) => {
     const { chef, _id, avatarImg, email } = req.body
 
-    sendSmtpEmail.subject = name + ' just updated his/her profile!';
-    sendSmtpEmail.htmlContent = name + ' just updated his/her profile!';
+    sendSmtpEmail.subject = chef + ' just updated his/her profile!';
+    sendSmtpEmail.htmlContent = chef + ' just updated his/her profile!';
     apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
         console.log('API called successfully. Returned data: ' + JSON.stringify(data));
     }, function (error) {
@@ -315,15 +315,18 @@ router.post("/sendemail", (req, res) => {
 
         sendSmtpEmail.sender = {"name":"Family Recipes","email": from};
         sendSmtpEmail.to = [{"email": to,"name": "to whom!"}];
-                sendSmtpEmail.subject = subject;
+        sendSmtpEmail.subject = subject;
         sendSmtpEmail.htmlContent = html + "<h2>" + hash + "</h2>";
         apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
             console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+            return res.send(true);
         }, function (error) {
             console.error(error);
+            return res.send(false);
         });
 
-/*         let inputEmail = {
+
+        /* let inputEmail = {
             'from': [from, 'Family Recipes'],
             'to': { [to]: 'to whom!' },
             'subject': subject,
@@ -334,19 +337,31 @@ router.post("/sendemail", (req, res) => {
                 console.log(err);
             }
             return res.send(response)
-        })
- */   
- })
+        }) */
+    })
 })
 
 router.post("/sendrecipe", (req, res) => {
-    sendinObj.send_email(req.body, function (err, response) {
+
+    sendSmtpEmail.sender = req.body.from
+    sendSmtpEmail.to = req.body.to
+    sendSmtpEmail.subject = req.body.subject;
+    sendSmtpEmail.htmlContent = req.body.html;
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+        return res.send(true);
+    }, function (error) {
+        console.error(error);
+        return res.send(false);
+    });
+
+/*     sendinObj.send_email(req.body, function (err, response) {
         if (err) {
             console.log(err);
         }
         return res.send(response)
     })
-})
+ */})
 
 router.post("/checkcode", (req, res) => {
     const { to, veriCode } = req.body;

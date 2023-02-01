@@ -51,7 +51,7 @@ class EmailInsert extends Component {
         }
         try {
             const response = await instance.post("/users/sendemail", payload)
-            if (response.data.code !== "success") {
+            if (!response.data) {
                 alert("Error!")
                 return
             } else {
