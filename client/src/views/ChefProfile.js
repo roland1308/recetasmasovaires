@@ -13,7 +13,7 @@ if(process.env.NODE_ENV === "production")
 {
     instance = axios.create({
         baseURL: 'https://recipes-awpm.onrender.com',
-        timeout: 1000,
+        //timeout: 1000,
         //headers: {'X-Custom-Header': 'foobar'}
     });
 }
