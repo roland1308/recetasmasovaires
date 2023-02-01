@@ -17,7 +17,7 @@ class HomePage extends Component {
     }
 
     componentDidMount() {
-        const token = window.localStorage.token;
+        const token = localStorage.token;
         const { isLogged } = this.props
         if (token && isLogged === false) {
             this.props.dispatch(checkToken(token));

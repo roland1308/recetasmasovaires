@@ -16,7 +16,7 @@ import { checkToken } from "./store/actions/mainActions";
 class App extends Component {
 
   componentDidMount() {
-    const token = window.localStorage.token;
+    const token = localStorage.token;
     if (token && this.props.isLogged === false) {
       this.props.dispatch(checkToken(token));
     }

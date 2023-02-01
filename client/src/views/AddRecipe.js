@@ -160,7 +160,7 @@ class AddRecipe extends Component {
     }
 
     async sendData(data) {
-        const token = window.localStorage.token;
+        const token = localStorage.token;
         const { name, nrOfPictures } = data
         const preparation = document.getElementById("quillDiv").firstElementChild.innerHTML;
         if (name !== "" &&

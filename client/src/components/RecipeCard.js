@@ -58,7 +58,7 @@ class RecipeCard extends Component {
     }
 
     deleteRecipe = (_id) => {
-        const token = window.localStorage.token;
+        const token = localStorage.token;
         if (_id !== "") {
             let URL = this.props.user.database + "delete"
             instance.delete(URL, {
@@ -73,7 +73,7 @@ class RecipeCard extends Component {
         const { user } = this.props
         const { likes } = this.props.recipe
         const chefId = user._id
-        const token = window.localStorage.token
+        const token = localStorage.token
         if (likes.filter(userLiked => userLiked === chefId).length !== 0) {
             this.props.dispatch(removeLike({ chefId, _id, token, URL: this.props.user.database + "/pulllike" }))
         } else {
@@ -84,7 +84,7 @@ class RecipeCard extends Component {
     toggleFav = (_id) => {
         const { user } = this.props
         const chefId = user._id
-        const token = window.localStorage.token
+        const token = localStorage.token
         if (user.favorites.filter(userFaved => userFaved === _id).length !== 0) {
             this.props.dispatch(removeFav({ chefId, _id, token, URL: "/users/pullfav" }))
         } else {

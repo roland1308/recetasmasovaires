@@ -62,7 +62,7 @@ export class ChefProfile extends Component {
     }
 
     async updateUser() {
-        const token = window.localStorage.token;
+        const token = localStorage.token;
         try {
             await instance.post("/users/update/",
                 {

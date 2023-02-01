@@ -19,7 +19,7 @@ class RecipesNavbar extends Component {
     }
 
     logOut = () => {
-        window.localStorage.removeItem("token");
+        localStorage.removeItem("token");
         this.props.dispatch(logOut())
     }
 

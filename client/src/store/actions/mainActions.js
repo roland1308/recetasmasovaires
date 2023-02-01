@@ -251,7 +251,7 @@ export const checkToken = token => {
             dispatch(setLoading(false))
             return "success"
         } catch (error) {
-            window.localStorage.removeItem("token");
+            localStorage.removeItem("token");
             dispatch(setLoading(false))
             return error;
         }
@@ -272,7 +272,7 @@ export const logUser = response => {
                 console.log(error);
             }
             const token = await instance.post("/users/token", response);
-            if (response.password !== "guest") { window.localStorage.setItem("token", token.data) }
+            if (response.password !== "guest") { localStorage.setItem("token", token.data) }
             dispatch(setLoading(false))
             return "success"
         } catch (error) {
